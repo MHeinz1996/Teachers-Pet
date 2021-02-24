@@ -1,0 +1,103 @@
+<html>
+
+<head>
+
+ <title>T'Chris Chapter 3 Page</title>
+
+ <link href="tchris-chap.css" rel="stylesheet" type = "text/css">
+
+
+</head>
+
+<body>
+
+
+<center><h1>Chapter 3</h1></center><br>
+
+
+<h2>Tables</h2>
+  <TABLE>
+   <CAPTION>Our Call Centres</CAPTION>
+   <TR>
+    <TH>Territory</TH> <TH>Location</TH> <TH>Phone</TH> <TH>Fax</TH>
+   </TR>
+   <TR>
+    <TD>Americas</TD> <TD>New York</TD>
+    <TD>0800 1425364</TD> <TD>0800 1122334 </TD>
+   </TR>
+   <TR>
+    <TD>EMEA</TD> <TD>London</TD>
+    <TD>0800 1324536</TD> <TD>0800 8444463</TD>
+   </TR>
+   <TR>
+    <TD>EMEA</TD> <TD>Cape Town</TD>
+    <TD>0800 9009586</TD> <TD>&nbsp;</TD>
+   </TR>
+   <TR>
+    <TD>APAC</TD> <TD>Sydney</TD>
+    <TD>0800 1114445</TD> <TD>0800 1114445</TD>
+   </TR>
+  </TABLE>
+<br><h2>Forms</h2>
+<FORM action="siteaccess" method="post">
+   <TABLE>
+    <TR><TD colspan="2">Welcome to our site. How would you like to continue?</TD></TR>
+    <TR>
+     <TD><INPUT TYPE="radio" name="status" id="guest" value="guest"></TD>
+     <TD><LABEL for="guest">Access the site as a guest</LABEL></TD>
+    </TR>
+    <TR>
+     <TD><INPUT TYPE="radio" name="status" id="new" value="new"></TD>
+     <TD><LABEL for="new">Set up a new user account</LABEL></TD>
+    </TR>
+    <TR>
+     <TD><INPUT TYPE="radio" name="status" id="login" value="login" checked="checked"></TD>
+     <TD><LABEL for="login">Login using an existing account</LABEL></TD>
+    </TR>
+    <TR>
+     <TD colspan="2">
+     <LABEL for="mailinglist">Please check this box if you would like to be added to our mailing list</LABEL>
+     </TD>
+     <TD><INPUT type="checkbox" name="mailinglist" id="mailinglist" checked="checked"></TD>
+    </TR>
+    <TR>
+     <TD></TD>
+     <TD>
+      <INPUT type="submit" value="Continue">
+      <INPUT type="reset">
+     </TD>
+    </TR>
+   </TABLE>
+  </FORM>
+<br><h2>More Forms</h2>
+<form>
+<select>
+<option value="10000">10,000</option>
+<option value="20000">20,000</option>
+<option value="30000">30,000</option>
+<option value="50000">50,000</option>
+<option value="100000">100,000</option>
+</select>
+<select name="cover" size="3">
+<option value="10000">10,000</option>
+<option value="20000">20,000</option>
+<option value="30000">30,000</option>
+<option value="50000">50,000</option>
+<option value="100000">100,000</option>
+</select>
+<textarea name="description" rows="5" coles="30">
+Describe your insurance claim here
+</textarea>
+</form> 
+
+
+
+
+
+
+
+
+</body>
+
+</html>
+
