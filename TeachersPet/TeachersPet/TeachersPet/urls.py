@@ -1,5 +1,5 @@
 """
-Definition of urls for DjangoTest.
+Definition of urls for TeachersPet.
 """
 
 from datetime import datetime
