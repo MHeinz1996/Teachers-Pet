@@ -74,6 +74,7 @@
   <ItemGroup>
     <Content Include="app\static\app\images\logo_dark.png" />
     <Content Include="app\static\app\images\logo_light.png" />
+    <Content Include="app\templates\app\student1_1.html" />
     <Content Include="app\templates\app\homepage.html" />
     <Content Include="app\templates\app\template_base.html" />
     <Content Include="requirements.txt" />
