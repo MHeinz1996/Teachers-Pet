@@ -50,8 +50,16 @@ ul {
     margin: 0;
 }
 
-.bg-steel {
-    background-color: #5f788a;
+.oxford-blue {
+    background-color: #14213d;
+}
+
+.oragne-web {
+    background-color: #fca311;
+}
+
+.platinum {
+    background-color: #e5e5e5
 }
 
 .site-header .navbar-nav .nav-link {

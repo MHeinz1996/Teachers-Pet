@@ -38,6 +38,13 @@
     <Compile Include="app\views.py" />
     <Compile Include="app\__init__.py" />
     <Compile Include="app\migrations\__init__.py" />
+    <Compile Include="classes\admin.py" />
+    <Compile Include="classes\apps.py" />
+    <Compile Include="classes\migrations\__init__.py" />
+    <Compile Include="classes\models.py" />
+    <Compile Include="classes\tests.py" />
+    <Compile Include="classes\views.py" />
+    <Compile Include="classes\__init__.py" />
     <Compile Include="manage.py" />
     <Compile Include="TeachersPet\__init__.py" />
     <Compile Include="TeachersPet\settings.py" />
@@ -65,6 +72,10 @@
     <Folder Include="app\static\app\scripts\" />
     <Folder Include="app\templates\" />
     <Folder Include="app\templates\app\" />
+    <Folder Include="classes\" />
+    <Folder Include="classes\migrations\" />
+    <Folder Include="classes\templates\" />
+    <Folder Include="classes\templates\classes\" />
     <Folder Include="TeachersPet\" />
     <Folder Include="users\" />
     <Folder Include="users\migrations\" />
@@ -74,9 +85,11 @@
   <ItemGroup>
     <Content Include="app\static\app\images\logo_dark.png" />
     <Content Include="app\static\app\images\logo_light.png" />
-    <Content Include="app\templates\app\student1_1.html" />
     <Content Include="app\templates\app\homepage.html" />
     <Content Include="app\templates\app\template_base.html" />
+    <Content Include="classes\templates\classes\admin1_1.html" />
+    <Content Include="classes\templates\classes\student1_1.html" />
+    <Content Include="classes\templates\classes\teacher1_1.html" />
     <Content Include="requirements.txt" />
     <Content Include="db.sqlite3" />
     <Content Include="app\static\app\content\bootstrap.css" />
