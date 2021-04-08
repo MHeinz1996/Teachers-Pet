@@ -3,18 +3,18 @@
 {% load static %}
 
 {% block content %} <!--this block is where the page content is added-->
-    <p style="text-align:left;"> <img src= "{% static 'app/images/classes_2.png' %}" width="400" height="108.5" alt=""> </p>
-    <h1 style="text-align:left;">Current Semester</h1>
-    <h6 style="text-align:left;">Mmm DD, YYYY - Mmm DD, YYYY</h6>
+    <h1 style="text-align:left;">{{ roster.0.class }}</h1>
+    <h6 style="text-align:left;">{{ roster.0.classid2 }}</h6>
+    <h6 style="text-align:left;">{{ roster.0.datestart|date:"M d, Y"}} - {{ roster.0.dateend|date:"M d, Y"}}</h6>
 
-    {% for dummy_data in dummy_data %}  <!--for loops through dummy data in views.py and populates page-->
+    {% for roster in roster %}  <!--for loops through dummy data in views.py and populates page-->
         <article class="media content-section">
           <div class="media-body">
             <div class="article-metadata">
-              <a class="mr-2" href="#">{{ dummy_data.class }}</a>   <!--replace dummy data with DB data-->
-              <small class="text-muted">{{ dummy_data.teacher }}</small>    <!--replace dummy data with DB data-->
+              <a class="mr-2" href="#">{{roster.lastname|capfirst}}, {{ roster.firstname|capfirst }}</a>   <!--replace dummy data with DB data-->
+              <small class="text-muted">{{ roster.grades|length }}/{{ roster.assignments|length }}</small>    <!--replace dummy data with DB data-->
             </div>
-            <h2><a class="article-title">{{ dummy_data.content }}</a></h2>  <!--replace dummy data with DB data-->
+            <h3><a class="article-title">{{ roster.grades|length }}/{{ roster.assignments|length }} Assignments Graded</a></h3>  <!--replace dummy data with DB data-->
           </div>
         </article>
     {% endfor %}    <!--closes for loop block-->
