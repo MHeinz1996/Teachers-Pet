@@ -45,12 +45,51 @@ dummyclass = [
         'class' : 'Math Intro',
         'classid2' : 'CS283',
 
+    },
+    {
+        'datestart' : datetime.date(2021, 1, 1),
+        'dateend' : datetime.date(2021, 3, 4),
+        'firstname' : 'steve',
+        'lastname' : 'kollar',
+        'studentid' : 28283921,
+        'classid' : 1112332123,
+        'class' : 'Math Intro',
+        'classid2' : 'CS283',
+
+    },
+    {
+        'datestart' : datetime.date(2021, 1, 1),
+        'dateend' : datetime.date(2021, 3, 4),
+        'firstname' : 'steve',
+        'lastname' : 'kollar',
+        'studentid' : 28283921,
+        'classid' : 1112332123,
+        'class' : 'Math Intro',
+        'classid2' : 'CS283',
+
+    },
+    {
+        'datestart' : datetime.date(2021, 1, 1),
+        'dateend' : datetime.date(2021, 3, 4),
+        'firstname' : 'steve',
+        'lastname' : 'kollar',
+        'studentid' : 28283921,
+        'classid' : 1112332123,
+        'class' : 'Math Intro',
+        'classid2' : 'CS283',
+
     }
 ]
 
 
 def homepage(request):
     return render(request, 'app/homepage.html')
+
+def classes(request):
+    context = {
+        'dummy_data': dummy_data    # uses dummy data specified above for student1_1 view until we can replace with DB data
+    }
+    return render(request, 'classes/classes.html', context)  # context argument allows dummy data above to be used
 
 def student1_1(request):
     context = {

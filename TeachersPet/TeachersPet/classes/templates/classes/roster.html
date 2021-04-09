@@ -3,9 +3,10 @@
 {% load static %}
 
 {% block content %} <!--this block is where the page content is added-->
-    <h1 style="text-align:left;">{{ roster.0.class }}</h1>
-    <h6 style="text-align:left;">{{ roster.0.classid2 }}</h6>
+    <h1 style="text-align:left;" >{{ roster.0.class }}</h1>
+    <h5 style="text-align:left;">{{ roster.0.classid2 }}</h5>
     <h6 style="text-align:left;">{{ roster.0.datestart|date:"M d, Y"}} - {{ roster.0.dateend|date:"M d, Y"}}</h6>
+    <br>
 
     {% for roster in roster %}  <!--for loops through dummy data in views.py and populates page-->
         <article class="media content-section">
@@ -14,7 +15,7 @@
               <a class="mr-2" href="#">{{roster.lastname|capfirst}}, {{ roster.firstname|capfirst }}</a>   <!--replace dummy data with DB data-->
               <small class="text-muted">{{ roster.grades|length }}/{{ roster.assignments|length }}</small>    <!--replace dummy data with DB data-->
             </div>
-            <h3><a class="article-title">{{ roster.grades|length }}/{{ roster.assignments|length }} Assignments Graded</a></h3>  <!--replace dummy data with DB data-->
+            <h5><a class="article-title">{{ roster.grades|length }}/{{ roster.assignments|length }} Assignments Graded</a></h5>  <!--replace dummy data with DB data-->
           </div>
         </article>
     {% endfor %}    <!--closes for loop block-->

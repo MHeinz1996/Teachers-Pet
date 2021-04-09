@@ -13,6 +13,7 @@ from users import views as users_views
 urlpatterns = [
     #path('home/', views.home, name='home'),
     path('', views.homepage, name='homepage'),
+    path('classes', views.classes, name='classes'),
     path('student1_1', views.student1_1, name='student1_1'),
     path('teacher1_1', views.teacher1_1, name='teacher1_1'),
     path('admin1_1', views.admin1_1, name='admin1_1'),
