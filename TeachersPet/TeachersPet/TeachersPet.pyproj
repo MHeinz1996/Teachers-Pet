@@ -89,6 +89,7 @@
     <Content Include="app\templates\app\template_base.html" />
     <Content Include="classes\templates\classes\admin1_1.html" />
     <Content Include="classes\templates\classes\student1_1.html" />
+    <Content Include="classes\templates\classes\student1_3.html" />
     <Content Include="classes\templates\classes\teacher1_1.html" />
     <Content Include="requirements.txt" />
     <Content Include="db.sqlite3" />
