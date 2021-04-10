@@ -7,15 +7,15 @@ from datetime import datetime
 import datetime
 from .models import DummyClass
 from .models import DummyData
-
+from .models import CourseStudent
 
  
 
 
 username = User.username
 dummyclass = DummyClass.objects.all()
-#dummy_data = DummyData.objects.all()
-#dummy_data=DummyData.objects.filter(student=username)
+dummy_data = DummyData.objects.all()
+
 
 
 newitem = 'hello'
@@ -81,13 +81,16 @@ def classes(request):
 
 #@login_required # Decorator that checks to see if a user is logged in before
 #allowing them to access these views
+
+
 def student1_1(request):
-    dummy_data = DummyData.objects.filter(student=request.user)
+    #course_student = CourseStudent.objects.filter(student=request.user)
+    course_student=CourseStudent.objects.filter(student=request.user,course__term__term_status__contains='CU')
+   
     context = {
-        'dummy_data': dummy_data    # uses dummy data specified above for student1_1 view until we can replace
-                                    # with DB data
+        'course_student': course_student 
     }
-    return render(request, 'classes/student1_1.html', context)  # context argument allows dummy data above to be used
+    return render(request, 'classes/student1_1.html', context)  
 def teacher1_1(request):
     context = {
         'dummy_data': dummy_data    # uses dummy data specified above for teacher1_1 view until we can replace

@@ -7,14 +7,14 @@
     <h1 style="text-align:left;">Current Semester</h1>
     <h6 style="text-align:left;">Mmm DD, YYYY - Mmm DD, YYYY</h6>
 
-    {% for dummy_data in dummy_data %}  <!--for loops through dummy data in views.py and populates page-->
+    {% for course_student in course_student %}  <!--for loops through student schedule data in views.py and populates page-->
         <article class="media content-section">
           <div class="media-body">
             <div class="article-metadata">
-              <a class="mr-2" href="#">{{ dummy_data.className }}</a>   <!--replace dummy data with DB data-->
-              <small class="text-muted">{{ dummy_data.teacher }}</small>    <!--replace dummy data with DB data-->
+              <a class="mr-2" href="#">{{ course_student.course.course.coursename }}</a>   
+              <small class="text-muted">Professor {{ course_student.course.teacher.first_name }} {{ course_student.course.teacher.last_name }}</small>    
             </div>
-            <h2><a class="article-title">{{ dummy_data.content }}</a></h2>  <!--replace dummy data with DB data-->
+            <h2><a class="article-title">{{ course_student.grade }}</a></h2>  
           </div>
         </article>
     {% endfor %}    <!--closes for loop block-->
