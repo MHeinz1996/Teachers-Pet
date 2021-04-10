@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpRequest
 from django.template import RequestContext
+from django.contrib.auth.decorators import login_required
 from datetime import datetime
 import datetime
 
@@ -81,6 +82,30 @@ dummyclass = [
     }
 ]
 
+completed_dummy = [
+    {
+        'datestart' : datetime.date(2020, 1, 1),
+        'dateend' : datetime.date(2020, 3, 4),
+        'dept' : 'History',
+        'teacher' : 'Prof John Smith',
+        'class' : 'US History I',
+        'final' : '340/400',
+        'final_percent' : '85%',
+        'letter_grade' : 'B'
+    },
+    {
+        'datestart' : datetime.date(2020, 1, 1),
+        'dateend' : datetime.date(2020, 3, 4),
+        'dept' : 'Science',
+        'teacher' : 'Prof Jane Smith',
+        'class' : 'Chemistry',
+        'final' : '400/400',
+        'final_percent' : '100%',
+        'letter_grade' : 'A+'
+    }
+    
+]
+
 
 def homepage(request):
     return render(request, 'app/homepage.html')
@@ -91,6 +116,7 @@ def classes(request):
     }
     return render(request, 'classes/classes.html', context)  # context argument allows dummy data above to be used
 
+#@login_required    # Decorator that checks to see if a user is logged in before allowing them to access these views
 def student1_1(request):
     context = {
         'dummy_data': dummy_data    # uses dummy data specified above for student1_1 view until we can replace with DB data
@@ -114,3 +140,21 @@ def roster(request):
         'roster' : dummyclass
     }
     return render(request, 'classes/roster.html', context)
+
+def student1_3(request):
+    context = {
+        'completed_dummy': completed_dummy    # uses dummy data specified above for student1_1 view until we can replace with DB data
+    }
+    return render(request, 'classes/student1_3.html', context)  # context argument allows dummy data above to be used
+
+def teacher1_3(request):
+    context = {
+        'completed_dummy': completed_dummy    # uses dummy data specified above for teacher1_1 view until we can replace with DB data
+    }
+    return render(request, 'classes/teacher1_3.html', context)  # context argument allows dummy data above to be used
+
+def admin1_3(request):
+    context = {
+        'completed_dummy': completed_dummy    # uses dummy data specified above for admin1_1 view until we can replace with DB data
+    }
+    return render(request, 'classes/admin1_3.html', context)  # context argument allows dummy data above to be used
