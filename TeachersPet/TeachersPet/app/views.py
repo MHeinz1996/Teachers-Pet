@@ -12,28 +12,11 @@ from .models import DummyData
  
 
 
-username=User.username
-
-dummyclass=DummyClass.objects.all()
-dummy_data=DummyData.objects.all()
+username = User.username
+dummyclass = DummyClass.objects.all()
+#dummy_data = DummyData.objects.all()
 #dummy_data=DummyData.objects.filter(student=username)
 
-
-
-#dummy_data = [ 
-#    {
-#        'dept' : 'Math',
-#        'teacher': 'Prof John Doe',
-#        'class': 'Algebra 1',
-#        'content': 'A+',
-#    },
-#    {
-#        'dept' : 'English',
-#        'teacher': 'Prof Jane Doe',
-#        'class': 'English 101',
-#        'content': 'A-',
-#    }
-#]
 
 newitem = 'hello'
 
@@ -61,11 +44,10 @@ newitem = 'hello'
 #       'class' : 'Math Intro',
 #       'classid2' : 'CS283',
 
-    }
-]
+#    }
+#]
 
-completed_dummy = [
-    {
+completed_dummy = [{
         'datestart' : datetime.date(2020, 1, 1),
         'dateend' : datetime.date(2020, 3, 4),
         'dept' : 'History',
@@ -84,9 +66,7 @@ completed_dummy = [
         'final' : '400/400',
         'final_percent' : '100%',
         'letter_grade' : 'A+'
-    }
-    
-]
+    }]
 
 
 def homepage(request):
@@ -94,50 +74,53 @@ def homepage(request):
 
 def classes(request):
     context = {
-        'dummy_data': dummy_data    # uses dummy data specified above for student1_1 view until we can replace with DB data
+        'dummy_data': dummy_data    # uses dummy data specified above for student1_1 view until we can replace
+                                    # with DB data
     }
     return render(request, 'classes/classes.html', context)  # context argument allows dummy data above to be used
 
-#@login_required    # Decorator that checks to see if a user is logged in before allowing them to access these views
+#@login_required # Decorator that checks to see if a user is logged in before
+#allowing them to access these views
 def student1_1(request):
-
+    dummy_data = DummyData.objects.filter(student=request.user)
     context = {
-        'dummy_data': dummy_data    # uses dummy data specified above for student1_1 view until we can replace with DB data
+        'dummy_data': dummy_data    # uses dummy data specified above for student1_1 view until we can replace
+                                    # with DB data
     }
     return render(request, 'classes/student1_1.html', context)  # context argument allows dummy data above to be used
-
 def teacher1_1(request):
     context = {
-        'dummy_data': dummy_data    # uses dummy data specified above for teacher1_1 view until we can replace with DB data
+        'dummy_data': dummy_data    # uses dummy data specified above for teacher1_1 view until we can replace
+                                    # with DB data
     }
     return render(request, 'classes/teacher1_1.html', context)  # context argument allows dummy data above to be used
-
 def admin1_1(request):
     context = {
-        'dummy_data': dummy_data    # uses dummy data specified above for admin1_1 view until we can replace with DB data
+        'dummy_data': dummy_data    # uses dummy data specified above for admin1_1 view until we can replace
+                                    # with DB data
     }
     return render(request, 'classes/admin1_1.html', context)  # context argument allows dummy data above to be used
-
 def roster(request):
     context = {
-        'roster' : dummyclass
+        'roster' : dummy_class
     }
     return render(request, 'classes/roster.html', context)
 
 def student1_3(request):
     context = {
-        'completed_dummy': completed_dummy    # uses dummy data specified above for student1_1 view until we can replace with DB data
+        'completed_dummy': completed_dummy    # uses dummy data specified above for student1_1 view until we can replace
+                                              # with DB data
     }
     return render(request, 'classes/student1_3.html', context)  # context argument allows dummy data above to be used
-
 def teacher1_3(request):
     context = {
-        'completed_dummy': completed_dummy    # uses dummy data specified above for teacher1_1 view until we can replace with DB data
+        'completed_dummy': completed_dummy    # uses dummy data specified above for teacher1_1 view until we can replace
+                                              # with DB data
     }
     return render(request, 'classes/teacher1_3.html', context)  # context argument allows dummy data above to be used
-
 def admin1_3(request):
     context = {
-        'completed_dummy': completed_dummy    # uses dummy data specified above for admin1_1 view until we can replace with DB data
+        'completed_dummy': completed_dummy    # uses dummy data specified above for admin1_1 view until we can replace
+                                              # with DB data
     }
     return render(request, 'classes/admin1_3.html', context)  # context argument allows dummy data above to be used
