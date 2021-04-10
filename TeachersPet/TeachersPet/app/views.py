@@ -8,6 +8,7 @@ import datetime
 from .models import DummyClass
 from .models import DummyData
 from .models import CourseStudent
+from .models import LookupTerm
 
  
 
@@ -84,11 +85,11 @@ def classes(request):
 
 
 def student1_1(request):
-    #course_student = CourseStudent.objects.filter(student=request.user)
+    current_term=LookupTerm.objects.filter(term_status='CU')
     course_student=CourseStudent.objects.filter(student=request.user,course__term__term_status__contains='CU')
    
     context = {
-        'course_student': course_student 
+        'course_student': course_student, 'current_term':current_term
     }
     return render(request, 'classes/student1_1.html', context)  
 def teacher1_1(request):

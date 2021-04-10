@@ -3,16 +3,20 @@
 {% load static %}
 
 {% block content %} <!--this block is where the page content is added-->
-    <p style="text-align:left;"> <img src= "{% static 'app/images/classes_2.png' %}" width="400" height="108.5" alt=""> </p>
-    <h1 style="text-align:left;">Current Semester</h1>
-    <h6 style="text-align:left;">Mmm DD, YYYY - Mmm DD, YYYY</h6>
-
+    {% for current_term in current_term %}
+        <p style="text-align:left;"> <img src= "{% static 'app/images/classes_2.png' %}" width="400" height="108.5" alt=""> </p>
+        <h1 style="text-align:left;">Current Term</h1>
+        <h6 style="text-align:left;">{{current_term.termstart | date:"SHORT_DATE_FORMAT"}} - {{current_term.termend | date:"SHORT_DATE_FORMAT"}}</h6>
+    {% endfor %} 
     {% for course_student in course_student %}  <!--for loops through student schedule data in views.py and populates page-->
         <article class="media content-section">
           <div class="media-body">
             <div class="article-metadata">
-              <a class="mr-2" href="#">{{ course_student.course.course.coursename }}</a>   
-              <small class="text-muted">Professor {{ course_student.course.teacher.first_name }} {{ course_student.course.teacher.last_name }}</small>    
+              <a class="mr-2" href="#">{{ course_student.course.course.coursename }} </a>   
+              <small class="text-muted">Professor {{ course_student.course.teacher.first_name }} 
+                {{ course_student.course.teacher.last_name }} 
+                
+                </small>    
             </div>
             <h2><a class="article-title">{{ course_student.grade }}</a></h2>  
           </div>
