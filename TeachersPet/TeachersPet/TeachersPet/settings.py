@@ -61,7 +61,8 @@ ROOT_URLCONF = 'TeachersPet.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],  # NEW - tells template loader to look in one folder, teacherspet\templates, for all templates
+#        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

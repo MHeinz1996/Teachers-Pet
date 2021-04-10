@@ -34,6 +34,9 @@
   <ItemGroup>
     <Compile Include="app\forms.py" />
     <Compile Include="app\models.py" />
+    <Compile Include="app\admin.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="app\tests.py" />
     <Compile Include="app\views.py" />
     <Compile Include="app\__init__.py" />
@@ -77,6 +80,8 @@
     <Folder Include="classes\templates\" />
     <Folder Include="classes\templates\classes\" />
     <Folder Include="TeachersPet\" />
+    <Folder Include="TeachersPet\templates\" />
+    <Folder Include="TeachersPet\templates\registration\" />
     <Folder Include="users\" />
     <Folder Include="users\migrations\" />
     <Folder Include="users\templates\" />
@@ -115,6 +120,14 @@
     <Content Include="app\static\app\scripts\respond.js" />
     <Content Include="app\static\app\scripts\respond.min.js" />
     <Content Include="app\static\app\scripts\_references.js" />
+    <Content Include="TeachersPet\templates\homepage.html" />
+    <Content Include="TeachersPet\templates\index.html" />
+    <Content Include="TeachersPet\templates\login.html" />
+    <Content Include="TeachersPet\templates\logout.html" />
+    <Content Include="TeachersPet\templates\register.html" />
+    <Content Include="TeachersPet\templates\registration\login.html" />
+    <Content Include="TeachersPet\templates\registration\signup.html" />
+    <Content Include="TeachersPet\templates\template_base.html" />
     <Content Include="users\templates\users\index.html" />
     <Content Include="users\templates\users\login.html" />
     <Content Include="users\templates\users\logout.html" />

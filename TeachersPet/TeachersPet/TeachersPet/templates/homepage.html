@@ -1,0 +1,22 @@
+﻿<!--Changed this line to point to template in the teacherspet/templates folder
+    --{% extends "app/template_base.html" %}-->
+{% extends "template_base.html" %}
+{% load static %}
+
+{% block title %}
+<h1 style="text-align:center;">Teacher's Pet</h1>
+<h2 style="text-align:center;">Home</h2>
+{% endblock title %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+  Hi {{ user.username }}!
+  <p><a href="{% url 'logout' %}">Log Out</a></p>
+{% else %}
+  <p>You are not logged in</p>
+  <a href="{% url 'login' %}">Log In</a> |
+  <a href="{% url 'signup' %}">Sign Up</a>
+{% endif %}
+{% endblock content %}
+
