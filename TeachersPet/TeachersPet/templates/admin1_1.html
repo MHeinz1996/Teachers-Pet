@@ -1,21 +1,20 @@
 <!DOCTYPE html>
-{% extends "app/template_base.html" %}  <!--creates child of base template. Applies nav bar to this view-->
+{% extends "template_base.html" %}  <!--creates child of base template. Applies nav bar to this view-->
 {% load static %}
 
 {% block content %} <!--this block is where the page content is added-->
-    <p style="text-align:left;"> <img src= "{% static 'app/images/classes_2.png' %}" width="400" height="108.5" alt=""> </p>
     <h1 style="text-align:left;">Current Semester</h1>
     <h6 style="text-align:left;">Mmm DD, YYYY - Mmm DD, YYYY</h6>
 
     {% for dummy_data in dummy_data %}  <!--for loops through dummy data in views.py and populates page-->
         <article class="media content-section">
-          <div class="media-body">
-            <div class="article-metadata">
-              <a class="mr-2" href="#">{{ dummy_data.class }}</a>   <!--replace dummy data with DB data-->
-              <small class="text-muted">{{ dummy_data.teacher }}</small>    <!--replace dummy data with DB data-->
+            <div class="media-body">
+                <div class="article-metadata">
+                    <h2><a class="mr-2">{{ dummy_data.dept }}</a></h2>   <!--replace dummy data with DB data-->
+                </div>
+                <a class="mr-2" href="#">{{ dummy_data.class }}</a>
+                <small class="text-muted">{{ dummy_data.teacher }}</small>
             </div>
-            <h2><a class="article-title">{{ dummy_data.content }}</a></h2>  <!--replace dummy data with DB data-->
-          </div>
         </article>
     {% endfor %}    <!--closes for loop block-->
 
@@ -23,7 +22,7 @@
         <button class="btn btn-outline-info">Completed</button>
     </a>
 
-    <a href="#">    <!--href value will link to current courses page when created-->
+    <a href="{% url 'admin1_1' %}">    <!--href value will link to current courses page when created-->
         <button class="btn btn-outline-info">Current</button>
     </a>
     
