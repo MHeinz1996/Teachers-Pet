@@ -17,6 +17,7 @@ urlpatterns = [
     path('', views.homepage, name='homepage'),
     path('classes', views.classes, name='classes'),
     path('student1_1', views.student1_1, name='student1_1'),
+    path('student1_2', views.student1_2, name='student1_2'),
     path('teacher1_1', views.teacher1_1, name='teacher1_1'),
     path('admin1_1', views.admin1_1, name='admin1_1'),
     path('student1_3', views.student1_3, name='student1_3'),
