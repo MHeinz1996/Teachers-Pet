@@ -61,8 +61,8 @@ newitem = 'hello'
 #       'class' : 'Math Intro',
 #       'classid2' : 'CS283',
 
-#   }
-#]
+    }
+]
 
 completed_dummy = [
     {
@@ -91,6 +91,12 @@ completed_dummy = [
 
 def homepage(request):
     return render(request, 'app/homepage.html')
+
+def classes(request):
+    context = {
+        'dummy_data': dummy_data    # uses dummy data specified above for student1_1 view until we can replace with DB data
+    }
+    return render(request, 'classes/classes.html', context)  # context argument allows dummy data above to be used
 
 #@login_required    # Decorator that checks to see if a user is logged in before allowing them to access these views
 def student1_1(request):
