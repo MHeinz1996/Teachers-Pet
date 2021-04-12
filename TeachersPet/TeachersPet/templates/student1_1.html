@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+{% extends "template_base.html" %}  <!--creates child of base template. Applies nav bar to this view-->
+{% load static %}
+
+{% block content %} <!--this block is where the page content is added-->
+    {% for current_term in current_term %}
+        <p style="text-align:left;"> <img src= "{% static 'app/images/classes_2.png' %}" width="400" height="108.5" alt=""> </p>
+        <h1 style="text-align:left;">{{current_term.term}}</h1>
+        <h6 style="text-align:left;">{{current_term.termstart | date:"SHORT_DATE_FORMAT"}} - {{current_term.termend | date:"SHORT_DATE_FORMAT"}}</h6>
+    {% endfor %}
+    {% for user_stats in user_stats %} 
+        <h6 style="text-align:left;">Student: {{user_stats.first_name}} {{user_stats.last_name}}</h6>
+    {% endfor %}
+
+    {% for course_student in course_student %}  <!--for loops through student schedule data in views.py and populates page-->
+        <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="#">{{ course_student.course.course.coursename }} </a>   
+              <small class="text-muted">Professor {{ course_student.course.teacher.first_name }} 
+                {{ course_student.course.teacher.last_name }} 
+                
+                </small>    
+            </div>
+            <h2><a class="article-title">Grade: {{ course_student.grade }}</a></h2>  
+          </div>
+        </article>
+    {% endfor %}    <!--closes for loop block-->
+
+    <a href="{% url 'student1_3' %}">    <!--href value will link to completed courses page when created-->
+        <button class="btn btn-outline-info">Completed</button>
+    </a>
+  
+    <a href="{% url 'student1_1' %}">    <!--href value will link to current courses page when created-->
+        <button class="btn btn-outline-info">Current</button>
+    </a>
+      <a href="{% url 'student1_2' %}">    <!--href value will link to current courses page when created-->
+        <button class="btn btn-outline-info">Future</button>
+    </a>
+{% endblock content %}  <!--ends content block-->
+

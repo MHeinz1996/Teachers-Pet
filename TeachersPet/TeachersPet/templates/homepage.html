@@ -1,6 +1,4 @@
-﻿<!--Changed this line to point to template in the teacherspet/templates folder
-    --{% extends "app/template_base.html" %}-->
-{% extends "template_base.html" %}
+﻿{% extends "template_base.html" %}
 {% load static %}
 
 {% block title %}
@@ -11,7 +9,7 @@
 {% block content %}
 
 {% if user.is_authenticated %}
-  Hi {{ user.username }}!
+  Hi {{ user.first_name }}!
   <p><a href="{% url 'logout' %}">Log Out</a></p>
 {% else %}
   <p>You are not logged in</p>
