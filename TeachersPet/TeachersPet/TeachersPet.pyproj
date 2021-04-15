@@ -48,6 +48,9 @@
     <Compile Include="classes\tests.py" />
     <Compile Include="classes\views.py" />
     <Compile Include="classes\__init__.py" />
+    <Compile Include="Functions\lettergrade.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="manage.py" />
     <Compile Include="TeachersPet\__init__.py" />
     <Compile Include="TeachersPet\settings.py" />
@@ -77,6 +80,7 @@
     <Folder Include="app\templates\app\" />
     <Folder Include="classes\" />
     <Folder Include="classes\migrations\" />
+    <Folder Include="Functions\" />
     <Folder Include="TeachersPet\" />
     <Folder Include="templates\" />
     <Folder Include="templates\registration\" />
