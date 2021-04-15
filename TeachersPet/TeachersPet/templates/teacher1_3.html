@@ -4,8 +4,7 @@
 
 {% block content %} <!--this block is where the page content is added-->
     <p style="text-align:left;"> <img src= "{% static 'app/images/classes_2.png' %}" width="400" height="108.5" alt=""> </p>
-    <h1 style="text-align:left;">Current Semester</h1>
-    <h6 style="text-align:left;">Mmm DD, YYYY - Mmm DD, YYYY</h6>
+    <h1 style="text-align:left;">Completed Courses</h1>
 
     {% for dummy_data in dummy_data %}  <!--for loops through dummy data in views.py and populates page-->
         <article class="media content-section">

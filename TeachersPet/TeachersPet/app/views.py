@@ -31,6 +31,7 @@ def classes(request):
 #allowing them to access these views
 
 # listing of user's current classes
+@login_required
 def student1_1(request):
     current_term=LookupTerm.objects.filter(term_status='CU')
     course_student=CourseStudent.objects.filter(student=request.user,course__term__term_status__contains='CU')
@@ -41,6 +42,7 @@ def student1_1(request):
     return render(request, 'student1_1.html', context)
 
 # listing of user's future classes
+@login_required
 def student1_2(request):
     course_student=CourseStudent.objects.filter(student=request.user,course__term__term_status__contains='FU')
     user_stats=User.objects.filter(username=request.user)
@@ -50,6 +52,7 @@ def student1_2(request):
     return render(request, 'student1_2.html', context)
 
 #listing of user's completed classes
+@login_required
 def student1_3(request):
     course_student=CourseStudent.objects.filter(student=request.user,course__term__term_status__contains='CM')
     user_stats=User.objects.filter(username=request.user)
@@ -64,6 +67,7 @@ def teacher1_1(request):
                                     # with DB data
     }
     return render(request, 'teacher1_1.html', context)  # context argument allows dummy data above to be used
+
 
 def admin1_1(request):
     context = {
@@ -81,7 +85,7 @@ def roster(request):
 
 def teacher1_3(request):
     context = {
-        'completed_dummy': completed_dummy    # uses dummy data specified above for teacher1_1 view until we can replace
+        'dummy_data': dummy_data    # uses dummy data specified above for teacher1_1 view until we can replace
                                               # with DB data
     }
     return render(request, 'teacher1_3.html', context)  # context argument allows dummy data above to be used
@@ -89,7 +93,7 @@ def teacher1_3(request):
 
 def admin1_3(request):
     context = {
-        'completed_dummy': completed_dummy    # uses dummy data specified above for admin1_1 view until we can replace
+        'dummy_data': dummy_data    # uses dummy data specified above for admin1_1 view until we can replace
                                               # with DB data
     }
     return render(request, 'admin1_3.html', context)  # context argument allows dummy data above to be used

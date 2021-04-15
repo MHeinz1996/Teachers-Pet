@@ -93,6 +93,7 @@
     <Content Include="app\static\app\images\logo_dark.png" />
     <Content Include="app\static\app\images\logo_light.png" />
     <Content Include="templates\admin1_1.html" />
+    <Content Include="templates\admin1_3.html" />
     <Content Include="templates\roster.html" />
     <Content Include="templates\student1_1.html" />
     <Content Include="templates\student1_2.html" />
@@ -129,6 +130,7 @@
     <Content Include="templates\register.html" />
     <Content Include="templates\registration\login.html" />
     <Content Include="templates\registration\signup.html" />
+    <Content Include="templates\teacher1_3.html" />
     <Content Include="templates\template_base.html" />
     <Content Include="users\templates\users\index.html" />
     <Content Include="users\templates\users\login.html" />
