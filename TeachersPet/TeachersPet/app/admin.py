@@ -16,6 +16,7 @@ from .models import DummyClass
 
 
 
+
 admin.site.register(LookupDepartment)
 admin.site.register(CourseAssignment)
 admin.site.register(CourseSchedule)

@@ -3,7 +3,6 @@
 {% load static %}
 
 {% block content %} <!--this block is where the page content is added-->
-<p style="text-align:left;"> <img src="{% static 'app/images/classes_2.png' %}" width="400" height="108.5" alt=""> </p> 
 {% for current_term in current_term %}
 <h1 style="text-align:left;">{{current_term.term}}</h1>
 <h6 style="text-align:left;">{{current_term.termstart | date:"SHORT_DATE_FORMAT"}} - {{current_term.termend | date:"SHORT_DATE_FORMAT"}}</h6>

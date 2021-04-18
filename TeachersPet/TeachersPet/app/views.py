@@ -8,6 +8,7 @@ import datetime
 from .models import DummyClass
 from .models import DummyData
 from .models import CourseStudent
+from .models import CourseSchedule
 from .models import LookupTerm
 
  
@@ -62,12 +63,16 @@ def student1_3(request):
     return render(request, 'student1_3.html', context)
 
 def teacher1_1(request):
+    current_term=LookupTerm.objects.filter(term_status='CU')
+    course_teacher=CourseSchedule.objects.filter(teacher=request.user,term__term_status__contains='CU')
+    user_stats=User.objects.filter(username=request.user)
     context = {
-        'dummy_data': dummy_data    # uses dummy data specified above for teacher1_1 view until we can replace
-                                    # with DB data
+        'course_teacher': course_teacher, 'current_term':current_term, 'user_stats':user_stats
     }
-    return render(request, 'teacher1_1.html', context)  # context argument allows dummy data above to be used
+    return render(request, 'teacher1_1.html', context)
 
+
+    
 
 def admin1_1(request):
     context = {

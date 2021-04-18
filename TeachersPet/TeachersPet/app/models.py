@@ -29,6 +29,7 @@ class DummyData(models.Model):
     content = models.CharField(db_column='Content', unique=False, max_length=100)
     student = models.ForeignKey(User,on_delete=models.RESTRICT,null=True)
     
+
 class CourseAssignment(models.Model):
     id = models.BigAutoField(primary_key=True)
     assignmentdate = models.DateField(db_column='assignmentDate')  # Field name made lowercase.
