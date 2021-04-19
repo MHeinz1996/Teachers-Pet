@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+{% extends "template_base.html" %}  <!--creates child of base template. Applies nav bar to this view-->
+{% load static %}
+
+{% block content %} <!--this block is where the page content is added-->
+
+    {% for current_term in current_term %}
+    <h1 style="text-align:left;">{{current_term.term}}</h1>
+    <h6 style="text-align:left;">{{current_term.termstart | date:"SHORT_DATE_FORMAT"}} - {{current_term.termend | date:"SHORT_DATE_FORMAT"}}</h6>
+    {% endfor %}
+
+    {% for user_stats in user_stats %}
+    <h6 style="text-align:left;">Teacher: {{user_stats.first_name}} {{user_stats.last_name}}</h6>
+    {% endfor %}
+    {% for course_teacher in course_teacher %}  <!--for loops through teacher schedule data in views.py and populates page-->
+    <article class="media content-section">
+	    <div class="media-body">
+		    <div class="article-metadata">
+			    <a class="mr-2" href="#">{{ course_teacher.course.coursename }} </a>
+
+		    </div>
+	    </div>
+    </article>
+    {% endfor %}    <!--closes for loop block-->
+
+
+
+    <a href="% url 'teacher1_3' %">    <!--href value will link to completed courses page when created-->
+        <button class="btn btn-outline-info">Completed</button>
+    </a>
+
+    <a href="{% url 'teacher1_1' %}">    <!--href value will link to current courses page when created-->
+        <button class="btn btn-outline-info">Current</button>
+    </a>
+    
+    <a href="#">    <!--href value will link to future courses page when created-->
+        <button class="btn btn-outline-info">Future</button>
+    </a>
+{% endblock content %}  <!--ends content block-->

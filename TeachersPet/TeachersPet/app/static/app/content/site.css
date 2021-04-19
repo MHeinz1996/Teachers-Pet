@@ -1,0 +1,130 @@
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    /*Test*/
+    background: #fafafa;
+    color: #333333;
+    margin-top: 5rem;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+/* styles for validation helpers */
+.field-validation-error {
+    color: #b94a48;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+input.input-validation-error {
+    border: 1px solid #b94a48;
+}
+
+input[type="checkbox"].input-validation-error {
+    border: 0 none;
+}
+
+.validation-summary-errors {
+    color: #b94a48;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+
+
+ul {
+    margin: 0;
+}
+
+.oxford-blue {
+    background-color: #14213d;
+}
+
+.oragne-web {
+    background-color: #fca311;
+}
+
+.platinum {
+    background-color: #e5e5e5
+}
+
+.site-header .navbar-nav .nav-link {
+    color: #cbd5db;
+}
+
+    .site-header .navbar-nav .nav-link:hover {
+        color: #ffffff;
+    }
+
+    .site-header .navbar-nav .nav-link.active {
+        font-weight: 500;
+    }
+
+.content-section {
+    background: #ffffff;
+    padding: 10px 20px;
+    border: 1px solid #dddddd;
+    border-radius: 3px;
+    margin-bottom: 20px;
+}
+
+.article-title {
+    color: #444444;
+}
+
+a.article-title:hover {
+    color: #428bca;
+    text-decoration: none;
+}
+
+.article-content {
+    white-space: pre-line;
+}
+
+.article-img {
+    height: 65px;
+    width: 65px;
+    margin-right: 16px;
+}
+
+.article-metadata {
+    padding-bottom: 1px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid #e3e3e3
+}
+
+    .article-metadata a:hover {
+        color: #333;
+        text-decoration: none;
+    }
+
+.article-svg {
+    width: 25px;
+    height: 25px;
+    vertical-align: middle;
+}
+
+.account-img {
+    height: 125px;
+    width: 125px;
+    margin-right: 20px;
+    margin-bottom: 16px;
+}
+
+.account-heading {
+    font-size: 2.5rem;
+}

@@ -1,0 +1,13 @@
+﻿{% extends "template_base.html" %}
+{% load static %}
+
+{% block content %}
+    <h1 style="text-align:center;">Teacher's Pet</h1>
+    <p style="text-align:center;"> <img src= "{% static 'app/images/logo_dark.png' %}" width="200" height="200" alt=""> </p>
+    <h2>Log out successful</h2>
+    <div class="border-top pt-3">
+            <small class="text-muted">
+                <a href="{% url 'login' %}">Log in</a>
+            </small>
+    </div>
+{% endblock content %}
