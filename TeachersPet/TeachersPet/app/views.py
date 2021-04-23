@@ -89,11 +89,13 @@ def roster(request):
 
 
 def teacher1_3(request):
+    completed_term=LookupTerm.objects.filter(term_status='CM')
+    course_teacher=CourseSchedule.objects.filter(teacher=request.user,term__term_status__contains='CM')
+    user_stats=User.objects.filter(username=request.user)
     context = {
-        'dummy_data': dummy_data    # uses dummy data specified above for teacher1_1 view until we can replace
-                                              # with DB data
+        'course_teacher': course_teacher, 'completed_term':completed_term, 'user_stats':user_stats
     }
-    return render(request, 'teacher1_3.html', context)  # context argument allows dummy data above to be used
+    return render(request, 'teacher1_3.html', context)
 
 
 def admin1_3(request):
