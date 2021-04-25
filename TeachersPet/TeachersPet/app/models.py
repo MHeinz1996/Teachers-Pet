@@ -62,10 +62,12 @@ class LookupDepartment(models.Model):
 
 class LookupTerm(models.Model):
     id = models.BigAutoField(primary_key=True)
-    term = models.CharField(max_length=50)
+    term = models.CharField(max_length=50, unique=True)
     termstart = models.DateField(db_column='termStart')  
     termend = models.DateField(db_column='termEnd')  
 
+    class Meta:
+        unique_together=('termstart','termend',)
     def __str__(self):
         return self.term
 
