@@ -5,28 +5,13 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from datetime import datetime
 import datetime
-from .models import DummyClass
-from .models import DummyData
+
 from .models import CourseStudent
 from .models import CourseSchedule
 from .models import LookupTerm
 
- 
-
-
-dummy_class = DummyClass.objects.all()
-dummy_data = DummyData.objects.all()
-
-
 def homepage(request):
     return render(request, 'homepage.html')
-
-def classes(request):
-    context = {
-        'dummy_data': dummy_data    # uses dummy data specified above for student1_1 view until we can replace
-                                    # with DB data
-    }
-    return render(request, 'classes.html', context)  # context argument allows dummy data above to be used
 
 #@login_required # Decorator that checks to see if a user is logged in before
 #allowing them to access these views
@@ -36,7 +21,7 @@ def classes(request):
 
 def student1_1(request):
    
-    course_student=CourseStudent.objects.filter(student=request.user,course__term__term_status__contains='CU')
+    course_student=CourseStudent.objects.filter(student=request.user,course__term__termend__gte=datetime.date.today(),course__term__termstart__lte=datetime.date.today())
     user_stats=User.objects.filter(username=request.user)
     screen_type='Current'
     show_grade=1
@@ -48,8 +33,8 @@ def student1_1(request):
 # listing of user's future classes
 @login_required
 def student1_2(request):
-    
-    course_student=CourseStudent.objects.filter(student=request.user,course__term__term_status__contains='FU')
+    course_student=CourseStudent.objects.filter(student=request.user,course__term__termstart__gte=datetime.date.today())
+    #course_student=CourseStudent.objects.filter(student=request.user,course__term__term_status__contains='FU')
     user_stats=User.objects.filter(username=request.user)
     screen_type='Future'
     show_grade=0
@@ -62,8 +47,7 @@ def student1_2(request):
 
 @login_required
 def student1_3(request):
-   
-    course_student=CourseStudent.objects.filter(student=request.user,course__term__term_status__contains='CM')
+    course_student=CourseStudent.objects.filter(student=request.user,course__term__termend__lte=datetime.date.today())
     user_stats=User.objects.filter(username=request.user)
     screen_type='Completed'
     show_grade=1
@@ -72,9 +56,10 @@ def student1_3(request):
     }
     return render(request, 'student.html', context)
 
+@login_required
 # listing of teacher's current classes
 def teacher1_1(request):
-    course_teacher=CourseSchedule.objects.filter(teacher=request.user,term__term_status__contains='CU')
+    course_teacher=CourseSchedule.objects.filter(teacher=request.user,term__termend__gte=datetime.date.today(),term__termstart__lte=datetime.date.today())
     user_stats=User.objects.filter(username=request.user)
     screen_type='Current'
     context = {
@@ -83,8 +68,10 @@ def teacher1_1(request):
     return render(request, 'teacher.html', context)
 
 #listing of teacher's future classes
+@login_required
 def teacher1_2(request):
-    course_teacher=CourseSchedule.objects.filter(teacher=request.user,term__term_status__contains='FU')
+
+    course_teacher=CourseSchedule.objects.filter(teacher=request.user,term__termstart__gte=datetime.date.today())
     user_stats=User.objects.filter(username=request.user)
     screen_type='Upcoming'
     context = {
@@ -94,7 +81,7 @@ def teacher1_2(request):
 
 #listing of teacher's completed classes
 def teacher1_3(request):
-    course_teacher=CourseSchedule.objects.filter(teacher=request.user,term__term_status__contains='CM')
+    course_teacher=CourseSchedule.objects.filter(teacher=request.user,term__termend__lte=datetime.date.today())
     user_stats=User.objects.filter(username=request.user)
     screen_type='Completed'
     context = {
@@ -103,7 +90,7 @@ def teacher1_3(request):
     return render(request, 'teacher.html', context)
 
 
-# listing of students assigned to a class
+# listing of students assigned to a class (linked to from course listing screens (admin and teacher)
 def course_roster(request,pk):
     course_schedule= get_object_or_404(CourseSchedule,pk=pk)
     course_student=CourseStudent.objects.filter(course__id__contains=pk)
@@ -112,7 +99,7 @@ def course_roster(request,pk):
     return render(request, 'course_roster.html',context )
 
 def admin1_1(request):
-    all_courses=CourseSchedule.objects.filter(term__term_status__contains='CU')
+    all_courses=CourseSchedule.objects.filter(term__termend__gte=datetime.date.today(),term__termstart__lte=datetime.date.today())
     screen_type='Current'
     context = {
         'all_courses': all_courses, 'screen_type':screen_type
@@ -120,7 +107,7 @@ def admin1_1(request):
     return render(request, 'admin_courses.html', context)
 
 def admin1_2(request):
-    all_courses=CourseSchedule.objects.filter(term__term_status__contains='FU')
+    all_courses=CourseSchedule.objects.filter(term__termstart__gte=datetime.date.today())
     screen_type='Upcoming'
     context = {
         'all_courses': all_courses, 'screen_type':screen_type
@@ -128,7 +115,7 @@ def admin1_2(request):
     return render(request, 'admin_courses.html', context)
 
 def admin1_3(request):
-    all_courses=CourseSchedule.objects.filter(term__term_status__contains='CM')
+    all_courses=CourseSchedule.objects.filter(term__termend__lte=datetime.date.today())
     screen_type='Completed'
     context = {
         'all_courses': all_courses, 'screen_type':screen_type

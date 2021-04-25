@@ -7,28 +7,7 @@ from django.contrib.auth.models import User
 
 
 
-# Create your models here.
-class DummyClass(models.Model):
-  id = models.BigAutoField(primary_key=True)
-  datestart = models.DateField(db_column='dateStart')
-  dateend = models.DateField(db_column='dateEnd')
-  firstname = models.CharField(db_column='FirstName', unique=True, max_length=50) 
-  lastname = models.CharField(db_column='LastName', unique=True, max_length=255) 
-  studentid = models.CharField(db_column='StudentID', unique=True, max_length=14)
-  classid = models.CharField(db_column='ClassID', unique=True, max_length=14)
-  classname = models.CharField(db_column='Class', unique=True, max_length=100)
-  classid2 = models.CharField(db_column='ClassID2', unique=True, max_length=100)
-  grade = models.PositiveIntegerField(db_column='Grade')
-  assignment = models.PositiveIntegerField(db_column='Assignment')
-
-class DummyData(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    dept = models.CharField(db_column='Dept', unique=False, max_length=14)
-    teacher = models.CharField(db_column='Teacher', unique=False, max_length=255)
-    className = models.CharField(db_column='ClassName', unique=False, max_length=100)
-    content = models.CharField(db_column='Content', unique=False, max_length=100)
-    student = models.ForeignKey(User,on_delete=models.RESTRICT,null=True)
-    
+  
 
 class CourseAssignment(models.Model):
     id = models.BigAutoField(primary_key=True)
@@ -84,17 +63,8 @@ class LookupDepartment(models.Model):
 class LookupTerm(models.Model):
     id = models.BigAutoField(primary_key=True)
     term = models.CharField(max_length=50)
-    termstart = models.DateField(db_column='termStart')  # Field name made lowercase.
-    termend = models.DateField(db_column='termEnd')  # Field name made lowercase.
-    COMPLETED = 'CM'
-    CURRENT = 'CU'
-    FUTURE = 'FU'
-    TERM_STATUS_CHOICES = [(COMPLETED, 'Completed'),
-        (CURRENT, 'Current'),
-        (FUTURE, 'Future'),]
-    term_status = models.CharField(max_length=2,
-        choices=TERM_STATUS_CHOICES,
-        default=FUTURE,)
+    termstart = models.DateField(db_column='termStart')  
+    termend = models.DateField(db_column='termEnd')  
 
     def __str__(self):
         return self.term
