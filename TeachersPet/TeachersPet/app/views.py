@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpRequest
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
@@ -33,74 +33,104 @@ def classes(request):
 
 # listing of user's current classes
 @login_required
+
 def student1_1(request):
-    current_term=LookupTerm.objects.filter(term_status='CU')
+   
     course_student=CourseStudent.objects.filter(student=request.user,course__term__term_status__contains='CU')
     user_stats=User.objects.filter(username=request.user)
+    screen_type='Current'
+    show_grade=1
     context = {
-        'course_student': course_student, 'current_term':current_term, 'user_stats':user_stats
+        'course_student': course_student,  'user_stats':user_stats,'screen_type':screen_type, show_grade:show_grade
     }
-    return render(request, 'student1_1.html', context)
+    return render(request, 'student.html', context)
 
 # listing of user's future classes
 @login_required
 def student1_2(request):
+    
     course_student=CourseStudent.objects.filter(student=request.user,course__term__term_status__contains='FU')
     user_stats=User.objects.filter(username=request.user)
+    screen_type='Future'
+    show_grade=0
     context = {
-        'course_student': course_student,  'user_stats':user_stats
+        'course_student': course_student,  'user_stats':user_stats,'screen_type':screen_type,show_grade:show_grade
     }
-    return render(request, 'student1_2.html', context)
+    return render(request, 'student.html', context)
 
-#listing of user's completed classes
+#listing of student's completed classes
+
 @login_required
 def student1_3(request):
+   
     course_student=CourseStudent.objects.filter(student=request.user,course__term__term_status__contains='CM')
     user_stats=User.objects.filter(username=request.user)
+    screen_type='Completed'
+    show_grade=1
     context = {
-        'course_student': course_student,  'user_stats':user_stats
+        'course_student': course_student,  'user_stats':user_stats,'screen_type':screen_type,show_grade:show_grade
     }
-    return render(request, 'student1_3.html', context)
+    return render(request, 'student.html', context)
 
+# listing of teacher's current classes
 def teacher1_1(request):
-    current_term=LookupTerm.objects.filter(term_status='CU')
     course_teacher=CourseSchedule.objects.filter(teacher=request.user,term__term_status__contains='CU')
     user_stats=User.objects.filter(username=request.user)
+    screen_type='Current'
     context = {
-        'course_teacher': course_teacher, 'current_term':current_term, 'user_stats':user_stats
+        'course_teacher': course_teacher, 'user_stats':user_stats, 'screen_type':screen_type
     }
-    return render(request, 'teacher1_1.html', context)
+    return render(request, 'teacher.html', context)
 
-
-    #comment
-
-def admin1_1(request):
+#listing of teacher's future classes
+def teacher1_2(request):
+    course_teacher=CourseSchedule.objects.filter(teacher=request.user,term__term_status__contains='FU')
+    user_stats=User.objects.filter(username=request.user)
+    screen_type='Upcoming'
     context = {
-        'dummy_data': dummy_data    # uses dummy data specified above for admin1_1 view until we can replace
-                                    # with DB data
+        'course_teacher': course_teacher, 'user_stats':user_stats, 'screen_type':screen_type
     }
-    return render(request, 'admin1_1.html', context)  # context argument allows dummy data above to be used
+    return render(request, 'teacher.html', context)
 
-def roster(request):
-    context = {
-        'roster' : dummy_class
-    }
-    return render(request, 'roster.html', context)
-
-
+#listing of teacher's completed classes
 def teacher1_3(request):
-    completed_term=LookupTerm.objects.filter(term_status='CM')
     course_teacher=CourseSchedule.objects.filter(teacher=request.user,term__term_status__contains='CM')
     user_stats=User.objects.filter(username=request.user)
+    screen_type='Completed'
     context = {
-        'course_teacher': course_teacher, 'completed_term':completed_term, 'user_stats':user_stats
+        'course_teacher': course_teacher, 'user_stats':user_stats, 'screen_type':screen_type
     }
-    return render(request, 'teacher1_3.html', context)
+    return render(request, 'teacher.html', context)
 
+
+# listing of students assigned to a class
+def course_roster(request,pk):
+    course_schedule= get_object_or_404(CourseSchedule,pk=pk)
+    course_student=CourseStudent.objects.filter(course__id__contains=pk)
+    
+    context={'course_schedule': course_schedule, 'course_student':course_student}
+    return render(request, 'course_roster.html',context )
+
+def admin1_1(request):
+    all_courses=CourseSchedule.objects.filter(term__term_status__contains='CU')
+    screen_type='Current'
+    context = {
+        'all_courses': all_courses, 'screen_type':screen_type
+    }
+    return render(request, 'admin_courses.html', context)
+
+def admin1_2(request):
+    all_courses=CourseSchedule.objects.filter(term__term_status__contains='FU')
+    screen_type='Upcoming'
+    context = {
+        'all_courses': all_courses, 'screen_type':screen_type
+    }
+    return render(request, 'admin_courses.html', context)
 
 def admin1_3(request):
+    all_courses=CourseSchedule.objects.filter(term__term_status__contains='CM')
+    screen_type='Completed'
     context = {
-        'dummy_data': dummy_data    # uses dummy data specified above for admin1_1 view until we can replace
-                                              # with DB data
+        'all_courses': all_courses, 'screen_type':screen_type
     }
-    return render(request, 'admin1_3.html', context)  # context argument allows dummy data above to be used
+    return render(request, 'admin_courses.html', context)
