@@ -33,7 +33,7 @@ def student1_1(request):
 # listing of user's future classes
 @login_required
 def student1_2(request):
-    course_student=CourseStudent.objects.filter(student=request.user,course__term__termstart__gte=datetime.date.today())
+    course_student=CourseStudent.objects.filter(student=request.user,course__term__termstart__gt=datetime.date.today())
     #course_student=CourseStudent.objects.filter(student=request.user,course__term__term_status__contains='FU')
     user_stats=User.objects.filter(username=request.user)
     screen_type='Future'
@@ -47,7 +47,7 @@ def student1_2(request):
 
 @login_required
 def student1_3(request):
-    course_student=CourseStudent.objects.filter(student=request.user,course__term__termend__lte=datetime.date.today())
+    course_student=CourseStudent.objects.filter(student=request.user,course__term__termend__lt=datetime.date.today())
     user_stats=User.objects.filter(username=request.user)
     screen_type='Completed'
     show_grade=1
@@ -71,7 +71,7 @@ def teacher1_1(request):
 @login_required
 def teacher1_2(request):
 
-    course_teacher=CourseSchedule.objects.filter(teacher=request.user,term__termstart__gte=datetime.date.today())
+    course_teacher=CourseSchedule.objects.filter(teacher=request.user,term__termstart__gt=datetime.date.today())
     user_stats=User.objects.filter(username=request.user)
     screen_type='Upcoming'
     context = {
@@ -81,7 +81,7 @@ def teacher1_2(request):
 
 #listing of teacher's completed classes
 def teacher1_3(request):
-    course_teacher=CourseSchedule.objects.filter(teacher=request.user,term__termend__lte=datetime.date.today())
+    course_teacher=CourseSchedule.objects.filter(teacher=request.user,term__termend__lt=datetime.date.today())
     user_stats=User.objects.filter(username=request.user)
     screen_type='Completed'
     context = {
@@ -107,7 +107,7 @@ def admin1_1(request):
     return render(request, 'admin_courses.html', context)
 
 def admin1_2(request):
-    all_courses=CourseSchedule.objects.filter(term__termstart__gte=datetime.date.today())
+    all_courses=CourseSchedule.objects.filter(term__termstart__gt=datetime.date.today())
     screen_type='Upcoming'
     context = {
         'all_courses': all_courses, 'screen_type':screen_type
@@ -115,7 +115,7 @@ def admin1_2(request):
     return render(request, 'admin_courses.html', context)
 
 def admin1_3(request):
-    all_courses=CourseSchedule.objects.filter(term__termend__lte=datetime.date.today())
+    all_courses=CourseSchedule.objects.filter(term__termend__lt=datetime.date.today())
     screen_type='Completed'
     context = {
         'all_courses': all_courses, 'screen_type':screen_type
