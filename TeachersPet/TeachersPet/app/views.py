@@ -20,7 +20,6 @@ def homepage(request):
 
 # listing of user's current classes
 @login_required
-
 def student1_1(request):
    
     course_student=CourseStudent.objects.filter(student=request.user,course__term__termend__gte=datetime.date.today(),course__term__termstart__lte=datetime.date.today())
@@ -82,6 +81,7 @@ def teacher1_2(request):
     return render(request, 'teacher.html', context)
 
 #listing of teacher's completed classes
+@login_required
 def teacher1_3(request):
     course_teacher=CourseSchedule.objects.filter(teacher=request.user,term__termend__lt=datetime.date.today())
     user_stats=User.objects.filter(username=request.user)
