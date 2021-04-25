@@ -10,6 +10,8 @@ from .models import CourseStudent
 from .models import CourseSchedule
 from .models import LookupTerm
 
+from .forms import LookupTermForm
+
 def homepage(request):
     return render(request, 'homepage.html')
 
@@ -121,3 +123,34 @@ def admin1_3(request):
         'all_courses': all_courses, 'screen_type':screen_type
     }
     return render(request, 'admin_courses.html', context)
+
+  
+# LookupTermsCreateForm
+  
+def create_term(request):
+    # dictionary for initial data with 
+    # field names as keys
+    context ={}
+  
+    # add the dictionary during initialization
+    form = LookupTermForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+          
+    context['form']= form
+    context['model']="Term"
+    return render(request, "create_view.html", context)
+
+def list_term(request):
+
+    # dictionary for initial data with 
+    # field names as keys
+    context ={}
+  
+    # add the dictionary during initialization
+    context["dataset"] = LookupTerm.objects.all()
+    context["model"]="Term"
+    context["title"]="Term name"
+    context["description"]="Date range"
+          
+    return render(request, "list_view.html", context)

@@ -24,10 +24,13 @@ urlpatterns = [
     path('admin1_1', views.admin1_1, name='admin1_1'),
     path('admin1_2', views.admin1_2, name='admin1_2'),
     path('admin1_3', views.admin1_3, name='admin1_3'),
+    path('create_term', views.create_term, name='create_term'),
+    path('list_term', views.list_term, name='list_term'),
     path('register/', users_views.register, name='register'),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='logout.html'), name='logout'),
     path('admin/', admin.site.urls),
+    
     path('course_roster/<int:pk>/', views.course_roster, name = 'course_roster')
 
 ]

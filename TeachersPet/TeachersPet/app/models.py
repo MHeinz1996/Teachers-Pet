@@ -65,6 +65,13 @@ class LookupTerm(models.Model):
     term = models.CharField(max_length=50, unique=True)
     termstart = models.DateField(db_column='termStart')  
     termend = models.DateField(db_column='termEnd')  
+    
+    @property
+    def title(self):
+        return self.term
+    @property
+    def description(self):
+         return "{} - {}".format(self.termstart, self.termend) 
 
     class Meta:
         unique_together=('termstart','termend',)
