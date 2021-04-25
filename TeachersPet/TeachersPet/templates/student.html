@@ -31,9 +31,8 @@
                 <td>{{course_student.course.term.term}}</td>
                 <td>{{course_student.course.term.termstart | date:"SHORT_DATE_FORMAT"}}</td>
                 <td>{{course_student.course.term.termend | date:"SHORT_DATE_FORMAT"}}</td>
-                <td> {{ course_student.course.course.coursename }} </td>
+                <td><a href="#">{{ course_student.course.course.coursename }}</a></td> <!--Made into a hyperlink that will eventually link to grades/assignment list for that course-->
                 <td> {{ course_student.course.teacher.first_name }} {{ course_student.course.teacher.last_name }} </td>
-                <!--add a conditional statement here - if current or completed, show grade-->
                 <td> {{ course_student.grade}} </td>
                 
             </tr>
