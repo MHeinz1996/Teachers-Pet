@@ -125,7 +125,7 @@ def admin1_3(request):
     return render(request, 'admin_courses.html', context)
 
   
-# LookupTermsCreateForm
+# Lookups lists and detail views
   
 def create_term(request):
     # dictionary for initial data with 
@@ -154,3 +154,58 @@ def list_term(request):
     context["description"]="Date range"
           
     return render(request, "list_view.html", context)
+
+
+# delete view for details
+def delete_term(request, pk):
+    # dictionary for initial data with 
+    # field names as keys
+    context ={}
+  
+    # fetch the object related to passed id
+    obj = get_object_or_404(LookupTerm, pk = pk)
+  
+  
+    if request.method =="POST":
+        # delete object
+        obj.delete()
+        # after deleting redirect to 
+        # home page
+        return HttpResponseRedirect("/")
+  
+    return render(request, "delete_view.html", context)
+
+# after updating it will redirect to detail_View
+def detail_term(request, pk):
+    # dictionary for initial data with 
+    # field names as keys
+    context ={}
+   
+    # add the dictionary during initialization
+    context["data"] = LookupTerm.objects.get(pk = pk)
+    context["model"]="Term"
+    return render(request, "detail_view.html", context)
+
+# update view for details
+def update_term(request, pk):
+
+    # dictionary for initial data with 
+    # field names as keys
+    context ={}
+  
+    # fetch the object related to passed id
+    obj = get_object_or_404(LookupTerm, pk = pk)
+  
+    # pass the object as instance in form
+    form = LookupTermForm(request.POST or None)
+  
+    # save the data from the form and
+    # redirect to detail_view
+    if form.is_valid():
+        form.save()
+        return HttpResponseRedirect("/"+pk)
+  
+    # add form dictionary to context
+    context["form"] = form
+    context['model']="Term"   
+    return render(request, "update_view.html", context)

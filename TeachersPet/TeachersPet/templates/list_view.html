@@ -24,6 +24,8 @@
             <tr>
                 <td>{{data.title}}</td>
                 <td>{{data.description}}</td>
+                <td><a href="{% url 'update_term' pk=data.pk %}">Edit</a></td>
+                <td><a href="{% url 'delete_term' pk=data.pk %}">Delete</a></td>
             </tr>
             {% endfor %}
             {% endif %}
@@ -41,6 +43,7 @@
 <a href="{% url 'create_term' %}">
 
     <button class="btn btn-outline-info">New</button>
+ 
 </a>
 
 
