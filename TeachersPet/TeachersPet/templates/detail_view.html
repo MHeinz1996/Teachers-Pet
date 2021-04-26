@@ -14,16 +14,14 @@
             <legend class="border-bottom mb-4"> {{model}} View </legend>
             {{form|crispy}}
         </fieldset>
-        <!-- form as paragraph -->
-        {{ data.title }} <br />
-        {{ data.description }}
 
-        <button class="btn btn-outline-info" type="submit">Update</button>
-        <button class="btn btn-outline-info" type="cancel">Cancel</button>
-
-
+        {{title}}: {{ data.title }}<br />
+        {{description}}: {{ data.description }}<br />
     </form>
+    <a href="{{request.META.HTTP_REFERER}}">
 
+        <button class="btn btn-outline-info">Go Back</button>
+    </a>
 </div>
 {% endblock content %}
 

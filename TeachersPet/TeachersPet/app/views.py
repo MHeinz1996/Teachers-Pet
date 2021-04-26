@@ -1,10 +1,12 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404,HttpResponseRedirect
 from django.http import HttpRequest
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from datetime import datetime
 import datetime
+from django.contrib import messages
+
 
 from .models import CourseStudent
 from .models import CourseSchedule
@@ -136,7 +138,7 @@ def create_term(request):
     form = LookupTermForm(request.POST or None)
     if form.is_valid():
         form.save()
-          
+        return HttpResponseRedirect("/list_term")  
     context['form']= form
     context['model']="Term"
     return render(request, "create_view.html", context)
@@ -168,10 +170,15 @@ def delete_term(request, pk):
   
     if request.method =="POST":
         # delete object
-        obj.delete()
-        # after deleting redirect to 
-        # home page
-        return HttpResponseRedirect("/")
+        try:
+            obj.delete()
+           
+        except Exception as e:
+            messages.error(request, "Deletion of this term is not allowed.")
+         # after deleting redirect to 
+            # home page
+        return HttpResponseRedirect("/list_term")
+        
   
     return render(request, "delete_view.html", context)
 
@@ -184,6 +191,8 @@ def detail_term(request, pk):
     # add the dictionary during initialization
     context["data"] = LookupTerm.objects.get(pk = pk)
     context["model"]="Term"
+    context["title"]="Term name"
+    context["description"]="Date range"
     return render(request, "detail_view.html", context)
 
 # update view for details
@@ -197,13 +206,13 @@ def update_term(request, pk):
     obj = get_object_or_404(LookupTerm, pk = pk)
   
     # pass the object as instance in form
-    form = LookupTermForm(request.POST or None)
+    form = LookupTermForm(request.POST or None, instance = obj)
   
     # save the data from the form and
-    # redirect to detail_view
+    # redirect to list_view
     if form.is_valid():
         form.save()
-        return HttpResponseRedirect("/"+pk)
+        return HttpResponseRedirect("/list_term")
   
     # add form dictionary to context
     context["form"] = form
