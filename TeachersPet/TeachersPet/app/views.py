@@ -228,7 +228,7 @@ def grades(request):
     context ={}
   
     # add the dictionary during initialization
-    context["dataset"] = CourseAssignment.objects.all()
+    context["dataset"] = CourseAssignment.objects.all() # Need to set filters so that it shows grades for specific classes during a specific term
     context["model"]="Grade"
     context["title"]="Assignments"
     context["date_assigned"]="Date Assigned"
