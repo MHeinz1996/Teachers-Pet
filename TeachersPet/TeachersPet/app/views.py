@@ -8,6 +8,7 @@ import datetime
 from django.contrib import messages
 
 
+from .models import CourseAssignment
 from .models import CourseStudent
 from .models import CourseSchedule
 from .models import LookupTerm
@@ -218,3 +219,21 @@ def update_term(request, pk):
     context["form"] = form
     context['model']="Term"   
     return render(request, "update_view.html", context)
+
+# views for grade book
+def grades(request):
+
+    # dictionary for initial data with 
+    # field names as keys
+    context ={}
+  
+    # add the dictionary during initialization
+    context["dataset"] = CourseAssignment.objects.all()
+    context["model"]="Grade"
+    context["title"]="Assignments"
+    context["date_assigned"]="Date Assigned"
+    context["date_due"]="Date Due"
+    context["points_possible"]="Points Possible"
+    context["score"]="Score"
+          
+    return render(request, "grades.html", context)

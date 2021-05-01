@@ -116,6 +116,7 @@
     <Content Include="app\static\app\scripts\respond.js" />
     <Content Include="app\static\app\scripts\respond.min.js" />
     <Content Include="app\static\app\scripts\_references.js" />
+    <Content Include="templates\grades.html" />
     <Content Include="templates\homepage.html" />
     <Content Include="templates\index.html" />
     <Content Include="templates\login.html" />
