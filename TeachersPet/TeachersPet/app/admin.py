@@ -11,12 +11,23 @@ from .models import LookupCourse
 from .models import LookupTerm
 from .models import StudentSubmission
 from .models import TeacherCertification
-from .models import DummyData
-from .models import DummyClass
 
 
 
 
+                                                                                                                                                                                                                                                                 
+
+
+
+
+
+
+
+
+
+
+
+         
 admin.site.register(LookupDepartment)
 admin.site.register(CourseAssignment)
 admin.site.register(CourseSchedule)
@@ -25,6 +36,3 @@ admin.site.register(LookupCourse)
 admin.site.register(LookupTerm)
 admin.site.register(StudentSubmission)
 admin.site.register(TeacherCertification)
-admin.site.register(DummyData)
-admin.site.register(DummyClass)
-

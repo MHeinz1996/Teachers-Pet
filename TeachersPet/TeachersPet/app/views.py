@@ -1,32 +1,22 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404,HttpResponseRedirect
 from django.http import HttpRequest
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from datetime import datetime
 import datetime
-from .models import DummyClass
-from .models import DummyData
+from django.contrib import messages
+
+
+from .models import CourseAssignment
 from .models import CourseStudent
 from .models import CourseSchedule
 from .models import LookupTerm
 
- 
-
-
-dummy_class = DummyClass.objects.all()
-dummy_data = DummyData.objects.all()
-
+from .forms import LookupTermForm
 
 def homepage(request):
     return render(request, 'homepage.html')
-
-def classes(request):
-    context = {
-        'dummy_data': dummy_data    # uses dummy data specified above for student1_1 view until we can replace
-                                    # with DB data
-    }
-    return render(request, 'classes.html', context)  # context argument allows dummy data above to be used
 
 #@login_required # Decorator that checks to see if a user is logged in before
 #allowing them to access these views
@@ -34,71 +24,216 @@ def classes(request):
 # listing of user's current classes
 @login_required
 def student1_1(request):
-    current_term=LookupTerm.objects.filter(term_status='CU')
-    course_student=CourseStudent.objects.filter(student=request.user,course__term__term_status__contains='CU')
+   
+    course_student=CourseStudent.objects.filter(student=request.user,course__term__termend__gte=datetime.date.today(),course__term__termstart__lte=datetime.date.today())
     user_stats=User.objects.filter(username=request.user)
+    screen_type='Current'
+    show_grade=1
     context = {
-        'course_student': course_student, 'current_term':current_term, 'user_stats':user_stats
+        'course_student': course_student,  'user_stats':user_stats,'screen_type':screen_type, show_grade:show_grade
     }
-    return render(request, 'student1_1.html', context)
+    return render(request, 'student.html', context)
 
 # listing of user's future classes
 @login_required
 def student1_2(request):
-    course_student=CourseStudent.objects.filter(student=request.user,course__term__term_status__contains='FU')
+    course_student=CourseStudent.objects.filter(student=request.user,course__term__termstart__gt=datetime.date.today())
+    #course_student=CourseStudent.objects.filter(student=request.user,course__term__term_status__contains='FU')
     user_stats=User.objects.filter(username=request.user)
+    screen_type='Future'
+    show_grade=0
     context = {
-        'course_student': course_student,  'user_stats':user_stats
+        'course_student': course_student,  'user_stats':user_stats,'screen_type':screen_type,show_grade:show_grade
     }
-    return render(request, 'student1_2.html', context)
+    return render(request, 'student.html', context)
 
-#listing of user's completed classes
+#listing of student's completed classes
+
 @login_required
 def student1_3(request):
-    course_student=CourseStudent.objects.filter(student=request.user,course__term__term_status__contains='CM')
+    course_student=CourseStudent.objects.filter(student=request.user,course__term__termend__lt=datetime.date.today())
     user_stats=User.objects.filter(username=request.user)
+    screen_type='Completed'
+    show_grade=1
     context = {
-        'course_student': course_student,  'user_stats':user_stats
+        'course_student': course_student,  'user_stats':user_stats,'screen_type':screen_type,show_grade:show_grade
     }
-    return render(request, 'student1_3.html', context)
+    return render(request, 'student.html', context)
 
+@login_required
+# listing of teacher's current classes
 def teacher1_1(request):
-    current_term=LookupTerm.objects.filter(term_status='CU')
-    course_teacher=CourseSchedule.objects.filter(teacher=request.user,term__term_status__contains='CU')
+    course_teacher=CourseSchedule.objects.filter(teacher=request.user,term__termend__gte=datetime.date.today(),term__termstart__lte=datetime.date.today())
     user_stats=User.objects.filter(username=request.user)
+    screen_type='Current'
     context = {
-        'course_teacher': course_teacher, 'current_term':current_term, 'user_stats':user_stats
+        'course_teacher': course_teacher, 'user_stats':user_stats, 'screen_type':screen_type
     }
-    return render(request, 'teacher1_1.html', context)
+    return render(request, 'teacher.html', context)
+
+#listing of teacher's future classes
+@login_required
+def teacher1_2(request):
+
+    course_teacher=CourseSchedule.objects.filter(teacher=request.user,term__termstart__gt=datetime.date.today())
+    user_stats=User.objects.filter(username=request.user)
+    screen_type='Upcoming'
+    context = {
+        'course_teacher': course_teacher, 'user_stats':user_stats, 'screen_type':screen_type
+    }
+    return render(request, 'teacher.html', context)
+
+#listing of teacher's completed classes
+@login_required
+def teacher1_3(request):
+    course_teacher=CourseSchedule.objects.filter(teacher=request.user,term__termend__lt=datetime.date.today())
+    user_stats=User.objects.filter(username=request.user)
+    screen_type='Completed'
+    context = {
+        'course_teacher': course_teacher, 'user_stats':user_stats, 'screen_type':screen_type
+    }
+    return render(request, 'teacher.html', context)
 
 
+# listing of students assigned to a class (linked to from course listing screens (admin and teacher)
+def course_roster(request,pk):
+    course_schedule= get_object_or_404(CourseSchedule,pk=pk)
+    course_student=CourseStudent.objects.filter(course__id__contains=pk)
     
+    context={'course_schedule': course_schedule, 'course_student':course_student}
+    return render(request, 'course_roster.html',context )
 
 def admin1_1(request):
+    all_courses=CourseSchedule.objects.filter(term__termend__gte=datetime.date.today(),term__termstart__lte=datetime.date.today())
+    screen_type='Current'
     context = {
-        'dummy_data': dummy_data    # uses dummy data specified above for admin1_1 view until we can replace
-                                    # with DB data
+        'all_courses': all_courses, 'screen_type':screen_type
     }
-    return render(request, 'admin1_1.html', context)  # context argument allows dummy data above to be used
+    return render(request, 'admin_courses.html', context)
 
-def roster(request):
+def admin1_2(request):
+    all_courses=CourseSchedule.objects.filter(term__termstart__gt=datetime.date.today())
+    screen_type='Upcoming'
     context = {
-        'roster' : dummy_class
+        'all_courses': all_courses, 'screen_type':screen_type
     }
-    return render(request, 'roster.html', context)
-
-
-def teacher1_3(request):
-    context = {
-        'dummy_data': dummy_data    # uses dummy data specified above for teacher1_1 view until we can replace
-                                              # with DB data
-    }
-    return render(request, 'teacher1_3.html', context)  # context argument allows dummy data above to be used
-
+    return render(request, 'admin_courses.html', context)
 
 def admin1_3(request):
+    all_courses=CourseSchedule.objects.filter(term__termend__lt=datetime.date.today())
+    screen_type='Completed'
     context = {
-        'dummy_data': dummy_data    # uses dummy data specified above for admin1_1 view until we can replace
-                                              # with DB data
+        'all_courses': all_courses, 'screen_type':screen_type
     }
-    return render(request, 'admin1_3.html', context)  # context argument allows dummy data above to be used
+    return render(request, 'admin_courses.html', context)
+
+  
+# Lookups lists and detail views
+  
+def create_term(request):
+    # dictionary for initial data with 
+    # field names as keys
+    context ={}
+  
+    # add the dictionary during initialization
+    form = LookupTermForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        return HttpResponseRedirect("/list_term")  
+    context['form']= form
+    context['model']="Term"
+    return render(request, "create_view.html", context)
+
+def list_term(request):
+
+    # dictionary for initial data with 
+    # field names as keys
+    context ={}
+  
+    # add the dictionary during initialization
+    context["dataset"] = LookupTerm.objects.all()
+    context["model"]="Term"
+    context["title"]="Term name"
+    context["description"]="Date range"
+          
+    return render(request, "list_view.html", context)
+
+
+# delete view for details
+def delete_term(request, pk):
+    # dictionary for initial data with 
+    # field names as keys
+    context ={}
+  
+    # fetch the object related to passed id
+    obj = get_object_or_404(LookupTerm, pk = pk)
+  
+  
+    if request.method =="POST":
+        # delete object
+        try:
+            obj.delete()
+           
+        except Exception as e:
+            messages.error(request, "Deletion of this term is not allowed.")
+         # after deleting redirect to 
+            # home page
+        return HttpResponseRedirect("/list_term")
+        
+  
+    return render(request, "delete_view.html", context)
+
+# after updating it will redirect to detail_View
+def detail_term(request, pk):
+    # dictionary for initial data with 
+    # field names as keys
+    context ={}
+   
+    # add the dictionary during initialization
+    context["data"] = LookupTerm.objects.get(pk = pk)
+    context["model"]="Term"
+    context["title"]="Term name"
+    context["description"]="Date range"
+    return render(request, "detail_view.html", context)
+
+# update view for details
+def update_term(request, pk):
+
+    # dictionary for initial data with 
+    # field names as keys
+    context ={}
+  
+    # fetch the object related to passed id
+    obj = get_object_or_404(LookupTerm, pk = pk)
+  
+    # pass the object as instance in form
+    form = LookupTermForm(request.POST or None, instance = obj)
+  
+    # save the data from the form and
+    # redirect to list_view
+    if form.is_valid():
+        form.save()
+        return HttpResponseRedirect("/list_term")
+  
+    # add form dictionary to context
+    context["form"] = form
+    context['model']="Term"   
+    return render(request, "update_view.html", context)
+
+# views for grade book
+def grades(request):
+
+    # dictionary for initial data with 
+    # field names as keys
+    context ={}
+  
+    # add the dictionary during initialization
+    context["dataset"] = CourseAssignment.objects.all() # Need to set filters so that it shows grades for specific classes during a specific term
+    context["model"]="Grade"
+    context["title"]="Assignments"
+    context["date_assigned"]="Date Assigned"
+    context["date_due"]="Date Due"
+    context["points_possible"]="Points Possible"
+    context["score"]="Score"
+          
+    return render(request, "grades.html", context)

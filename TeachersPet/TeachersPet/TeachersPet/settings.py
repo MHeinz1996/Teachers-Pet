@@ -80,8 +80,12 @@ WSGI_APPLICATION = 'TeachersPet.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.teacherspet'),
+       'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'efg_teacherspet',
+        'USER': 'efg_dbuser',
+        'PASSWORD': 'teacherspet',
+        'HOST': '104.218.13.25',
+        'PORT': '',
     }
 }
 
