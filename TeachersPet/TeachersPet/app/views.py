@@ -225,11 +225,15 @@ def grades(request):
 
     # dictionary for initial data with 
     # field names as keys
-    context ={}
+    course_schedule= get_object_or_404(CourseSchedule,pk=pk)   # Not sure if this is the right filter to access only the classes wanted
+    course_student=CourseStudent.objects.filter(course__id__contains=pk)    # Not sure if this is the right filter to use to access the student's grades wanted
+
+    context={'course_schedule': course_schedule, 'course_student': course_student}
   
     # add the dictionary during initialization
-    context["dataset"] = CourseAssignment.objects.all() # Need to set filters so that it shows grades for specific classes during a specific term
-    context["model"]="Grade"
+    context["dataset"] = CourseAssignment.objects.all() # Need to set filters so that it shows grades for specific classes during a specific term for specific student
+    context["course_schedule"]="course_schedule"
+    context["model"]="Grades"
     context["title"]="Assignments"
     context["date_assigned"]="Date Assigned"
     context["date_due"]="Date Due"

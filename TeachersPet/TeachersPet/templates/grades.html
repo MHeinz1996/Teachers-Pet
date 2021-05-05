@@ -4,10 +4,11 @@
 
 {% block content %} <!--this block is where the page content is added-->
 
+<!--Notes: Figure out how to have other pages pass user info for who's gradebook to display and for what class-->
 <div class="container">
 
 
-    <h2 style="text-align:left;">{{model}}s</h2>
+    <h2 style="text-align:left;">{{model}}</h2>
 
 
 
@@ -46,7 +47,7 @@
 
 <a href="#">
 
-    <button class="btn btn-outline-info">Add Assignment</button>
+    <button class="btn btn-outline-info">Add Assignment</button> <!--If the user is a student, button should not be there-->
  
 </a>
 
