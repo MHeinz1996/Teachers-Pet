@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin1_1', views.admin1_1, name='admin1_1'),
     path('admin1_2', views.admin1_2, name='admin1_2'),
     path('admin1_3', views.admin1_3, name='admin1_3'),
+    path('create_assignment', views.create_assignment, name='create_assignment'),
     path('create_term', views.create_term, name='create_term'),
     path('list_term', views.list_term, name='list_term'),
     path('delete_term/<int:pk>', views.delete_term, name='delete_term'),

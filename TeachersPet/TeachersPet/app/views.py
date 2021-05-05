@@ -14,6 +14,7 @@ from .models import CourseSchedule
 from .models import LookupTerm
 
 from .forms import LookupTermForm
+from .forms import CourseAssignmentForm
 
 def homepage(request):
     return render(request, 'homepage.html')
@@ -225,11 +226,7 @@ def grades(request):
 
     # dictionary for initial data with 
     # field names as keys
-    course_schedule= get_object_or_404(CourseSchedule,pk=pk)   # Not sure if this is the right filter to access only the classes wanted
-    course_student=CourseStudent.objects.filter(course__id__contains=pk)    # Not sure if this is the right filter to use to access the student's grades wanted
-
-    context={'course_schedule': course_schedule, 'course_student': course_student}
-  
+    context ={}
     # add the dictionary during initialization
     context["dataset"] = CourseAssignment.objects.all() # Need to set filters so that it shows grades for specific classes during a specific term for specific student
     context["course_schedule"]="course_schedule"
@@ -241,3 +238,17 @@ def grades(request):
     context["score"]="Score"
           
     return render(request, "grades.html", context)
+
+def create_assignment(request):
+    # dictionary for initial data with 
+    # field names as keys
+    context ={}
+  
+    # add the dictionary during initialization
+    form = CourseAssignmentForm(request.POST or None)
+    if form.is_valid():
+        form.save() # Error stating: (1048, "Column 'course_schedule_id' cannot be null")
+        return HttpResponseRedirect("/grades")  
+    context['form']= form
+    context['model']="Assignment"
+    return render(request, "create_view.html", context)
