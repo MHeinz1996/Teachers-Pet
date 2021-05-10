@@ -20,7 +20,10 @@
                 <th>Course</th>
                 <th>Teacher</th>
                 <!--add a conditional statement here - if current or completed, show grade-->
+                {% if course.student.course.term.termstart < now %}
+                {% else %}
                 <th>Grade</th>
+                {% endif %}
 
 
             </tr>
@@ -34,7 +37,10 @@
                 <td>{{course_student.course.term.termend | date:"SHORT_DATE_FORMAT"}}</td>
                 <td><a href="{% url 'student_assignment' pk=course_student.course.id student=course_student.student %}">{{ course_student.course.course.coursename }}</a></td>
                 <td> {{ course_student.course.teacher.first_name }} {{ course_student.course.teacher.last_name }} </td>
-                <td> {{ course_student.grade}} </td>
+                    {% if course.student.course.term.termstart < now %}
+                    {% else %}
+                        <td> {{ course_student.grade}} </td>
+                    {% endif %}
 
             </tr>
             {% endfor %}
