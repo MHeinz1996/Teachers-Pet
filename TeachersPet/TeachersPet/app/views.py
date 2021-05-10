@@ -108,6 +108,12 @@ def course_roster(request,pk):
 def admin1_1(request):
     all_courses=CourseSchedule.objects.filter(term__termend__gte=datetime.date.today(),term__termstart__lte=datetime.date.today())
     screen_type='Current'
+
+    #filters
+    course_query = request.GET.get('search')
+    if course_query != '' and course_query is not None:
+        all_courses = all_courses.filter(course__coursename__icontains = course_query)  
+        
     context = {
         'all_courses': all_courses, 'screen_type':screen_type
     }
@@ -121,6 +127,7 @@ def admin1_2(request):
     course_query = request.GET.get('search')
     if course_query != '' and course_query is not None:
         all_courses = all_courses.filter(course__coursename__icontains = course_query)    
+
     context = {
         'all_courses': all_courses, 'screen_type':screen_type
     }
@@ -129,6 +136,12 @@ def admin1_2(request):
 def admin1_3(request):
     all_courses=CourseSchedule.objects.filter(term__termend__lt=datetime.date.today())
     screen_type='Completed'
+
+    #filters
+    course_query = request.GET.get('search')
+    if course_query != '' and course_query is not None:
+        all_courses = all_courses.filter(course__coursename__icontains = course_query)  
+
     context = {
         'all_courses': all_courses, 'screen_type':screen_type
     }
