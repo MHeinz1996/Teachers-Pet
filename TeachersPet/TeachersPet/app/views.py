@@ -6,15 +6,17 @@ from django.contrib.auth.models import User
 from datetime import datetime
 import datetime
 from django.contrib import messages
+from django.db import connection
 
 
 from .models import CourseAssignment
 from .models import CourseStudent
 from .models import CourseSchedule
 from .models import LookupTerm
-
+from .models import Assignment_withGrade
 from .forms import LookupTermForm
 from .forms import CourseAssignmentForm
+
 
 def homepage(request):
     return render(request, 'homepage.html')
@@ -39,7 +41,6 @@ def student1_1(request):
 @login_required
 def student1_2(request):
     course_student=CourseStudent.objects.filter(student=request.user,course__term__termstart__gt=datetime.date.today())
-    #course_student=CourseStudent.objects.filter(student=request.user,course__term__term_status__contains='FU')
     user_stats=User.objects.filter(username=request.user)
     screen_type='Future'
     show_grade=0
@@ -99,8 +100,8 @@ def teacher1_3(request):
 # listing of students assigned to a class (linked to from course listing screens (admin and teacher)
 def course_roster(request,pk):
     course_schedule= get_object_or_404(CourseSchedule,pk=pk)
-    course_student=CourseStudent.objects.filter(course__id__contains=pk)
-    
+    #course_student=CourseStudent.objects.filter(course__id__contains=pk)
+    course_student=CourseStudent.objects.filter(course=pk)
     context={'course_schedule': course_schedule, 'course_student':course_student}
     return render(request, 'course_roster.html',context )
 
@@ -222,22 +223,35 @@ def update_term(request, pk):
     return render(request, "update_view.html", context)
 
 # views for grade book
-def grades(request):
+#def grades(request):
 
     # dictionary for initial data with 
     # field names as keys
-    context ={}
+#    context ={}
     # add the dictionary during initialization
-    context["dataset"] = CourseAssignment.objects.all() # Need to set filters so that it shows grades for specific classes during a specific term for specific student
-    context["course_schedule"]="course_schedule"
-    context["model"]="Grades"
-    context["title"]="Assignments"
-    context["date_assigned"]="Date Assigned"
-    context["date_due"]="Date Due"
-    context["points_possible"]="Points Possible"
-    context["score"]="Score"
+    # Need to set filters so that it shows grades for specific 
+    #classes during a specific term for specific student
+#    context["dataset"] = CourseAssignment.objects.all() 
+#    context["course_schedule"]="course_schedule"
+#    context["model"]="Grades"
+#    context["title"]="Assignments"
+#    context["date_assigned"]="Date Assigned"
+#    context["date_due"]="Date Due"
+#    context["points_possible"]="Points Possible"
+#    context["score"]="Score"
           
-    return render(request, "grades.html", context)
+#    return render(request, "grades.html", context)
+
+def student_assignment(request,pk,student):
+    course_schedule= get_object_or_404(CourseSchedule,pk=pk)
+    cursor=connection.cursor()
+    user_stats=User.objects.filter(username=student) 
+    q = "Call Assignment_withGrade('" + str(student) + "'," + str(pk)+ ")"
+    cursor.execute(q)
+    course_assignment=cursor.fetchall()
+    context={'course_schedule': course_schedule, 'course_assignment':course_assignment,'user_stats':user_stats,'student':student}
+    return render(request, 'student_assignment.html',context )
+
 
 def create_assignment(request):
     # dictionary for initial data with 
@@ -248,7 +262,9 @@ def create_assignment(request):
     form = CourseAssignmentForm(request.POST or None)
     if form.is_valid():
         form.save() # Error stating: (1048, "Column 'course_schedule_id' cannot be null")
-        return HttpResponseRedirect("/grades")  
+        return HttpResponseRedirect("/student_assignment")  
     context['form']= form
     context['model']="Assignment"
     return render(request, "create_view.html", context)
+
+

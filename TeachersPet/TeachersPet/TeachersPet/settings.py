@@ -86,6 +86,9 @@ DATABASES = {
         'PASSWORD': 'teacherspet',
         'HOST': '104.218.13.25',
         'PORT': '',
+        'OPTIONS':{
+            'init_command':"SET sql_mode='STRICT_TRANS_TABLES'",
+            }
     }
 }
 

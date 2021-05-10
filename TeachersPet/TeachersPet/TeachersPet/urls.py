@@ -30,12 +30,11 @@ urlpatterns = [
     path('delete_term/<int:pk>', views.delete_term, name='delete_term'),
     path('update_term/<int:pk>', views.update_term, name='update_term'),
     path('detail_term/<int:pk>', views.detail_term, name='detail_term'),
-    path('grades', views.grades, name='grades'),
+    path('student_assignment/<int:pk>/<str:student>', views.student_assignment, name='student_assignment'),
     path('register/', users_views.register, name='register'),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='logout.html'), name='logout'),
     path('admin/', admin.site.urls),
-    
-    path('course_roster/<int:pk>/', views.course_roster, name = 'course_roster')
-
+    path('course_roster/<int:pk>/', views.course_roster, name = 'course_roster'),
+   
 ]

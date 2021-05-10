@@ -12,22 +12,7 @@ from .models import LookupTerm
 from .models import StudentSubmission
 from .models import TeacherCertification
 
-
-
-
-                                                                                                                                                                                                                                                                 
-
-
-
-
-
-
-
-
-
-
-
-         
+    
 admin.site.register(LookupDepartment)
 admin.site.register(CourseAssignment)
 admin.site.register(CourseSchedule)

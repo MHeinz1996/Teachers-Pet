@@ -11,8 +11,9 @@
     <thead>
         <tr>
             <th>Student</th>
-            
+           
             <th>Grade</th>
+            
             
         </tr>
     </thead>
@@ -20,9 +21,9 @@
         {% if course_student %}
         {% for course_student in course_student %}
         <tr>
-            <td><a href="{% url 'grades' %}"> {{ course_student.student.first_name }} {{ course_student.student.last_name }}</a></td> <!--Link to Student's gradebook for that class-->
+            <td><a href="{% url 'student_assignment' pk=course_student.course.id student=course_student.student %}">{{ course_student.student.first_name }} {{ course_student.student.last_name }}</a></td>
             <!--add a conditional statement here - if current or completed, show grade-->
-           
+            
             <td> {{ course_student.grade}} </td>
             
         </tr>

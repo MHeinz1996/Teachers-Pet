@@ -8,6 +8,7 @@
 
     {% for user_stats in user_stats %}
     <h2 style="text-align:left;">My Enrollment Schedule: {{screen_type}} Courses for {{user_stats.first_name}} {{user_stats.last_name}}</h2>
+    
     {% endfor %}
 
     <table class="table table-light table-striped">
@@ -20,7 +21,7 @@
                 <th>Teacher</th>
                 <!--add a conditional statement here - if current or completed, show grade-->
                 <th>Grade</th>
-                
+
 
             </tr>
         </thead>
@@ -31,10 +32,10 @@
                 <td>{{course_student.course.term.term}}</td>
                 <td>{{course_student.course.term.termstart | date:"SHORT_DATE_FORMAT"}}</td>
                 <td>{{course_student.course.term.termend | date:"SHORT_DATE_FORMAT"}}</td>
-                <td><a href="{% url 'grades' %}">{{ course_student.course.course.coursename }}</a></td> <!--Hyperlink to be fixed to show user's gradebook/assignments for that specific class-->
+                <td><a href="{% url 'student_assignment' pk=course_student.course.id student=course_student.student %}">{{ course_student.course.course.coursename }}</a></td>
                 <td> {{ course_student.course.teacher.first_name }} {{ course_student.course.teacher.last_name }} </td>
                 <td> {{ course_student.grade}} </td>
-                
+
             </tr>
             {% endfor %}
             {% endif %}
