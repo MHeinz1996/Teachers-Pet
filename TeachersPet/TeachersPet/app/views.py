@@ -7,7 +7,7 @@ from datetime import datetime
 import datetime
 from django.contrib import messages
 from django.db import connection
-
+from django.db.models import Q
 
 from .models import CourseAssignment
 from .models import CourseStudent
@@ -116,6 +116,11 @@ def admin1_1(request):
 def admin1_2(request):
     all_courses=CourseSchedule.objects.filter(term__termstart__gt=datetime.date.today())
     screen_type='Upcoming'
+
+    #filters
+    course_query = request.GET.get('search')
+    if course_query != '' and course_query is not None:
+        all_courses = all_courses.filter(course__coursename__icontains = course_query)    
     context = {
         'all_courses': all_courses, 'screen_type':screen_type
     }

@@ -6,9 +6,8 @@ from datetime import datetime
 from django.urls import path, include
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-
-
 from app import forms, views
+
 from users import views as users_views
 
 
