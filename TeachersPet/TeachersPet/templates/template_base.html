@@ -1,4 +1,5 @@
 ﻿{% load static %}
+{% load user_tags %} 
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,10 +34,13 @@
               <div class="navbar-nav mr-auto">
                   <a class="nav-item nav-link" href="{% url 'homepage' %}">Home</a>
                   <a class="nav-item nav-link" href="{% url 'student1_1' %}">My Courses</a> <!--Test link. Will need to set up a check to see what type of account is logged in and link to the appropriate view.-->
-                  <a class="nav-item nav-link" href="{% url 'teacher1_1' %}">Teaching</a> <!--Test link. Will need to set up a check to see what type of account is logged in and link to the appropriate view.-->
-                  <a class="nav-item nav-link" href="{% url 'admin1_1' %}">All Courses</a>
-                  <a class="nav-item nav-link" href="{% url 'admin1_1' %}">Admin Dashboard</a>
-
+                  {% if request.user|has_group:"Teachers"%}
+                    <a class="nav-item nav-link" href="{% url 'teacher1_1' %}">Teaching</a> <!--Test link. Will need to set up a check to see what type of account is logged in and link to the appropriate view.-->
+                  {% endif %}
+                  {% if request.user|has_group:"TP_Admins"%}
+                    <a class="nav-item nav-link" href="{% url 'admin1_1' %}">All Courses</a>
+                    <a class="nav-item nav-link" href="{% url 'admin1_1' %}">Admin Dashboard</a> <!--placeholder for now. should lead eventually to the admin dashboard where they can set up terms, courses, etc -->
+                  {% endif %}
               </div>
             <!-- Navbar Right Side -->
             <div class="navbar-nav">

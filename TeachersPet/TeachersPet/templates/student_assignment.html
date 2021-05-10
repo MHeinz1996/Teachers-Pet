@@ -2,14 +2,14 @@
 {% extends "template_base.html" %}  <!--creates child of base template. Applies nav bar to this view-->
 {% load static %}
 
-{% block content %} <!--this block is where the page content is added-->
 
+{% block content %} <!--this block is where the page content is added-->
 <!--Notes: Figure out how to have other pages pass user info for who's gradebook to display and for what class-->
 <div class="container">
     {% if user_stats %}
     {% for user_stats in user_stats %}
-        
-        <h5 style="text-align:left;">Assignments and Grades for:  {{user_stats.first_name}} {{user_stats.last_name}}</h5>
+
+    <h5 style="text-align:left;">Assignments and Grades for:  {{user_stats.first_name}} {{user_stats.last_name}}</h5>
     {% endfor %}
     {% endif %}
     <h5 style="text-align:left;">Course: {{course_schedule.course.coursecode}} {{course_schedule.course.coursename}}</h5>
@@ -24,7 +24,8 @@
                 <th>Date due</th>
                 <th>Points possible</th>
                 <th>Points earned</th>
-                <th>Grade</th>
+                <th>Number grade</th>
+                <th>Letter grade</th>
             </tr>
         </thead>
         <tbody>
@@ -36,7 +37,8 @@
                 <td>{{course_assignment.2 | date:"SHORT_DATE_FORMAT"}}</td>
                 <td>{{course_assignment.4}}</td>
                 <td>{{course_assignment.6}}</td>
-                <td>{{course_assignment.7}}</td>
+                <td>{{course_assignment.7 | floatformat }}</td>
+                <td>{{course_assignment.8}}</td>
             </tr>
             {% endfor %}
             {% endif %}
@@ -55,7 +57,7 @@
 <a href="{% url 'create_assignment' %}">
 
     <button class="btn btn-outline-info">Add Assignment</button> <!--If the user is a student, button should not be there-->
- 
+
 </a>
 
 

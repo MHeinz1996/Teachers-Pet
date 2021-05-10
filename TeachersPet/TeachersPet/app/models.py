@@ -107,6 +107,7 @@ class Assignment_withGrade(models.Model):
     course_schedule_id= models.PositiveIntegerField()
     pointsearned = models.PositiveIntegerField()
     numbergrade=models.DecimalField(max_digits=5, decimal_places=2)
+    lettergrade=models.CharField(max_length=2)
     username=models.CharField(max_length=150)
 
 

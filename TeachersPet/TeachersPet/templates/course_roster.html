@@ -23,7 +23,6 @@
         <tr>
             <td><a href="{% url 'student_assignment' pk=course_student.course.id student=course_student.student %}">{{ course_student.student.first_name }} {{ course_student.student.last_name }}</a></td>
             <!--add a conditional statement here - if current or completed, show grade-->
-            
             <td> {{ course_student.grade}} </td>
             
         </tr>
