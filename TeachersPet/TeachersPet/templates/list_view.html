@@ -16,6 +16,8 @@
             <tr>
                 <th>{{title}}</th>
                 <th>{{description}}</th>
+                <th>Edit</th>
+                <th>Delete</th>
             </tr>
         </thead>
         <tbody>
@@ -24,8 +26,10 @@
             <tr>
                 <td>{{data.title}}</td>
                 <td>{{data.description}}</td>
-                <td><a href="{% url 'update_term' pk=data.pk %}">Edit</a></td>
-                <td><a href="{% url 'delete_term' pk=data.pk %}">Delete</a></td>
+                <td><a href="{% url 'update_term' pk=data.pk %}"><img src="/static/admin/img/icon-changelink.svg"></a></td>
+                <td><a href="{% url 'delete_term' pk=data.pk %}"><img src="/static/admin/img/icon-deletelink.svg"></a></td>
+                <!--<a href="{% url 'update_term' pk=data.pk %}">Edit</a>-->
+                <!--<td><a href="{% url 'delete_term' pk=data.pk %}">Delete</a></td>-->
             </tr>
             {% endfor %}
             {% endif %}
