@@ -8,7 +8,7 @@
 
     {% for user_stats in user_stats %}
     <div class="article-metadata">
-    <h2 style="text-align:left;">{{screen_type}}</h2>
+    <h2 style="text-align:left; color:#14213D;">{{screen_type}}</h2>
     </div>
     <a class="mr-2">{{user_stats.last_name}}, {{user_stats.first_name}} </a>
     <p>
@@ -26,7 +26,9 @@
             </div>
                 <span style="float:left; font-size:80%;">{{ course_student.course.term.termstart|date:"M d, Y"}} - {{ course_student.course.term.termend|date:"M d, Y"}}</span>
                 <a style="float:right; font-size:32px;" href="{% url 'student_assignment' pk=course_student.course.id student=course_student.student %}"> 
-                {% if course_student.grade >= 90 %} A 
+                {% now "Y-m-d" as todaysdate %}
+                {% if course_student.course.term.termstart|date:"Y-m-d" > todaysdate %}
+                {% elif course_student.grade >= 90 %} A
                 {% elif 90 > course_student.grade and course_student.grade >= 80 %} B 
                 {% elif 80 > course_student.grade and course_student.grade >= 70 %} C 
                 {% elif 70 > course_student.grade and course_student.grade >= 60 %} D 

@@ -284,5 +284,3 @@ def create_assignment(request):
     context['form']= form
     context['model']="Assignment"
     return render(request, "create_view.html", context)
-
-
