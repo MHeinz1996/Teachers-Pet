@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 {% extends "template_base.html" %}  <!--creates child of base template. Applies nav bar to this view-->
 {% load static %}
+{% load user_tags %}
 
 
 {% block content %} <!--this block is where the page content is added-->
@@ -26,6 +27,11 @@
                 <th>Points earned</th>
                 <th>Number grade</th>
                 <th>Letter grade</th>
+                {% if request.user|has_group:"Teachers" %}
+                    <th>Edit</th>
+                {% else %}
+                    <th>Submit</th>
+                {% endif %}
             </tr>
         </thead>
         <tbody>
@@ -39,6 +45,11 @@
                 <td>{{course_assignment.6}}</td>
                 <td>{{course_assignment.7 | floatformat }}</td>
                 <td>{{course_assignment.8}}</td>
+                {% if request.user|has_group:"Teachers" %}
+                    <td><a href="#"><img src="/static/admin/img/icon-changelink.svg"></a></td>
+                {% else %}
+                    <td><a href="#"><img src="/static/admin/img/icon-addlink.svg"></a></td>
+                {% endif %}
             </tr>
             {% endfor %}
             {% endif %}
