@@ -93,6 +93,7 @@
   <ItemGroup>
     <Content Include="app\static\app\images\logo_dark.png" />
     <Content Include="app\static\app\images\logo_light.png" />
+    <Content Include="app\static\app\scripts\test.js" />
     <Content Include="requirements.txt" />
     <Content Include="app\static\app\content\bootstrap.css" />
     <Content Include="app\static\app\content\bootstrap.min.css" />
@@ -125,6 +126,7 @@
     <Content Include="templates\registration\login.html" />
     <Content Include="templates\registration\signup.html" />
     <Content Include="templates\template_base.html" />
+    <Content Include="templates\test_popup.html" />
     <Content Include="users\templates\users\index.html" />
     <Content Include="users\templates\users\login.html" />
     <Content Include="users\templates\users\logout.html" />

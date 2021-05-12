@@ -268,6 +268,14 @@ def student_assignment(request,pk,student):
     cursor.execute(q)
     course_assignment=cursor.fetchall()
     context={'course_schedule': course_schedule, 'course_assignment':course_assignment,'user_stats':user_stats,'student':student}
+
+    form = CourseAssignmentForm(request.POST or None)
+    if form.is_valid():
+        form.save() # Error stating: (1048, "Column 'course_schedule_id' cannot be null")
+        return HttpResponseRedirect("/student_assignment")  
+    context['form']= form
+    context['model']="Assignment"
+
     return render(request, 'student_assignment.html',context )
 
 
@@ -283,4 +291,4 @@ def create_assignment(request):
         return HttpResponseRedirect("/student_assignment")  
     context['form']= form
     context['model']="Assignment"
-    return render(request, "create_view.html", context)
+    return render(request, "test_popup.html", context)

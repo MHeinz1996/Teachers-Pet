@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 {% extends "template_base.html" %}  <!--creates child of base template. Applies nav bar to this view-->
 {% load static %}
+{% load crispy_forms_tags %}
 {% load user_tags %}
-
 
 {% block content %} <!--this block is where the page content is added-->
 <!--Notes: Figure out how to have other pages pass user info for who's gradebook to display and for what class-->
@@ -55,21 +55,13 @@
             {% endif %}
         </tbody>
     </table>
-
-
-
-
-
-
 </div>
 
-
-
-<a href="{% url 'create_assignment' %}">
-
-    <button class="btn btn-outline-info">Add Assignment</button> <!--If the user is a student, button should not be there-->
-
-</a>
-
+<button id="button" class="btn btn-outline-info" onclick="popup">Add Assignment</button>
 
 {% endblock content %}  <!--ends content block-->
+
+
+{% block js_block %}
+<script src="{% static 'app/scripts/test.js' %}"></script>
+{% endblock %}
