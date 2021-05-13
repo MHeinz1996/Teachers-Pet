@@ -48,6 +48,7 @@
                 <td>{{course_assignment.8}}</td>
                 {% if request.user|has_group:"Teachers" %}
                     <td><a href="#"><img src="/static/admin/img/icon-changelink.svg"></a>
+                    <!-- This is the button that starts the popup. It references the div which has the id="popup"-->
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#popup">EDIT<button>
                     </td>
                 {% else %}
@@ -60,6 +61,9 @@
     </table>
 </div>
 
+<!-- This the div that contains the popup when pressing the button-->
+<!-- This id needs to match the button or link for it to work. I'm not 100% sure what role tag means, but the class generates the type of content similar to an html tag-->
+<!-- Still needs a button to close it, but shows the general example of how that it works-->
 <div id="popup" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
