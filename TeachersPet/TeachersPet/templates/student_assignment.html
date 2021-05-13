@@ -27,6 +27,7 @@
                 <th>Points earned</th>
                 <th>Number grade</th>
                 <th>Letter grade</th>
+                <!-- this needs to be specific to the class, right now it just checks if it has permissions to be a teacher in general-->
                 {% if request.user|has_group:"Teachers" %}
                     <th>Edit</th>
                 {% else %}
