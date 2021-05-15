@@ -75,8 +75,32 @@
     </div>
 </div>
 
+<!----------------------------------------------------------------------------------------------------------------------------------->
+<!--Testing out how to display content to modal. Will look up a way to reference hmtl templates-->
+<div id="add_assignment" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4> {{model}} Creation </h4>
+            </div>
+            <div class="modal-body">                
+                    <form method="post">
+                        {% csrf_token %}
+                        <fieldset class="form-group">
+                            {{form|crispy}}
+                        </fieldset>
+                    </form>                
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline-info" type="submit">Submit</button>
+            </div>
 
-<button id="button" class="btn btn-outline-info" onclick="popup">Add Assignment</button>
+        </div>
+    </div>
+</div>
+
+<!--Button references the add_assignment modal content-->
+<button id="button" class="btn btn-outline-info" data-toggle="modal" data-target="#add_assignment">Add Assignment</button>
 
 {% endblock content %}  <!--ends content block-->
 

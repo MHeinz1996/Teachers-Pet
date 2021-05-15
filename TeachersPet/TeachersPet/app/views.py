@@ -291,4 +291,4 @@ def create_assignment(request):
         return HttpResponseRedirect("/student_assignment")  
     context['form']= form
     context['model']="Assignment"
-    return render(request, "test_popup.html", context)
+    return render(request, "create_view.html", context)

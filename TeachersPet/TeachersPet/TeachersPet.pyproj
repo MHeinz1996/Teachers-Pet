@@ -126,7 +126,7 @@
     <Content Include="templates\registration\login.html" />
     <Content Include="templates\registration\signup.html" />
     <Content Include="templates\template_base.html" />
-    <Content Include="templates\test_popup.html" />
+    <Content Include="templates\test_modal.html" />
     <Content Include="users\templates\users\index.html" />
     <Content Include="users\templates\users\login.html" />
     <Content Include="users\templates\users\logout.html" />
