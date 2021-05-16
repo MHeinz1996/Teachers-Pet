@@ -6,7 +6,7 @@ from django.forms.widgets import PasswordInput, TextInput, EmailInput
 from django.core.exceptions import ValidationError
 from django.core.exceptions import ValidationError
 
-GROUP_CHOICES = [('', ' '),
+GROUP_CHOICES = [
     ('TP_Admins', 'Admins'),
     ('Teachers','Teachers')]
 
@@ -17,7 +17,7 @@ class CustomUserCreationForm(forms.Form):
     last_name = forms.CharField(label='Last name',required=True)
     password1 = forms.CharField(widget=PasswordInput(attrs={'class':'validate','id': 'icon_prefix', 'type': 'password'}),label='Enter password')
     password2 = forms.CharField(widget=PasswordInput(attrs={'class':'validate','id': 'icon_prefix', 'type': 'password'}),label='Confirm password')
-    #group=forms.ChoiceField(label='Group',required=False,choices=GROUP_CHOICES)
+    group=forms.MultipleChoiceField(label='Group',required=False,choices=GROUP_CHOICES)
 
 
     def clean_username(self):
@@ -51,11 +51,9 @@ class CustomUserCreationForm(forms.Form):
             email=self.cleaned_data['email'],
             password=self.cleaned_data['password1']
                    )
-        #group=self.cleaned_data['group']
-        
-        #usergroup = Group.objects.get(name=group)
-        
-        #user.groups.add(usergroup)   # new_group as object and user is added
+        for group in self.cleaned_data['group']:
+            usergroup = Group.objects.get(name=group)
+            user.groups.add(usergroup)   # new_group as object and user is added
         return user
 
 
