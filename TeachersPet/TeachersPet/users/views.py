@@ -30,16 +30,27 @@ def user_update(request,pk):
     obj = get_object_or_404(User, pk = pk)
   
     # pass the object as instance in form
-    form = CustomUserUpdateForm(request.POST or None, instance = obj)
+    f = CustomUserUpdateForm(request.POST or None, instance = obj)
   
     # save the data from the form and
     # redirect to list_view
-    if form.is_valid():
-        form.save()
+    if f.is_valid():
+        f.save()
+        messages.success(request, 'Account updated successfully')
         return HttpResponseRedirect("user_update")
   
     # add form dictionary to context
-    return render(request, "user_update.html")
+    return render(request, "user_update.html",{'form': f})
+
+
+#list all users
+def user_list(request):
+    # dictionary for initial data with 
+    # field names as keys
+    all_users= User.objects.values()
+    context= {'allusers': all_users}
+       
+    return render(request, "user_list.html", context)
 
 
 

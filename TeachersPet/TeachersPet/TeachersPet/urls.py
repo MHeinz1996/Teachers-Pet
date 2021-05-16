@@ -72,6 +72,7 @@ urlpatterns = [
     #**********************************************************************************
 
     path('register/', users_views.register, name='register'),
+    path('user_list/', users_views.user_list, name='user_list'),
     path('user_create/', users_views.user_create, name='user_create'),
     path('user_update/<int:pk>', users_views.user_update, name='user_update'),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
