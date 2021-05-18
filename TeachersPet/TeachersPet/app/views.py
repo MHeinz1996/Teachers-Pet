@@ -13,6 +13,7 @@ from .models import CourseAssignment
 from .models import CourseStudent
 from .models import CourseSchedule
 from .models import LookupTerm
+from .models import LookupCourse
 from .models import Assignment_withGrade
 from .forms import LookupTermForm
 from .forms import CourseAssignmentForm
@@ -292,3 +293,15 @@ def create_assignment(request):
     context['form']= form
     context['model']="Assignment"
     return render(request, "create_view.html", context)
+
+def list_course_assignment(request):
+    context ={} 
+    # add the dictionary during initialization
+    context["dataset"] = CourseAssignment.objects.all()
+    context["model"]="Course Assignment"
+    context["title"]="Assignment name"
+    context["assignment_date"]="Assignment Date"
+    context["due_date"]="Due Date"
+    context["points_possible"]="Points Possible"
+          
+    return render(request, "list_course_assignment.html", context)

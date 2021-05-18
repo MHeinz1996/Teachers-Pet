@@ -45,9 +45,10 @@ urlpatterns = [
     path('admin1_3', views.admin1_3, name='admin1_3'),
 
     #**********************************************************************************
-    # Create an assignment for a scheduled course
+    # Course Assignment screens (list, create, delete, update, view)
     #**********************************************************************************
     path('create_assignment', views.create_assignment, name='create_assignment'),
+    path('list_course_assignment', views.list_course_assignment, name='list_course_assignment'),
 
     
     #**********************************************************************************
