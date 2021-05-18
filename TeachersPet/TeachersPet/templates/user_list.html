@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+{% extends "template_base.html" %}  <!--creates child of base template. Applies nav bar to this view-->
+{% load static %}
+
+{% block content %} <!--this block is where the page content is added-->
+
+<div class="container">
+
+                
+    {% for all_users in all_users %}  <!--for loops through list of users-->
+        <article class="media content-section">
+          <div class="media-body">
+            
+            <div class="article-metadata">
+              <a {{ all_users.username }}, {{ all_users.first_name}}</a>   
+
+          </div>
+        </article>
+
+        
+    {% endfor %}    <!--closes for loop block-->
+    <a href="{% url 'user_create' %}">
+        <!--Button to create a new user-->
+        <button class="btn btn-outline-info">Create a user</button>
+    </a>
+ 
+</div>
+
+
+
+{% endblock content %}  <!--ends content block-->

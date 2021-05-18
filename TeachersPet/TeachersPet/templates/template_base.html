@@ -1,4 +1,5 @@
 ﻿{% load static %}
+{% load user_tags %} 
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,7 +25,7 @@
     <header class="site-header">
       <nav class="navbar navbar-expand-md navbar-dark oxford-blue fixed-top">
         <div class="container">
-          <img src="{% static 'app/images/logo_light.png' %}" width="30" height="30" href="{% url 'homepage' %}"/>
+          <a href="{% url 'homepage' %}"><img src="{% static 'app/images/logo_light.png' %}" width="30" height="30"></a>
           <a class="navbar-brand mr-4" href="{% url 'homepage' %}">Teacher's Pet</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -33,9 +34,13 @@
               <div class="navbar-nav mr-auto">
                   <a class="nav-item nav-link" href="{% url 'homepage' %}">Home</a>
                   <a class="nav-item nav-link" href="{% url 'student1_1' %}">My Courses</a> <!--Test link. Will need to set up a check to see what type of account is logged in and link to the appropriate view.-->
-                  <a class="nav-item nav-link" href="{% url 'teacher1_1' %}">Teaching</a> <!--Test link. Will need to set up a check to see what type of account is logged in and link to the appropriate view.-->
-                  <a class="nav-item nav-link" href="{% url 'admin1_1' %}">All Courses</a>
-
+                  {% if request.user|has_group:"Teachers"%}
+                    <a class="nav-item nav-link" href="{% url 'teacher1_1' %}">Teaching</a> <!--Test link. Will need to set up a check to see what type of account is logged in and link to the appropriate view.-->
+                  {% endif %}
+                  {% if request.user|has_group:"TP_Admins"%}
+                    <a class="nav-item nav-link" href="{% url 'admin1_1' %}">All Courses</a>
+                    <a class="nav-item nav-link" href="{% url 'admin1_1' %}">Admin Dashboard</a> <!--placeholder for now. should lead eventually to the admin dashboard where they can set up terms, courses, etc -->
+                  {% endif %}
               </div>
             <!-- Navbar Right Side -->
             <div class="navbar-nav">
@@ -71,5 +76,8 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    {% block js_block %}{% endblock %}
+
 </body>
 </html>

@@ -98,6 +98,18 @@ class TeacherCertification(models.Model):
     expirationdate = models.DateField(db_column='expirationDate')  # Field name made lowercase.
     teacher = models.ForeignKey(User,on_delete=models.RESTRICT,null=True)
 
+class Assignment_withGrade(models.Model):
+    assignment_id=models.PositiveIntegerField()
+    assignmentdate=models.DateField(db_column='assignmentDate')
+    duedate = models.DateField(db_column='dueDate')  
+    description = models.TextField()
+    pointspossible = models.PositiveIntegerField(db_column='pointsPossible')
+    course_schedule_id= models.PositiveIntegerField()
+    pointsearned = models.PositiveIntegerField()
+    numbergrade=models.DecimalField(max_digits=5, decimal_places=2)
+    lettergrade=models.CharField(max_length=2)
+    username=models.CharField(max_length=150)
+
 
 ######################################################################################################
 

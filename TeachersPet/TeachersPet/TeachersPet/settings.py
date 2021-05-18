@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'crispy_forms',
+   
 ]
 
 # Middleware framework
@@ -86,6 +87,9 @@ DATABASES = {
         'PASSWORD': 'teacherspet',
         'HOST': '104.218.13.25',
         'PORT': '',
+        'OPTIONS':{
+            'init_command':"SET sql_mode='STRICT_TRANS_TABLES'",
+            }
     }
 }
 

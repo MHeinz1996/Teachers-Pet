@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+{% extends "template_base.html" %}  <!--creates child of base template. Applies nav bar to this view-->
+{% load static %}
+{% load crispy_forms_tags %}
+{% load user_tags %}
+
+{% block content %} <!--this block is where the page content is added-->
+<!--Notes: Figure out how to have other pages pass user info for who's gradebook to display and for what class-->
+<div class="container">
+    {% if user_stats %}
+    {% for user_stats in user_stats %}
+
+    <h5 style="text-align:left;">Assignments and Grades for:  {{user_stats.first_name}} {{user_stats.last_name}}</h5>
+    {% endfor %}
+    {% endif %}
+    <h5 style="text-align:left;">Course: {{course_schedule.course.coursecode}} {{course_schedule.course.coursename}}</h5>
+    <h6 style="text-align:left;">{{course_schedule.term.term}}: {{course_schedule.term.termstart}} - {{course_schedule.term.termend}}</h6>
+    <h6 style="text-align:left;">Teacher: {{course_schedule.teacher.first_name}} {{course_schedule.teacher.last_name}}</h6>
+
+    <table class="table table-light table-striped">
+        <thead>
+            <tr>
+                <th>Assignment</th>
+                <th>Date assigned</th>
+                <th>Date due</th>
+                <th>Points possible</th>
+                <th>Points earned</th>
+                <th>Number grade</th>
+                <th>Letter grade</th>
+                <!-- this needs to be specific to the class, right now it just checks if it has permissions to be a teacher in general-->
+                {% if request.user|has_group:"Teachers" %}
+                    <th>Edit</th>
+                {% else %}
+                    <th>Submit</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% if course_assignment %}
+            {% for course_assignment in course_assignment %}
+            <tr>
+                <td>{{course_assignment.3}}</td>
+                <td>{{course_assignment.1 | date:"SHORT_DATE_FORMAT"}}</td>
+                <td>{{course_assignment.2 | date:"SHORT_DATE_FORMAT"}}</td>
+                <td>{{course_assignment.4}}</td>
+                <td>{{course_assignment.6}}</td>
+                <td>{{course_assignment.7 | floatformat }}</td>
+                <td>{{course_assignment.8}}</td>
+                {% if request.user|has_group:"Teachers" %}
+                    <td><a href="#"><img src="/static/admin/img/icon-changelink.svg"></a>
+                    <!-- This is the button that starts the popup. It references the div which has the id="popup"-->
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#popup">EDIT<button>
+                    </td>
+                {% else %}
+                    <td><a href="#"><img src="/static/admin/img/icon-addlink.svg"></a></td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+
+<!-- This the div that contains the popup when pressing the button-->
+<!-- This id needs to match the button or link for it to work. I'm not 100% sure what role tag means, but the class generates the type of content similar to an html tag-->
+<!-- Still needs a button to close it, but shows the general example of how that it works-->
+<div id="popup" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header"> Header </div>
+            <div class="modal-body"> Body </div>
+            <div class="modal-footer"> Footer </div>
+
+        </div>
+    </div>
+</div>
+
+<!----------------------------------------------------------------------------------------------------------------------------------->
+<!--Testing out how to display content to modal. Will look up a way to reference hmtl templates-->
+<div id="add_assignment" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4> {{model}} Creation </h4>
+            </div>
+            <div class="modal-body">                
+                    <form method="post">
+                        {% csrf_token %}
+                        <fieldset class="form-group">
+                            {{form|crispy}}
+                        </fieldset>
+                    </form>                
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline-info" type="submit">Submit</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--Button references the add_assignment modal content-->
+<button id="button" class="btn btn-outline-info" data-toggle="modal" data-target="#add_assignment">Add Assignment</button>
+
+{% endblock content %}  <!--ends content block-->
+
+
+{% block js_block %}
+<script src="{% static 'app/scripts/test.js' %}"></script>
+{% endblock %}

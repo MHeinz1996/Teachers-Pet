@@ -7,14 +7,17 @@
 {% endblock title %}
 
 {% block content %}
+<h1 style="text-align:center;">Welcome to Teacher's Pet</h1>
+<p style="text-align:center;"> <img src= "{% static 'app/images/logo_dark.png' %}" width="200" height="200" alt=""> </p>
+<p style="text-align:center;">For students and teachers who need to manage performance, personal information, and professional stats. Teacher’s Pet is a classroom management tool that takes away all the administrative headaches and frees up the teachers and students to grow and learn.</p>
 
 {% if user.is_authenticated %}
-  Hi {{ user.first_name }}!
-  <p><a href="{% url 'logout' %}">Log Out</a></p>
+  <small>Hi {{ user.first_name }}!</small>
+  <small><a href="{% url 'logout' %}">Log Out</a></small>
 {% else %}
-  <p>You are not logged in</p>
-  <a href="{% url 'login' %}">Log In</a> |
-  <a href="{% url 'register' %}">Sign Up</a>
+  <small>You are not logged in</small>
+  <small><a href="{% url 'login' %}">Log In</a> |</small>
+  <small><a href="{% url 'register' %}">Sign Up</a></small>
 {% endif %}
 {% endblock content %}
 

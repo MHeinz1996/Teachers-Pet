@@ -6,35 +6,82 @@ from datetime import datetime
 from django.urls import path, include
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-
-
 from app import forms, views
+
 from users import views as users_views
 
 
 urlpatterns = [
-    #path('home/', views.home, name='home'),
+    #**********************************************************************************
+    #Home page
+    #**********************************************************************************
     path('', views.homepage, name='homepage'),
+    #**********************************************************************************
+    # Student listings
+    #**********************************************************************************
+    # List of currently enrolled courses for user
     path('student1_1', views.student1_1, name='student1_1'),
+    # List of future enrolled courses for user
     path('student1_2', views.student1_2, name='student1_2'),
+    # List of completed courses for user
     path('student1_3', views.student1_3, name='student1_3'),
+
+    #**********************************************************************************
+    # Teachers listings
+    #**********************************************************************************
+
+    # list of courses for teacher in current term
     path('teacher1_1', views.teacher1_1, name='teacher1_1'),
+    # list of future courses for teacher
     path('teacher1_2', views.teacher1_2, name='teacher1_2'),
+    # list of completed courses for teacher
     path('teacher1_3', views.teacher1_3, name='teacher1_3'),
+
+    #**********************************************************************************
+    # All courses listings
+    #**********************************************************************************
     path('admin1_1', views.admin1_1, name='admin1_1'),
     path('admin1_2', views.admin1_2, name='admin1_2'),
     path('admin1_3', views.admin1_3, name='admin1_3'),
+
+    #**********************************************************************************
+    # Create an assignment for a scheduled course
+    #**********************************************************************************
+    path('create_assignment', views.create_assignment, name='create_assignment'),
+
+    
+    #**********************************************************************************
+    # Lookup table screens (list, create, delete, update, view)
+    #**********************************************************************************
+    # Lookup_Terms table
     path('create_term', views.create_term, name='create_term'),
     path('list_term', views.list_term, name='list_term'),
     path('delete_term/<int:pk>', views.delete_term, name='delete_term'),
     path('update_term/<int:pk>', views.update_term, name='update_term'),
     path('detail_term/<int:pk>', views.detail_term, name='detail_term'),
-    path('grades', views.grades, name='grades'),
+
+    #**********************************************************************************
+    # Student assignments - show all assignments for a scheduled course/student. Show
+    # grades when available
+    #**********************************************************************************
+    path('student_assignment/<int:pk>/<str:student>', views.student_assignment, name='student_assignment'),
+
+
+    #**********************************************************************************
+    #User maintenance screens
+    #**********************************************************************************
+
     path('register/', users_views.register, name='register'),
+    path('user_list/', users_views.user_list, name='user_list'),
+    path('user_create/', users_views.user_create, name='user_create'),
+    path('user_update/<int:pk>', users_views.user_update, name='user_update'),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='logout.html'), name='logout'),
     path('admin/', admin.site.urls),
     
-    path('course_roster/<int:pk>/', views.course_roster, name = 'course_roster')
-
+    #**********************************************************************************
+    # Course roster - show all students in a scheduled course
+    #**********************************************************************************
+    path('course_roster/<int:pk>/', views.course_roster, name = 'course_roster'),   
+    
 ]
