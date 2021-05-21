@@ -21,6 +21,7 @@ def user_create(request):
     return render(request, 'user_create.html', {'form': f})
 
 
+
 def user_update(request,pk):
     # dictionary for initial data with 
     # field names as keys
@@ -31,25 +32,32 @@ def user_update(request,pk):
   
     # pass the object as instance in form
     f = CustomUserUpdateForm(request.POST or None, instance = obj)
-  
+    # get the user's group memberships
+    g = request.user.groups.all()
     # save the data from the form and
     # redirect to list_view
     if f.is_valid():
         f.save()
         messages.success(request, 'Account updated successfully')
         return HttpResponseRedirect("user_update")
-  
+   
     # add form dictionary to context
-    return render(request, "user_update.html",{'form': f})
+    context={'form': f,'groups':g}
+    return render(request, "user_update.html",context)
+
+
 
 
 #list all users
 def user_list(request):
     # dictionary for initial data with 
     # field names as keys
-    all_users= User.objects.values()
-    context= {'allusers': all_users}
-       
+    #all_users= User.objects.values()
+    
+    
+    User = get_user_model()
+    all_users = User.objects.all()
+    context= {'all_users': all_users}
     return render(request, "user_list.html", context)
 
 
