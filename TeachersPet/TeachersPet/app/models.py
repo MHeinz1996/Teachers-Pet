@@ -110,6 +110,9 @@ class Assignment_withGrade(models.Model):
     numbergrade=models.DecimalField(max_digits=5, decimal_places=2)
     lettergrade=models.CharField(max_length=2)
     username=models.CharField(max_length=150)
+    dategraded=models.DateField(db_column='dateGraded',null=True) 
+    
+
 
 
 ######################################################################################################
