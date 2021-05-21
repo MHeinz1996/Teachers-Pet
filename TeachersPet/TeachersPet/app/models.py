@@ -15,6 +15,7 @@ class CourseAssignment(models.Model):
     duedate = models.DateField(db_column='dueDate')  # Field name made lowercase.
     description = models.TextField()
     pointspossible = models.PositiveIntegerField(db_column='pointsPossible')  # Field name made lowercase.
+
     course_schedule = models.ForeignKey('CourseSchedule', models.DO_NOTHING)
 
     def __str__(self):
@@ -87,7 +88,7 @@ class StudentSubmission(models.Model):
     teachernotes = models.TextField(db_column='teacherNotes')  # Field name made lowercase.
     assignment = models.ForeignKey(CourseAssignment, models.RESTRICT)
     student = models.ForeignKey(User,on_delete=models.RESTRICT,null=True)
-
+    dategraded=models.DateField(db_column='dateGraded',null=True) 
 
 
 
