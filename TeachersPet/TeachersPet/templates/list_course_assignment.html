@@ -26,8 +26,8 @@
             </tr>
         </thead>
         <tbody>
-            {% if dataset %}
-            {% for data in dataset %}
+            {% if course_assignment %}
+            {% for data in course_assignment %}
             <tr>
                 <td>{{data.description}}</td>
                 <td>{{data.assignmentdate | date:"SHORT_DATE_FORMAT"}}</td>
@@ -35,7 +35,6 @@
                 <td>{{data.pointspossible}}</td>
                 <td><a href="#"><img src="/static/admin/img/icon-changelink.svg"></a></td>
                 <td><a href="#"><img src="/static/admin/img/icon-deletelink.svg"></a></td>
-                <td>{{data.course_schedule.course.coursename}}</td>
             </tr>
             {% endfor %}
             {% endif %}
