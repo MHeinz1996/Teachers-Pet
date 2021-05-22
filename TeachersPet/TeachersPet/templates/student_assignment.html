@@ -25,13 +25,14 @@
                 <th>Date due</th>
                 <th>Points possible</th>
                 <th>Points earned</th>
+                <th>Date graded</th>
                 <th>Number grade</th>
                 <th>Letter grade</th>
                 <!-- this needs to be specific to the class, right now it just checks if it has permissions to be a teacher in general-->
                 {% if request.user|has_group:"Teachers" %}
-                    <th>Edit</th>
+                <th>Edit</th>
                 {% else %}
-                    <th>Submit</th>
+                <th>Submit</th>
                 {% endif %}
             </tr>
         </thead>
@@ -44,15 +45,17 @@
                 <td>{{course_assignment.2 | date:"SHORT_DATE_FORMAT"}}</td>
                 <td>{{course_assignment.4}}</td>
                 <td>{{course_assignment.6}}</td>
+                <td>{{course_assignment.9 | date:"SHORT_DATE_FORMAT"}}</td>
                 <td>{{course_assignment.7 | floatformat }}</td>
                 <td>{{course_assignment.8}}</td>
                 {% if request.user|has_group:"Teachers" %}
-                    <td><a href="#"><img src="/static/admin/img/icon-changelink.svg"></a>
+                <td>
+                    <a href="#"><img src="/static/admin/img/icon-changelink.svg"></a>
                     <!-- This is the button that starts the popup. It references the div which has the id="popup"-->
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#popup">EDIT<button>
-                    </td>
+                </td>
                 {% else %}
-                    <td><a href="#"><img src="/static/admin/img/icon-addlink.svg"></a></td>
+                <td><a href="#"><img src="/static/admin/img/icon-addlink.svg"></a></td>
                 {% endif %}
             </tr>
             {% endfor %}

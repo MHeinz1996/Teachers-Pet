@@ -114,7 +114,6 @@ def teacher1_3(request):
 # listing of students assigned to a class (linked to from course listing screens (admin and teacher)
 def course_roster(request,pk):
     course_schedule= get_object_or_404(CourseSchedule,pk=pk)
-    #course_student=CourseStudent.objects.filter(course__id__contains=pk)
     course_student=CourseStudent.objects.filter(course=pk)
     context={'course_schedule': course_schedule, 'course_student':course_student}
     return render(request, 'course_roster.html',context )
@@ -297,7 +296,7 @@ def create_assignment(request):
 def list_course_assignment(request, pk):
     context ={} 
     # add the dictionary during initialization
-    context["dataset"] = CourseAssignment.objects.filter(course_schedule__course__id=course)
+    context["dataset"] = CourseAssignment.objects.filter(course_assignment__course_sschedule__course__id=course)
     context["model"]="Course Assignment"
     context["title"]="Assignment name"
     context["assignment_date"]="Assignment Date"
