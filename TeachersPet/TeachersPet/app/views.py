@@ -294,14 +294,20 @@ def create_assignment(request):
     context['model']="Assignment"
     return render(request, "create_view.html", context)
 
-def list_course_assignment(request, course):
+def list_course_assignment(request, pk):
     context ={} 
     # add the dictionary during initialization
-    context["dataset"] = CourseAssignment.objects.filter(course_assignment__course_sschedule__course__id=course)
+    context["dataset"] = CourseAssignment.objects.filter(course_schedule__course__id=course)
     context["model"]="Course Assignment"
     context["title"]="Assignment name"
     context["assignment_date"]="Assignment Date"
     context["due_date"]="Due Date"
     context["points_possible"]="Points Possible"
+
+
+    #course_schedule= get_object_or_404(CourseSchedule,pk=pk)
+    #course_student=CourseStudent.objects.filter(course__id__contains=pk)
+    #course_assignment=CourseStudent.objects.filter(course=pk)
+    #context={'course_schedule': course_schedule, 'course_student':course_student}
           
     return render(request, "list_course_assignment.html", context)
