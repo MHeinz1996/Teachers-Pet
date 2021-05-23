@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404,HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, redirect
 from django.http import HttpRequest
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
@@ -8,6 +8,7 @@ import datetime
 from django.contrib import messages
 from django.db import connection
 from django.db.models import Q
+
 
 from .models import CourseAssignment
 from .models import CourseStudent
@@ -279,24 +280,70 @@ def student_assignment(request,pk,student):
     return render(request, 'student_assignment.html',context )
 
 # create a new assignment for a scheduled course
-def create_assignment(request):
+def create_assignment(request, pk):
     # dictionary for initial data with 
     # field names as keys
-    context ={}
+    context ={'pk': pk}
   
     # add the dictionary during initialization
     form = CourseAssignmentForm(request.POST or None)
     if form.is_valid():
         form.save() # Error stating: (1048, "Column 'course_schedule_id' cannot be null")
-        return HttpResponseRedirect("/student_assignment")  
+        return HttpResponseRedirect("/list_course_assignment")  
     context['form']= form
     context['model']="Assignment"
     return render(request, "create_view.html", context)
 
 def list_course_assignment(request, pk):
     course_schedule= get_object_or_404(CourseSchedule,pk=pk)
-    course_assignment=CourseAssignment.objects.filter(course_schedule__course__id=pk)
+    course_assignment=CourseAssignment.objects.filter(course_schedule=pk)
 
-    context={'course_schedule': course_schedule, 'course_assignment': course_assignment}
+    context={'course_schedule': course_schedule, 'course_assignment': course_assignment, 'pk':pk}
           
     return render(request, "list_course_assignment.html", context)
+
+def delete_assignment(request, pk):
+    # dictionary for initial data with 
+    # field names as keys
+    context ={}
+  
+    # fetch the object related to passed id
+    obj = get_object_or_404(CourseAssignment, pk = pk)
+  
+  
+    if request.method =="POST":
+        # delete object
+        try:
+            obj.delete()
+           
+        except Exception as e:
+            messages.error(request, "Deletion of this term is not allowed.")
+         # after deleting redirect to 
+            # home page
+        return HttpResponseRedirect("/list_course_assignment", pk) # Form saves deletion, having issues with redirecting back to page passing pk arg
+        
+  
+    return render(request, "delete_view.html", context)
+
+def update_assignment(request, pk):
+
+    # dictionary for initial data with 
+    # field names as keys
+    context ={'pk':pk}
+  
+    # fetch the object related to passed id
+    obj = get_object_or_404(CourseAssignment, pk = pk)
+  
+    # pass the object as instance in form
+    form = CourseAssignmentForm(request.POST or None, instance = obj)
+  
+    # save the data from the form and
+    # redirect to list_view
+    if form.is_valid():
+        form.save()
+        return HttpResponseRedirect("/list_course_assignment", pk) # Form saves update, having issues with redirecting back to page passing pk arg
+  
+    # add form dictionary to context
+    context["form"] = form
+    context['model']="Assignment"   
+    return render(request, "update_view.html", context)

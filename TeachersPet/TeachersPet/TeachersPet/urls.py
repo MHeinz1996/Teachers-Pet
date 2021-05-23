@@ -47,7 +47,9 @@ urlpatterns = [
     #**********************************************************************************
     # Course Assignment screens (list, create, delete, update, view)
     #**********************************************************************************
-    path('create_assignment', views.create_assignment, name='create_assignment'),
+    # path('create_assignment/<int:pk>', views.create_assignment, name='create_assignment'),
+    path('delete_assignment/<int:pk>', views.delete_assignment, name='delete_assignment'),
+    path('update_assignment/<int:pk>', views.update_assignment, name='update_assignment'),    
     # Old path statement
     # path('list_course_assignment/<int:pk>'', views.list_course_assignment, name='list_course_assignment'),
     # 5/22 New path statement - added the parameter for passing primary key
