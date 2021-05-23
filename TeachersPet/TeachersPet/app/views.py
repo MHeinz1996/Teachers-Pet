@@ -115,7 +115,7 @@ def teacher1_3(request):
 def course_roster(request,pk):
     course_schedule= get_object_or_404(CourseSchedule,pk=pk)
     course_student=CourseStudent.objects.filter(course=pk)
-    context={'course_schedule': course_schedule, 'course_student':course_student}
+    context={'course_schedule': course_schedule, 'course_student':course_student,'pk':pk}
     return render(request, 'course_roster.html',context )
 
 # listing of all scheduled courses for the current term
@@ -296,6 +296,7 @@ def create_assignment(request):
 def list_course_assignment(request, pk):
     course_schedule= get_object_or_404(CourseSchedule,pk=pk)
     course_assignment=CourseAssignment.objects.filter(course_schedule__course__id=pk)
+
     context={'course_schedule': course_schedule, 'course_assignment': course_assignment}
           
     return render(request, "list_course_assignment.html", context)

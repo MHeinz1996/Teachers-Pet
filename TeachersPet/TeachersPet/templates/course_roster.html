@@ -4,6 +4,7 @@
 
 {% block content %} <!--this block is where the page content is added-->
 <h1 style="text-align:left;">Course Roster</h1>
+
 <h5 style="text-align:left;">Course: {{course_schedule.course.coursecode}} {{course_schedule.course.coursename}}</h5>
 <h6 style="text-align:left;">{{course_schedule.term.term}}: {{course_schedule.term.termstart}} - {{course_schedule.term.termend}}</h6>
 <h6 style="text-align:left;">Teacher: {{course_schedule.teacher.first_name}} {{course_schedule.teacher.last_name}}</h6>
@@ -36,18 +37,9 @@
     <button class="btn btn-outline-info">Go Back</button>
 </a>
 
-<a href="#">
-    <!--Enroll in course... only show if term has not started and user is not already enrolled-->
 
-    <button class="btn btn-outline-info">Enroll myself</button>
-</a>
-<a href="#">
-    <!--Add a student to course... only show if term has not started, user is not already enrolled amd user is an admin-->
 
-    <button class="btn btn-outline-info">Enroll student</button>
-</a>
-
-<a href="{% url 'list_course_assignment' pk=course_student.pk %}">
+<a href="{% url 'list_course_assignment' pk=pk %}">
     <button class="btn btn-outline-info">Assignments</button>
 </a>
 
