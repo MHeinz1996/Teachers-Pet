@@ -7,48 +7,49 @@
 <div class="container">
 
     {% for user_stats in user_stats %}
-    <h2 style="text-align:left;">Teaching Schedule: {{screen_type}} Courses for {{user_stats.first_name}} {{user_stats.last_name}}</h2>
+    <div class="article-metadata">
+    <h2 style="text-align:left; color:#14213D;">{{screen_type}}</h2>
+    </div>
+    <a class="mr-2">{{user_stats.last_name}}, {{user_stats.first_name}} </a>
+    <p>
+    
     {% endfor %}
-
-    <table class="table table-light table-striped">
-        <thead>
-            <tr>
-                <th>Term</th>
-                <th>Start</th>
-                <th>End</th>
-                <th>Course</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% if course_teacher %}
-            {% for course_teacher in course_teacher %}
-            <tr>
-                <td>{{course_teacher.term.term}}</td>
-                <td>{{course_teacher.term.termstart | date:"SHORT_DATE_FORMAT"}}</td>
-                <td>{{course_teacher.term.termend | date:"SHORT_DATE_FORMAT"}}</td>
-                <td><a href="{% url 'course_roster' pk=course_teacher.pk %}">{{ course_teacher.course.coursename }}</a></td>
+        
+    {% if course_teacher %}       
+    {% for course_teacher in course_teacher %}  <!--for loops through dummy data in views.py and populates page-->
+        <article class="media content-section">
+          <div class="media-body">
+            
+            <div class="article-metadata">
+              <a class="mr-2" href="{% url 'course_roster' pk=course_teacher.pk %}">{{ course_teacher.course.coursename }}  <!--replace dummy data with DB data-->
+              <!-- <small class="text-muted">{{ course_teacher.course.student.first_name }} students</small> I wanted to list the number of students here but couldnt figure out how to reference this -->
+              </a> 
+              <a style="float:right; font-size:14px;">{{course_teacher.term.term}}</a>
+            </div>
+                <a style="float:left; font-size:80%;">{{ course_teacher.term.termstart|date:"M d, Y"}} - {{ course_teacher.term.termend|date:"M d, Y"}}</a>
+                <a style="float:right; font-size:14px;" href="{% url 'list_course_assignment' pk=course_teacher.pk %}">Assignments</a> <!-- the link to add assignments will go here -->
                 
-            </tr>
-            {% endfor %}
-            {% endif %}
-        </tbody>
-    </table>
+          </div>
+        </article>
+
+        
+    {% endfor %}    <!--closes for loop block-->
+    {% endif %}
+
+    <a href="{% url 'teacher1_3' %}">
+        <!--href value will link to completed courses page when created-->
+        <button class="btn btn-outline-info">Completed</button>
+    </a>
+    <a href="{% url 'teacher1_1' %}">
+        <!--href value will link to current courses page when created-->
+        <button class="btn btn-outline-info">Current</button>
+    </a>
+    <a href="{% url 'teacher1_2' %}">
+        <!--href value will link to current courses page when created-->
+        <button class="btn btn-outline-info">Future</button>
+    </a>  
 </div>
 
 
 
-<a href="{% url 'teacher1_3' %}">
-    <!--href value will link to completed courses page when created-->
-    <button class="btn btn-outline-info">Completed</button>
-</a>
-
-<a href="{% url 'teacher1_1' %}">
-    <!--href value will link to current courses page when created-->
-    <button class="btn btn-outline-info">Current</button>
-</a>
-
-<a href="{% url 'teacher1_2' %}">
-    <!--href value will link to current courses page when created-->
-    <button class="btn btn-outline-info">Future</button>
-</a>
 {% endblock content %}  <!--ends content block-->
