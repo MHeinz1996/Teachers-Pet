@@ -35,6 +35,8 @@
                 <td>{{all_courses.term.termend | date:"SHORT_DATE_FORMAT"}}</td>
                 <td><a href="{% url 'course_roster' pk=all_courses.pk %}">{{ all_courses.course.coursename }}</a></td>
                 <td> {{ all_courses.teacher.first_name }} {{ all_courses.teacher.last_name }} </td>
+                <td><a href="{% url 'update_course_schedule' pk=all_courses.pk %}"><img src="/static/admin/img/icon-changelink.svg"></a></td>
+                <td><a href="{% url 'delete_course_schedule' pk=all_courses.pk %}"><img src="/static/admin/img/icon-deletelink.svg"></a></td>
 
 
             </tr>

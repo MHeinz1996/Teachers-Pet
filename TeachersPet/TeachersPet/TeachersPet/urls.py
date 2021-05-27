@@ -38,12 +38,14 @@ urlpatterns = [
     path('teacher1_3', views.teacher1_3, name='teacher1_3'),
 
     #**********************************************************************************
-    # All courses listings
+    # Course Schedule listings - all courses, not filtered by teacher or student
     #**********************************************************************************
     path('admin1_1', views.admin1_1, name='admin1_1'),
     path('admin1_2', views.admin1_2, name='admin1_2'),
     path('admin1_3', views.admin1_3, name='admin1_3'),
-
+    path('create_course_schedule', views.create_course_schedule, name='create_course_schedule'),
+    path('delete_course_schedule/<int:pk>', views.delete_course_schedule, name='delete_course_schedule'),
+    path('update_course_schedule/<int:pk>', views.update_course_schedule, name='update_course_schedule'),
     #**********************************************************************************
     # Course Assignment screens (list, create, delete, update, view)
     #**********************************************************************************

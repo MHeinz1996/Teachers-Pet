@@ -18,6 +18,7 @@ from .models import LookupCourse
 from .models import Assignment_withGrade
 from .forms import LookupTermForm
 from .forms import CourseAssignmentForm
+from .forms import CourseScheduleForm
 
 
 def homepage(request):
@@ -165,7 +166,70 @@ def admin1_3(request):
     }
     return render(request, 'admin_courses.html', context)
 
+# Create a new record in course schedule table 
+def create_course_schedule(request):
+    # dictionary for initial data with 
+    # field names as keys
+    context ={}
   
+    # add the dictionary during initialization
+    form = CourseScheduleForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        return HttpResponseRedirect("/admin1_1")  
+    context['form']= form
+    context['model']="CourseSchedule"
+    return render(request, "create_view.html", context)
+
+
+# delete a record in terms lookup table
+def delete_course_schedule(request, pk):
+    # dictionary for initial data with 
+    # field names as keys
+    context ={}
+  
+    # fetch the object related to passed id
+    obj = get_object_or_404(CourseSchedule, pk = pk)
+  
+  
+    if request.method =="POST":
+        # delete object
+        try:
+            obj.delete()
+           
+        except Exception as e:
+            messages.error(request, "Deletion of this scheduled course is not allowed.")
+         # after deleting redirect to 
+            # home page
+        return HttpResponseRedirect("/admin1_1")
+        
+  
+    return render(request, "delete_view.html", context)
+
+# Update a record in the terms lookup table
+def update_course_schedule(request, pk):
+
+    # dictionary for initial data with 
+    # field names as keys
+    context ={}
+  
+    # fetch the object related to passed id
+    obj = get_object_or_404(CourseSchedule, pk = pk)
+  
+    # pass the object as instance in form
+    form = CourseScheduleForm(request.POST or None, instance = obj)
+  
+    # save the data from the form and
+    # redirect to list_view
+    if form.is_valid():
+        form.save()
+        return HttpResponseRedirect("/admin1_1")
+  
+    # add form dictionary to context
+    context["form"] = form
+    context['model']="Term"   
+    return render(request, "update_view.html", context)
+
 
 # Create a new record in terms lookup table  
 def create_term(request):
