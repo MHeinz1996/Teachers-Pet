@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.models import User
 from .forms import UserRegisterForm
+from django.contrib.auth import get_user_model
 
 from .forms import CustomUserCreationForm, CustomUserUpdateForm
 
@@ -42,15 +43,17 @@ def user_update(request,pk):
     # add form dictionary to context
     return render(request, "user_update.html",{'form': f})
 
+User = get_user_model()
+
 
 #list all users
 def user_list(request):
     # dictionary for initial data with 
     # field names as keys
     all_users= User.objects.values()
-    context= {'allusers': all_users}
+    context= {'all_users': all_users}
        
-    return render(request, "user_list.html", context)
+    return render(request, "users_list.html", context)
 
 
 

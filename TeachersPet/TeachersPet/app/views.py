@@ -295,7 +295,7 @@ def create_assignment(request):
 
 def list_course_assignment(request, pk):
     course_schedule= get_object_or_404(CourseSchedule,pk=pk)
-    course_assignment=CourseAssignment.objects.filter(course_schedule__course__id=pk)
+    course_assignment=CourseAssignment.objects.filter(course_schedule=pk)
 
     context={'course_schedule': course_schedule, 'course_assignment': course_assignment}
           

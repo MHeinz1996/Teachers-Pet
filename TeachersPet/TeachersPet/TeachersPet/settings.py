@@ -79,10 +79,12 @@ TEMPLATES = [
 WSGI_APPLICATION = 'TeachersPet.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
+
+# For CPanel database:
 DATABASES = {
     'default': {
        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'efg_teacherspet',
+               'NAME': 'efg_teacherspet',
         'USER': 'efg_dbuser',
         'PASSWORD': 'teacherspet',
         'HOST': '104.218.13.25',
@@ -92,6 +94,20 @@ DATABASES = {
             }
     }
 }
+
+
+#For local MYSQL Database:
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.mysql',
+#        'NAME': 'efg_teacherspet',
+#        'USER': 'root',
+#        'PASSWORD': 'root',
+#
+#    }
+#}
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators

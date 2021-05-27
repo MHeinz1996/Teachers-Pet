@@ -6,24 +6,29 @@
 
 <div class="container">
 
-                
-    {% for all_users in all_users %}  <!--for loops through list of users-->
-        <article class="media content-section">
-          <div class="media-body">
-            
-            <div class="article-metadata">
-              <a {{ all_users.username }}, {{ all_users.first_name}}</a>   
+    <div class="container">
 
-          </div>
-        </article>
 
-        
-    {% endfor %}    <!--closes for loop block-->
-    <a href="{% url 'user_create' %}">
-        <!--Button to create a new user-->
-        <button class="btn btn-outline-info">Create a user</button>
-    </a>
- 
+    <h2 style="text-align:left;">Users</h2>
+    <table class="table table-light table-striped">
+        <thead>
+            <tr>
+                <th>User name</th>
+                <th>First name</th>
+                <th>Last name</th>
+        </thead>
+        <tbody>
+            {% if all_users %}
+            {% for data in all_users %}
+            <tr>
+                <td>{{data.username}}</td>
+                <td>{{data.first_name}}</td>
+                <td>{{data.last_name}}</td>
+            </tr>
+            {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
 </div>
 
 
