@@ -15,8 +15,13 @@ class CourseAssignment(models.Model):
     duedate = models.DateField(db_column='dueDate')  # Field name made lowercase.
     description = models.TextField()
     pointspossible = models.PositiveIntegerField(db_column='pointsPossible')  # Field name made lowercase.
-
     course_schedule = models.ForeignKey('CourseSchedule', models.DO_NOTHING)
+    
+    @property
+    def title(self):
+        return self.description
+    
+    
 
     def __str__(self):
         return self.course_schedule.term.term + ' ' + self.course_schedule.course.coursename + ' Due ' + str(self.duedate)

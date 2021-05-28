@@ -1,13 +1,15 @@
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, redirect
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponse
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from datetime import datetime
 import datetime
 from django.contrib import messages
+from django.db import IntegrityError
 from django.db import connection
 from django.db.models import Q
+from django.views.generic.edit import DeleteView
 
 
 from .models import CourseAssignment
@@ -182,7 +184,7 @@ def create_course_schedule(request):
     return render(request, "create_view.html", context)
 
 
-# delete a record in terms lookup table
+# delete a record in course schedule table
 def delete_course_schedule(request, pk):
     # dictionary for initial data with 
     # field names as keys
@@ -227,7 +229,7 @@ def update_course_schedule(request, pk):
   
     # add form dictionary to context
     context["form"] = form
-    context['model']="Term"   
+    context['model']="Course Schedule"   
     return render(request, "update_view.html", context)
 
 
@@ -259,32 +261,38 @@ def list_term(request):
     context["title"]="Term name"
     context["description"]="Date range"
           
-    return render(request, "list_view.html", context)
+    return render(request, "list_term.html", context)
 
 
-# delete a record in terms lookup table
 def delete_term(request, pk):
-    # dictionary for initial data with 
+
+     # dictionary for initial data with 
     # field names as keys
     context ={}
-  
+
     # fetch the object related to passed id
     obj = get_object_or_404(LookupTerm, pk = pk)
-  
-  
+    context["data"] = obj
+    context["model"]="Term"
+    context["title"]="Term name"
+    context["description"]="Date range"
+
     if request.method =="POST":
         # delete object
         try:
             obj.delete()
-           
         except Exception as e:
-            messages.error(request, "Deletion of this term is not allowed.")
-         # after deleting redirect to 
-            # home page
+            messages.error(request, "There are courses scheduled for this term. Deletion is not allowed.")
+            return render(request, "delete_view.html", context)
+            
         return HttpResponseRedirect("/list_term")
         
   
     return render(request, "delete_view.html", context)
+
+
+
+
 
 #  View a record in the terms lookup table
 def detail_term(request, pk):
@@ -366,14 +374,17 @@ def list_course_assignment(request, pk):
           
     return render(request, "list_course_assignment.html", context)
 
-def delete_assignment(request, pk):
+def delete_assignment(request, pk, parentkey):
     # dictionary for initial data with 
     # field names as keys
-    context ={}
+    context ={'pk':pk}
   
     # fetch the object related to passed id
     obj = get_object_or_404(CourseAssignment, pk = pk)
-  
+    context["data"] = obj
+    context["model"]="Course Assignment"
+    context["title"]="Assignment"
+    context["description"]="Date assigned"
   
     if request.method =="POST":
         # delete object
@@ -381,23 +392,24 @@ def delete_assignment(request, pk):
             obj.delete()
            
         except Exception as e:
-            messages.error(request, "Deletion of this term is not allowed.")
-         # after deleting redirect to 
-            # home page
-        return HttpResponseRedirect("/list_course_assignment", pk) # Form saves deletion, having issues with redirecting back to page passing pk arg
+            messages.error(request, "Deletion of this assignment is not allowed.")
+         
+        return redirect('list_course_assignment', pk=parentkey)
         
   
     return render(request, "delete_view.html", context)
 
-def update_assignment(request, pk):
+def update_assignment(request, pk, parentkey):
 
     # dictionary for initial data with 
     # field names as keys
-    context ={'pk':pk}
+    context ={'pk':pk,'parentkey':parentkey}
   
     # fetch the object related to passed id
     obj = get_object_or_404(CourseAssignment, pk = pk)
-  
+    
+    #fetch the header record for the passed ID
+
     # pass the object as instance in form
     form = CourseAssignmentForm(request.POST or None, instance = obj)
   
@@ -405,7 +417,8 @@ def update_assignment(request, pk):
     # redirect to list_view
     if form.is_valid():
         form.save()
-        return HttpResponseRedirect("/list_course_assignment", pk) # Form saves update, having issues with redirecting back to page passing pk arg
+        return redirect('list_course_assignment', pk=parentkey)
+
   
     # add form dictionary to context
     context["form"] = form

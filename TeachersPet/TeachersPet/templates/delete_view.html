@@ -8,27 +8,26 @@
 
 
 <div class="content-section">
-    {% if messages %}
-    <ul>
-        {% for message in messages %}
-        <li>{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
+      
+    
     <form method="post">
 
         {% csrf_token %}
         <fieldset class="form-group">
-            <legend class="border-bottom mb-4"> {{model}} Deletion </legend>
+            <legend class="border-bottom mb-4"> Delete {{model}} </legend>
             {{form|crispy}}
         </fieldset>
 
+        
+
+        
+        {{title}}: {{ data.title }}<br />
+        {{description}}: {{ data.description }}<br />
+        <br /> 
         Are you sure want to delete this item ?
 
         <button class="btn btn-outline-info" type="submit">Yes</button>
         <button class="btn btn-outline-info" type="cancel">Cancel</button>
-
-
 
 </div>
 {% endblock content %}

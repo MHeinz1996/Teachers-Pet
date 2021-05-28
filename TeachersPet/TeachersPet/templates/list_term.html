@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+{% extends "template_base.html" %}  <!--creates child of base template. Applies nav bar to this view-->
+{% load static %}
+
+{% block content %} <!--this block is where the page content is added-->
+
+<div class="container">
+
+
+    <h2 style="text-align:left;">{{model}}s</h2>
+
+
+
+    <table class="table table-light table-striped">
+        <thead>
+            <tr>
+                <th>{{title}}</th>
+                <th>{{description}}</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if dataset %}
+            {% for data in dataset %}
+            <tr>
+                <td>{{data.title}}</td>
+                <td>{{data.description}}</td>
+                <td><a href="{% url 'update_term' pk=data.pk %}"><img src="/static/admin/img/icon-changelink.svg"></a></td>
+                <td><a href="{% url 'delete_term' pk=data.pk %}"><img src="/static/admin/img/icon-deletelink.svg"></a></td>
+                <!--<a href="{% url 'update_term' pk=data.pk %}">Edit</a>-->
+                <!--<td><a href="{% url 'delete_term' pk=data.pk %}">Delete</a></td>-->
+            </tr>
+            {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
+
+
+
+
+
+</div>
+
+
+
+<a href="{% url 'create_term' %}">
+
+    <button class="btn btn-outline-info">New</button>
+ 
+</a>
+
+
+{% endblock content %}  <!--ends content block-->

@@ -33,8 +33,8 @@
                 <td>{{course_assignment.assignmentdate | date:"SHORT_DATE_FORMAT"}}</td>
                 <td>{{course_assignment.duedate | date:"SHORT_DATE_FORMAT"}}</td>
                 <td>{{course_assignment.pointspossible}}</td>
-                <td><a href="{% url 'update_assignment' pk=course_assignment.pk %}"><img src="/static/admin/img/icon-changelink.svg"></a></td>
-                <td><a href="{% url 'delete_assignment' pk=course_assignment.pk %}"><img src="/static/admin/img/icon-deletelink.svg"></a></td>
+                <td><a href="{% url 'update_assignment' pk=course_assignment.pk parentkey=course_schedule.id %}"><img src="/static/admin/img/icon-changelink.svg"></a></td>
+                <td><a href="{% url 'delete_assignment' pk=course_assignment.pk parentkey=course_schedule.id %}"><img src="/static/admin/img/icon-deletelink.svg"></a></td>
             </tr>
             {% endfor %}
             {% endif %}
