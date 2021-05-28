@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+{% extends "template_base.html" %}  <!--creates child of base template. Applies nav bar to this view-->
+{% load static %}
+
+{% block content %} <!--this block is where the page content is added-->
+
+<div class="container">
+
+
+    <h2 style="text-align:left;">Course Assignments</h2>
+    <h5 style="text-align:left;">Course: {{course_schedule.course.coursecode}} {{course_schedule.course.coursename}}</h5>
+    <h6 style="text-align:left;">{{course_schedule.term.term}}: {{course_schedule.term.termstart}} - {{course_schedule.term.termend}}</h6>
+    <h6 style="text-align:left;">Teacher: {{course_schedule.teacher.first_name}} {{course_schedule.teacher.last_name}}</h6>
+
+
+
+    <table class="table table-light table-striped">
+        <thead>
+            <tr>
+                <th>Assignment</th>
+                <th>Date assigned</th>
+                <th>Date due</th>
+                <th>Points possible</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if course_assignment %}
+            {% for course_assignment in course_assignment %}
+            <tr>
+                <td>{{course_assignment.description}}</td>
+                <td>{{course_assignment.assignmentdate | date:"SHORT_DATE_FORMAT"}}</td>
+                <td>{{course_assignment.duedate | date:"SHORT_DATE_FORMAT"}}</td>
+                <td>{{course_assignment.pointspossible}}</td>
+                <td><a href="{% url 'update_assignment' pk=course_assignment.pk parentkey=course_schedule.id %}"><img src="/static/admin/img/icon-changelink.svg"></a></td>
+                <td><a href="{% url 'delete_assignment' pk=course_assignment.pk parentkey=course_schedule.id %}"><img src="/static/admin/img/icon-deletelink.svg"></a></td>
+            </tr>
+            {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+
+
+<a href="#">
+
+    <button class="btn btn-outline-info">New Assignment</button>
+ 
+</a>
+
+{% endblock content %}  <!--ends content block-->

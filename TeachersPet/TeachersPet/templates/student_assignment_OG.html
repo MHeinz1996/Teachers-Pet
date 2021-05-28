@@ -6,44 +6,16 @@
 
 {% block content %} <!--this block is where the page content is added-->
 <!--Notes: Figure out how to have other pages pass user info for who's gradebook to display and for what class-->
-
-<div class="article-metadata">
-    <h2 style="text-align:left; color:#14213D; display:inline">{{course_schedule.course.coursename}}</h2>
-    <small class="text-muted">{{ course_schedule.course.coursecode }}</small>
-    <a style="float:right; font-size:14px; vertical-align:text-bottom">{{course_schedule.term.term}}</a>
-    </div>
-    <a class="mr-2">{{course_schedule.teacher.last_name}}, {{course_schedule.teacher.first_name}} </a>
-    <a style="float:right; font-size:14px;">{{course_schedule.term.termstart}} - {{course_schedule.term.termend}}</a>
-    <p>
-
-{% if course_assignment %}
-    {% for course_assignment in course_assignment %}  <!--for loops through dummy data in views.py and populates page-->
-        <article class="media content-section">
-          <div class="media-body">
-            
-            <div class="article-metadata">
-              <a>Due : {{course_assignment.2 | date:"SHORT_DATE_FORMAT"}}</a>
-              <a style="float:right; font-size:14px;">{{course_assignment.6}}/{{course_assignment.4}}</a>
-            </div>
-                <span style="float:left; font-size:80%;">{{course_assignment.3}}</span>
-            <div class="media-body">
-          {% if request.user|has_group:"Teachers" %}
-                <a href="#"><img src="/static/admin/img/icon-changelink.svg"></a>
-                    <!-- This is the button that starts the popup. It references the div which has the id="popup"-->
-                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#popup">EDIT<button>
-                {% else %}
-                <a href="#"><img src="/static/admin/img/icon-addlink.svg"></a>
-                {% endif %}
-            
-          </div>
-          
-        </article>
-
-    {% endfor %}
-            {% endif %}    <!--closes for loop block-->
-
 <div class="container">
+    {% if user_stats %}
+    {% for user_stats in user_stats %}
 
+    <h5 style="text-align:left;">Assignments and Grades for:  {{user_stats.first_name}} {{user_stats.last_name}}</h5>
+    {% endfor %}
+    {% endif %}
+    <h5 style="text-align:left;">Course: {{course_schedule.course.coursecode}} {{course_schedule.course.coursename}}</h5>
+    <h6 style="text-align:left;">{{course_schedule.term.term}}: {{course_schedule.term.termstart}} - {{course_schedule.term.termend}}</h6>
+    <h6 style="text-align:left;">Teacher: {{course_schedule.teacher.first_name}} {{course_schedule.teacher.last_name}}</h6>
 
     <table class="table table-light table-striped">
         <thead>
