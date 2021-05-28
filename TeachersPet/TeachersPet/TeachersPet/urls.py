@@ -49,7 +49,7 @@ urlpatterns = [
     #**********************************************************************************
     # Course Assignment screens (list, create, delete, update, view)
     #**********************************************************************************
-    # path('create_assignment/<int:pk>', views.create_assignment, name='create_assignment'),
+    path('create_assignment/<int:parentkey>', views.create_assignment, name='create_assignment'),
     path('delete_assignment/<int:pk>/<int:parentkey>', views.delete_assignment, name='delete_assignment'),
     path('update_assignment/<int:pk>/<int:parentkey>', views.update_assignment, name='update_assignment'),    
     path('list_course_assignment/<int:pk>', views.list_course_assignment, name='list_course_assignment'),

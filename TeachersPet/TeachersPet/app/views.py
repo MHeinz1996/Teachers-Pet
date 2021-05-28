@@ -258,8 +258,8 @@ def list_term(request):
     # add the dictionary during initialization
     context["dataset"] = LookupTerm.objects.all()
     context["model"]="Term"
-    context["title"]="Term name"
-    context["description"]="Date range"
+    context["title1"]="Term name"
+    context["title2"]="Date range"
           
     return render(request, "list_term.html", context)
 
@@ -274,8 +274,8 @@ def delete_term(request, pk):
     obj = get_object_or_404(LookupTerm, pk = pk)
     context["data"] = obj
     context["model"]="Term"
-    context["title"]="Term name"
-    context["description"]="Date range"
+    context["title1"]="Term name"
+    context["title2"]="Date range"
 
     if request.method =="POST":
         # delete object
@@ -303,8 +303,8 @@ def detail_term(request, pk):
     # add the dictionary during initialization
     context["data"] = LookupTerm.objects.get(pk = pk)
     context["model"]="Term"
-    context["title"]="Term name"
-    context["description"]="Date range"
+    context["title1"]="Term name"
+    context["title2"]="Date range"
     return render(request, "detail_view.html", context)
 
 # Update a record in the terms lookup table
@@ -352,16 +352,17 @@ def student_assignment(request,pk,student):
     return render(request, 'student_assignment.html',context )
 
 # create a new assignment for a scheduled course
-def create_assignment(request, pk):
+def create_assignment(request, parentkey):
     # dictionary for initial data with 
     # field names as keys
-    context ={'pk': pk}
-  
+    context ={'parentkey': parentkey}
+    course_schedule= get_object_or_404(CourseSchedule,pk=parentkey)
     # add the dictionary during initialization
     form = CourseAssignmentForm(request.POST or None)
     if form.is_valid():
+        form.instance.course_schedule=course_schedule
         form.save() # Error stating: (1048, "Column 'course_schedule_id' cannot be null")
-        return HttpResponseRedirect("/list_course_assignment")  
+        return redirect('list_course_assignment', pk=parentkey)
     context['form']= form
     context['model']="Assignment"
     return render(request, "create_view.html", context)
@@ -383,8 +384,8 @@ def delete_assignment(request, pk, parentkey):
     obj = get_object_or_404(CourseAssignment, pk = pk)
     context["data"] = obj
     context["model"]="Course Assignment"
-    context["title"]="Assignment"
-    context["description"]="Date assigned"
+    context["title1"]="Assignment"
+    context["title2"]="Date assigned"
   
     if request.method =="POST":
         # delete object

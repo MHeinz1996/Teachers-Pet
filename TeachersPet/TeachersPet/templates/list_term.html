@@ -14,8 +14,8 @@
     <table class="table table-light table-striped">
         <thead>
             <tr>
-                <th>{{title}}</th>
-                <th>{{description}}</th>
+                <th>{{title1}}</th>
+                <th>{{title2}}</th>
                 <th>Edit</th>
                 <th>Delete</th>
             </tr>
@@ -24,8 +24,8 @@
             {% if dataset %}
             {% for data in dataset %}
             <tr>
-                <td>{{data.title}}</td>
-                <td>{{data.description}}</td>
+                <td>{{data.title1}}</td>
+                <td>{{data.title2}}</td>
                 <td><a href="{% url 'update_term' pk=data.pk %}"><img src="/static/admin/img/icon-changelink.svg"></a></td>
                 <td><a href="{% url 'delete_term' pk=data.pk %}"><img src="/static/admin/img/icon-deletelink.svg"></a></td>
                 <!--<a href="{% url 'update_term' pk=data.pk %}">Edit</a>-->
