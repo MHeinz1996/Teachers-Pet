@@ -4,43 +4,43 @@
 
 {% block content %} <!--this block is where the page content is added-->
 
-<div class="container">
+<div class="article-metadata">
+    <h2 style="text-align:left; color:#14213D; display:inline">{{course_schedule.course.coursename}}</h2>
+    <small class="text-muted">{{ course_schedule.course.coursecode }}</small>
+    <a style="float:right; font-size:14px; vertical-align:text-bottom">{{course_schedule.term.term}}</a>
+    </div>
+    <a class="mr-2">{{course_schedule.teacher.last_name}}, {{course_schedule.teacher.first_name}} </a>
+    <a style="float:right; font-size:14px;">{{course_schedule.term.termstart}} - {{course_schedule.term.termend}}</a>
+    <p>
 
 
-    <h2 style="text-align:left;">Course Assignments</h2>
-    <h5 style="text-align:left;">Course: {{course_schedule.course.coursecode}} {{course_schedule.course.coursename}}</h5>
-    <h6 style="text-align:left;">{{course_schedule.term.term}}: {{course_schedule.term.termstart}} - {{course_schedule.term.termend}}</h6>
-    <h6 style="text-align:left;">Teacher: {{course_schedule.teacher.first_name}} {{course_schedule.teacher.last_name}}</h6>
+{% if course_assignment %}
+    {% for course_assignment in course_assignment %}  <!--for loops through dummy data in views.py and populates page-->
+        <article class="media content-section">
+          <div class="media-body">
+            
+            <div class="article-metadata">
+              <a>Due : {{course_assignment.duedate | date:"SHORT_DATE_FORMAT"}}</a>
+              <a style="float:right; font-size:14px;">{{course_assignment.pointspossible}} points</a>
+            </div>
+            <div class="media-body">
+                <p style="float:left; font-size:80%;">{{course_assignment.description}}</p>
+                <a style="float:right; font-size:16px;" href="{% url 'delete_assignment' pk=course_assignment.pk parentkey=course_schedule.id %}">
+                <button class="btn btn-danger" style="margin:2px">Delete
+                </button>       
+                </a> <!-- the link to add assignments will go here -->
+                <a style="float:right; font-size:16px;" href="{% url 'update_assignment' pk=course_assignment.pk parentkey=course_schedule.id %}">
+                <button class="btn btn-secondary" style="margin:2px">
+                Edit
+                </button>
+                </a>
+                </div>
+        </div>
+          
+        </article>
 
-
-
-    <table class="table table-light table-striped">
-        <thead>
-            <tr>
-                <th>Assignment</th>
-                <th>Date assigned</th>
-                <th>Date due</th>
-                <th>Points possible</th>
-                <th>Edit</th>
-                <th>Delete</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% if course_assignment %}
-            {% for course_assignment in course_assignment %}
-            <tr>
-                <td>{{course_assignment.description}}</td>
-                <td>{{course_assignment.assignmentdate | date:"SHORT_DATE_FORMAT"}}</td>
-                <td>{{course_assignment.duedate | date:"SHORT_DATE_FORMAT"}}</td>
-                <td>{{course_assignment.pointspossible}}</td>
-                <td><a href="{% url 'update_assignment' pk=course_assignment.pk parentkey=course_schedule.id %}"><img src="/static/admin/img/icon-changelink.svg"></a></td>
-                <td><a href="{% url 'delete_assignment' pk=course_assignment.pk parentkey=course_schedule.id %}"><img src="/static/admin/img/icon-deletelink.svg"></a></td>
-            </tr>
-            {% endfor %}
-            {% endif %}
-        </tbody>
-    </table>
-</div>
+    {% endfor %}
+            {% endif %}    <!--closes for loop block-->
 
 
 <a href="{% url 'create_assignment' parentkey=course_schedule.id %}">
