@@ -15,7 +15,7 @@
 
 
 {% if course_assignment %}
-    {% for course_assignment in course_assignment %}  <!--for loops through dummy data in views.py and populates page-->
+    {% for course_assignment in course_assignment %} 
         <article class="media content-section">
           <div class="media-body">
             
@@ -30,9 +30,7 @@
                 </button>       
                 </a> <!-- the link to add assignments will go here -->
                 <a style="float:right; font-size:16px;" href="{% url 'update_assignment' pk=course_assignment.pk parentkey=course_schedule.id %}">
-                <button class="btn btn-secondary" style="margin:2px">
-                Edit
-                </button>
+                    <button class="btn btn-secondary" style="margin:2px">Edit</button>
                 </a>
                 </div>
         </div>
