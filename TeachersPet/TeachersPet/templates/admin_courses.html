@@ -4,46 +4,48 @@
 
 {% block content %} <!--this block is where the page content is added-->
 
+
 <div class="container">
-    <h2 style="text-align:left;">All {{screen_type}} Courses</h2>
+
+    <div class="article-metadata">
+    <h2 style="text-align:left; color:#14213D;">{{screen_type}}</h2>
+    </div>
+    <a class="mr-2">Admin Access </a>
+    
+    <div class="media-body">
+        <form method="GET" action="">
+            <input type="search" name="search" style="width:100%"> 
+            <button class="add_your_class" type="submit"> Search </button>
+        </form>
+    </div>
+    <p></p>
 
     
-
-
-    <table class="table table-light table-striped">
-        <thead>
-            <div>
-                <form method="GET" action="" >
-                    <input type="search" name="search" style="width: 100%;"> 
-                    <button class="add_your_class" type="submit"> Search </button>
-                </form>
+    
+    {% for all_courses in all_courses %}  <!--for loops through dummy data in views.py and populates page-->
+        <article class="media content-section">
+          <div class="media-body">
+            
+            <div class="article-metadata">
+              <a href="{% url 'course_roster' pk=all_courses.pk %}" class="mr-2" >{{ all_courses.course.coursename }}</a>   <!--replace dummy data with DB data-->
+              <small class="text-muted">{{ all_courses.teacher.last_name }}, {{ all_courses.teacher.first_name }}</small>    <!--replace link to teacher profile -->
+              <a style="float:right; font-size:14px;">{{all_courses.term.term}}</a>
             </div>
-            <tr>
-                <th>Term</th>
-                <th>Start</th>
-                <th>End</th>
-                <th>Course</th>
-                <th>Teacher</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% if all_courses %}
-            {% for all_courses in all_courses %}
-            <tr>
-                <td>{{all_courses.term.term}}</td>
-                <td>{{all_courses.term.termstart | date:"SHORT_DATE_FORMAT"}}</td>
-                <td>{{all_courses.term.termend | date:"SHORT_DATE_FORMAT"}}</td>
-                <td><a href="{% url 'course_roster' pk=all_courses.pk %}">{{ all_courses.course.coursename }}</a></td>
-                <td> {{ all_courses.teacher.first_name }} {{ all_courses.teacher.last_name }} </td>
-                <td><a href="{% url 'update_course_schedule' pk=all_courses.pk %}"><img src="/static/admin/img/icon-changelink.svg"></a></td>
-                <td><a href="{% url 'delete_course_schedule' pk=all_courses.pk %}"><img src="/static/admin/img/icon-deletelink.svg"></a></td>
+                <a style="float:left; font-size:80%;" href="{% url 'list_course_assignment' pk=all_courses.pk %}">Assignments</a> <!-- the link to add assignments will go here -->
+                </a>
+                <a style="float:right; font-size:16px;" href="{% url 'delete_course_schedule' pk=all_courses.pk %}">
+                <button class="btn btn-danger" style="margin:2px">Delete
+                </button>       
+                </a> <!-- the link to add assignments will go here -->
+                <a style="float:right; font-size:16px;" href="{% url 'update_course_schedule' pk=all_courses.pk %}">
+                    <button class="btn btn-secondary" style="margin:2px">Edit</button>
+                </a>
+          </div>
+        </article>
 
+        
+    {% endfor %}    <!--closes for loop block-->
 
-            </tr>
-            {% endfor %}
-            {% endif %}
-        </tbody>
-    </table>
 </div>
 
 
