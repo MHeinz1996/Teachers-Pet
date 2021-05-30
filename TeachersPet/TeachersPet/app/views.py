@@ -23,6 +23,21 @@ from .forms import LookupTermForm
 from .forms import CourseAssignmentForm
 from .forms import CourseScheduleForm
 from .forms import StudentSubmissionForm
+from .forms import UploadForm
+
+#Test file upload
+def file_upload(request):
+    if request.method == 'POST':
+        form = UploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('homepage')
+    else:
+        form = UploadForm()
+    return render(request, 'file_upload.html', {
+        'form': form
+    })
+
 
 
 def homepage(request):

@@ -122,7 +122,7 @@
     <Content Include="templates\homepage.html" />
     <Content Include="templates\index.html" />
     <Content Include="templates\login.html" />
-    <Content Include="templates\logout.html" />
+    <Content Include="templates\file_upload.html" />
     <Content Include="templates\register.html" />
     <Content Include="templates\registration\login.html" />
     <Content Include="templates\registration\signup.html" />
