@@ -19,6 +19,7 @@ from .models import LookupTerm
 from .models import LookupCourse
 from .models import Assignment_withGrade
 from .models import StudentSubmission
+from .models import FileUpload
 from .forms import LookupTermForm
 from .forms import CourseAssignmentForm
 from .forms import CourseScheduleForm
@@ -31,14 +32,18 @@ def file_upload(request):
         form = UploadForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('homepage')
+            return redirect('file_view')
     else:
         form = UploadForm()
     return render(request, 'file_upload.html', {
         'form': form
     })
 
-
+def file_view(request):
+    files = FileUpload.objects.all()
+    return render(request, 'file_view.html', {
+        'files': files
+    })
 
 def homepage(request):
     return render(request, 'homepage.html')
@@ -371,7 +376,7 @@ def create_assignment(request, parentkey):
     form = CourseAssignmentForm(request.POST or None)
     if form.is_valid():
         form.instance.course_schedule=course_schedule
-        form.save() # Error stating: (1048, "Column 'course_schedule_id' cannot be null")
+        form.save()
         return redirect('list_course_assignment', pk=parentkey)
     context['form']= form
     context['model']="Assignment"
@@ -436,28 +441,3 @@ def update_assignment(request, pk, parentkey):
     context['model']="Assignment"   
     return render(request, "update_view.html", context)
 
-def submit_assignment(request, pk, parentkey):
-
-    # dictionary for initial data with 
-    # field names as keys
-    context ={'pk':pk,'parentkey':parentkey}
-  
-    # fetch the object related to passed id
-    obj = get_object_or_404(CourseAssignment, pk = pk)
-    
-    #fetch the header record for the passed ID
-
-    # pass the object as instance in form
-    form = StudentSubmissionForm(request.POST or None, instance = obj)
-  
-    # save the data from the form and
-    # redirect to list_view
-    if form.is_valid():
-        form.save()
-        return redirect('/student_assignment', pk=parentkey)
-
-  
-    # add form dictionary to context
-    context["form"] = form
-    context['model']="Submit Assignment"   
-    return render(request, "submission.html", context)

@@ -117,6 +117,7 @@
     <Content Include="app\static\app\scripts\respond.js" />
     <Content Include="app\static\app\scripts\respond.min.js" />
     <Content Include="app\static\app\scripts\_references.js" />
+    <Content Include="templates\file_view.html" />
     <Content Include="templates\list_course_assignment.html" />
     <Content Include="templates\student_assignment.html" />
     <Content Include="templates\homepage.html" />
