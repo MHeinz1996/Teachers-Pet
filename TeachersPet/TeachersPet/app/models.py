@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 
 class FileUpload(models.Model):
     description = models.CharField(max_length=255, blank=True)
-    submission = models.FileField(upload_to='documents/')
+    submission = models.FileField(upload_to='submissions/')
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
   
@@ -103,7 +103,8 @@ class LookupTerm(models.Model):
 class StudentSubmission(models.Model):
     id = models.BigAutoField(primary_key=True)
     dateuploaded = models.DateField(db_column='dateUploaded')  # Field name made lowercase.
-    submission = models.CharField(max_length=100)
+    #submission = models.CharField(max_length=100)
+    submission = models.FileField(upload_to='submissions/')
     pointsearned = models.PositiveIntegerField()
     teachernotes = models.TextField(db_column='teacherNotes')  # Field name made lowercase.
     assignment = models.ForeignKey(CourseAssignment, models.RESTRICT)
