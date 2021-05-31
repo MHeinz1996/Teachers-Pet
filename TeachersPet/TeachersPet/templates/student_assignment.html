@@ -29,9 +29,12 @@
             <div class="media-body">
                 <p style="float:left; font-size:80%;">{{course_assignment.3}}</p>
                 <a style="float:right; font-size:16px;">
-                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#popup">Delete</button>
-                    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#popup">Edit</button>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#popup">Submit</button>
+                    {% if request.user|has_group:"Teachers"%}
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#popup">Delete</button>
+                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#popup">Edit</button>
+                    {% else %}
+                        <a style="float:right; font-size:16px;" href="{% url 'file_upload' pk=course_assignment.pk %}"<button type="button" class="btn btn-primary">Submit</button>
+                    {% endif %}
                 </a> <!-- the link to add assignments will go here -->
                 </div>
         </div>
@@ -41,16 +44,4 @@
     {% endfor %}
 {% endif %}    <!--closes for loop block-->
 
-
-
-<!--Button references the add_assignment modal content-->
-<button id="button" class="btn btn-outline-info" data-toggle="modal" data-target="#add_assignment">Add Assignment</button>
-
-
-
 {% endblock content %}  <!--ends content block-->
-
-
-{% block js_block %}
-<script src="{% static 'app/scripts/test.js' %}"></script>
-{% endblock %}
