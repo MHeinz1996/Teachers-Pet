@@ -27,10 +27,15 @@ from .forms import StudentSubmissionForm
 from .forms import UploadForm
 
 #Test file upload
-def file_upload(request):
+def file_upload(request,pk):
+    context ={'pk': pk}
+    course_assignment= get_object_or_404(CourseAssignment,pk=pk)
+    user_stats=User.objects.filter(username=request.user)
     if request.method == 'POST':
         form = UploadForm(request.POST, request.FILES)
         if form.is_valid():
+            form.instance.assignment=course_assignment
+            form.instance.student=user_stats
             form.save()
             return redirect('file_view')
     else:

@@ -33,7 +33,7 @@
                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#popup">Delete</button>
                         <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#popup">Edit</button>
                     {% else %}
-                        <a style="float:right; font-size:16px;" href="#"<button type="button" class="btn btn-primary">Submit</button>
+                        <a style="float:right; font-size:16px;" href="{% url 'file_upload' pk=course_assignment.pk %}"<button type="button" class="btn btn-primary">Submit</button>
                     {% endif %}
                 </a> <!-- the link to add assignments will go here -->
                 </div>

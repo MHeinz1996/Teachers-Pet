@@ -15,7 +15,7 @@ urlpatterns = [
     #**********************************************************************************
     # test file upload
     #**********************************************************************************
-    path('file_upload', views.file_upload, name='file_upload'),
+    path('file_upload/<int:pk>', views.file_upload, name='file_upload'),
     path('file_view', views.file_view, name='file_view'),
 
 
