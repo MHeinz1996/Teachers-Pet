@@ -13,6 +13,13 @@ from users import views as users_views
 
 urlpatterns = [
     #**********************************************************************************
+    # test file upload
+    #**********************************************************************************
+    path('file_upload/<int:pk>', views.file_upload, name='file_upload'),
+    path('file_view', views.file_view, name='file_view'),
+
+
+    #**********************************************************************************
     #Home page
     #**********************************************************************************
     path('', views.homepage, name='homepage'),
@@ -38,16 +45,22 @@ urlpatterns = [
     path('teacher1_3', views.teacher1_3, name='teacher1_3'),
 
     #**********************************************************************************
-    # All courses listings
+    # Course Schedule listings - all courses, not filtered by teacher or student
     #**********************************************************************************
     path('admin1_1', views.admin1_1, name='admin1_1'),
     path('admin1_2', views.admin1_2, name='admin1_2'),
     path('admin1_3', views.admin1_3, name='admin1_3'),
-
+    path('create_course_schedule', views.create_course_schedule, name='create_course_schedule'),
+    path('delete_course_schedule/<int:pk>', views.delete_course_schedule, name='delete_course_schedule'),
+    path('update_course_schedule/<int:pk>', views.update_course_schedule, name='update_course_schedule'),
     #**********************************************************************************
-    # Create an assignment for a scheduled course
+    # Course Assignment screens (list, create, delete, update, view)
     #**********************************************************************************
-    path('create_assignment', views.create_assignment, name='create_assignment'),
+    path('create_assignment/<int:parentkey>', views.create_assignment, name='create_assignment'),
+    path('delete_assignment/<int:pk>/<int:parentkey>', views.delete_assignment, name='delete_assignment'),
+    path('update_assignment/<int:pk>/<int:parentkey>', views.update_assignment, name='update_assignment'),  
+    # path('submit_assignment/<int:pk>/<int:parentkey>', views.submit_assignment, name='submit_assignment'),
+    path('list_course_assignment/<int:pk>', views.list_course_assignment, name='list_course_assignment'),
 
     
     #**********************************************************************************
@@ -72,7 +85,7 @@ urlpatterns = [
     #**********************************************************************************
 
     path('register/', users_views.register, name='register'),
-    path('user_list/', users_views.user_list, name='user_list'),
+    path('users_list/', users_views.user_list, name='user_list'),
     path('user_create/', users_views.user_create, name='user_create'),
     path('user_update/<int:pk>', users_views.user_update, name='user_update'),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),

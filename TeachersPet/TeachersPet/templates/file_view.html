@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+{% extends "template_base.html" %}  <!--creates child of base template. Applies nav bar to this view-->
+{% load static %}
+{% load crispy_forms_tags %}
+{% load user_tags %}
+
+
+{% block content %}
+
+  {% block content_header %}
+    <h2>Files</h2>
+  {% endblock %}
+
+  <table class="table mb-0">
+    <thead>
+      <tr>
+        <th>File</th>
+        <th>View</th>
+        <th>Upload Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for files in files %}
+        <tr>
+          
+          <td>{{ files.description }}</td>
+          <td>
+            <a href="{{ files.submission.url }}" class="btn btn-primary btn-sm" target="_blank">
+              View
+            </a>
+          </td>
+          <td>{{ files.uploaded_at }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

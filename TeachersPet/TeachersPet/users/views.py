@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.models import User
 from .forms import UserRegisterForm
+from django.contrib.auth import get_user_model
 
 from .forms import CustomUserCreationForm, CustomUserUpdateForm
 
@@ -46,6 +47,8 @@ def user_update(request,pk):
     return render(request, "user_update.html",context)
 
 
+
+User = get_user_model()
 
 
 #list all users

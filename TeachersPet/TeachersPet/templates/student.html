@@ -22,7 +22,8 @@
             
             <div class="article-metadata">
               <a href="{% url 'student_assignment' pk=course_student.course.id student=course_student.student %}" class="mr-2" >{{ course_student.course.course.coursename }}</a>   <!--replace dummy data with DB data-->
-              <small class="text-muted">{{ course_student.course.teacher.last_name }}, {{ course_student.course.teacher.first_name }}</small>    <!--replace dummy data with DB data-->
+              <small class="text-muted">{{ course_student.course.teacher.last_name }}, {{ course_student.course.teacher.first_name }}</small>    <!--replace link to teacher profile -->
+              <a style="float:right; font-size:14px;">{{course_student.course.term.term}}</a>
             </div>
                 <span style="float:left; font-size:80%;">{{ course_student.course.term.termstart|date:"M d, Y"}} - {{ course_student.course.term.termend|date:"M d, Y"}}</span>
                 <a style="float:right; font-size:32px;" href="{% url 'student_assignment' pk=course_student.course.id student=course_student.student %}"> 

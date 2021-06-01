@@ -2,50 +2,55 @@
 {% extends "template_base.html" %}  <!--creates child of base template. Applies nav bar to this view-->
 {% load static %}
 
+
 {% block content %} <!--this block is where the page content is added-->
-<h1 style="text-align:left;">Course Roster</h1>
-<h5 style="text-align:left;">Course: {{course_schedule.course.coursecode}} {{course_schedule.course.coursename}}</h5>
-<h6 style="text-align:left;">{{course_schedule.term.term}}: {{course_schedule.term.termstart}} - {{course_schedule.term.termend}}</h6>
-<h6 style="text-align:left;">Teacher: {{course_schedule.teacher.first_name}} {{course_schedule.teacher.last_name}}</h6>
-<table class="table table-light table-striped">
-    <thead>
-        <tr>
-            <th>Student</th>
-           
-            <th>Grade</th>
+
+    <div class="article-metadata">
+    <a href="{% url 'list_course_assignment' pk=course_schedule.id %}">
+    <h2 style="text-align:left; color:#14213D; display:inline">{{course_schedule.course.coursename}}</h2>
+    <small class="text-muted">{{ course_schedule.course.coursecode }}</small>
+    </a>
+    <a style="float:right; font-size:14px; vertical-align:text-bottom">{{course_schedule.term.term}}</a>
+    </div>
+    <a class="mr-2">{{course_schedule.teacher.last_name}}, {{course_schedule.teacher.first_name}} </a>
+    <a style="float:right; font-size:14px;">{{course_schedule.term.termstart}} - {{course_schedule.term.termend}}</a>
+    <p>
+    
+{% for course_student in course_student %}  <!--for loops through dummy data in views.py and populates page-->
+        <article class="media content-section">
+          <div class="media-body">
             
-            
-        </tr>
-    </thead>
-    <tbody>
-        {% if course_student %}
-        {% for course_student in course_student %}
-        <tr>
-            <td><a href="{% url 'student_assignment' pk=course_student.course.id student=course_student.student %}">{{ course_student.student.first_name }} {{ course_student.student.last_name }}</a></td>
-            <!--add a conditional statement here - if current or completed, show grade-->
-            <td> {{ course_student.grade}} </td>
-            
-        </tr>
-        {% endfor %}
-        {% endif %}
-    </tbody>
-</table>
+            <div class="article-metadata">
+              <a href="{% url 'student_assignment' pk=course_student.course.id student=course_student.student %}">{{ course_student.student.last_name }}, {{ course_student.student.first_name }}</a>
+              <a style="float:right; font-size:14px;">Grade</a>
+            </div>
+                <span style="float:left; font-size:125%;">{{course_student.grade}}%</span>
+                <a style="float:right; font-size:32px;" href="{% url 'student_assignment' pk=course_student.course.id student=course_student.student %}"> 
+                {% now "Y-m-d" as todaysdate %}
+                {% if course_student.course.term.termstart|date:"Y-m-d" > todaysdate %}
+                {% elif course_student.grade >= 90 %} A
+                {% elif 90 > course_student.grade and course_student.grade >= 80 %} B 
+                {% elif 80 > course_student.grade and course_student.grade >= 70 %} C 
+                {% elif 70 > course_student.grade and course_student.grade >= 60 %} D 
+                    {% else %} F 
+                    {% endif %}
+                </a>
+          </div>
+        </article>
+
+        
+    {% endfor %}    <!--closes for loop block-->
+
 
 <a href="{{request.META.HTTP_REFERER}}">
     <!--href value will link to completed courses page when created-->
     <button class="btn btn-outline-info">Go Back</button>
 </a>
 
-<a href="#">
-    <!--Enroll in course... only show if term has not started and user is not already enrolled-->
 
-    <button class="btn btn-outline-info">Enroll myself</button>
+
+<a href="{% url 'list_course_assignment' pk=pk %}">
+    <button class="btn btn-outline-info">Assignments</button>
 </a>
-<a href="#">
-    <!--Add a student to course... only show if term has not started, user is not already enrolled amd user is an admin-->
-
-    <button class="btn btn-outline-info">Enroll student</button>
-</a>
-
 
 {% endblock content %}  <!--ends content block-->

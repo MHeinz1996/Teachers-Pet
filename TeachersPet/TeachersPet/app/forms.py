@@ -5,8 +5,15 @@ Definition of forms.
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import ugettext_lazy as _
-from .models import CourseStudent, LookupTerm, CourseAssignment
+from .models import CourseStudent, LookupTerm, CourseAssignment,CourseSchedule, StudentSubmission,FileUpload
 
+
+
+#Temp form to test file upload
+class UploadForm(forms.ModelForm):
+    class Meta:
+        model = FileUpload
+        fields = ('description', 'submission', )
 
 class BootstrapAuthenticationForm(AuthenticationForm):
     """Authentication form which uses boostrap CSS."""
@@ -36,4 +43,17 @@ class CourseAssignmentForm(forms.ModelForm):
     class Meta:
         model=CourseAssignment
         fields=["description","assignmentdate","duedate", "pointspossible"]
+
+
+class CourseScheduleForm(forms.ModelForm):
+
+    class Meta:
+        model = CourseSchedule
+        fields = ('course', 'teacher','term')
         
+
+
+class StudentSubmissionForm(forms.ModelForm):
+    class Meta:
+        model = StudentSubmission
+        fields = ["submission"]

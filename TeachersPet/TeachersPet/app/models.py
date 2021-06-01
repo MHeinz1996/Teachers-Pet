@@ -5,7 +5,10 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-
+class FileUpload(models.Model):
+    description = models.CharField(max_length=255, blank=True)
+    submission = models.FileField(upload_to='submissions/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
 
   
 
@@ -16,6 +19,14 @@ class CourseAssignment(models.Model):
     description = models.TextField()
     pointspossible = models.PositiveIntegerField(db_column='pointsPossible')  # Field name made lowercase.
     course_schedule = models.ForeignKey('CourseSchedule', models.DO_NOTHING)
+    
+    @property
+    def title1(self):
+        return self.description
+    
+    @property
+    def title2(self):
+        return self.assignmentdate
 
     def __str__(self):
         return self.course_schedule.term.term + ' ' + self.course_schedule.course.coursename + ' Due ' + str(self.duedate)
@@ -46,6 +57,13 @@ class LookupCourse(models.Model):
     coursename = models.CharField(db_column='coursename', unique=True, max_length=50)
     coursecode = models.CharField(db_column='courseCode', max_length=15)  
     department = models.ForeignKey('LookupDepartment', models.RESTRICT, db_column='department', blank=True, null=True)
+    
+    @property
+    def title1(self):
+        return self.coursename
+    @property
+    def title2(self):
+         return self.coursecode
 
     def __str__(self):
         return self.coursename
@@ -58,6 +76,9 @@ class LookupDepartment(models.Model):
 
     def __str__(self):
         return self.departmentname
+    @property
+    def title1(self):
+        return self.departmentname
 
 
 class LookupTerm(models.Model):
@@ -67,10 +88,10 @@ class LookupTerm(models.Model):
     termend = models.DateField(db_column='termEnd')  
     
     @property
-    def title(self):
+    def title1(self):
         return self.term
     @property
-    def description(self):
+    def title2(self):
          return "{} - {}".format(self.termstart, self.termend) 
 
     class Meta:
@@ -82,12 +103,13 @@ class LookupTerm(models.Model):
 class StudentSubmission(models.Model):
     id = models.BigAutoField(primary_key=True)
     dateuploaded = models.DateField(db_column='dateUploaded')  # Field name made lowercase.
-    submission = models.CharField(max_length=100)
+    #submission = models.CharField(max_length=100)
+    submission = models.FileField(upload_to='submissions/')
     pointsearned = models.PositiveIntegerField()
     teachernotes = models.TextField(db_column='teacherNotes')  # Field name made lowercase.
     assignment = models.ForeignKey(CourseAssignment, models.RESTRICT)
     student = models.ForeignKey(User,on_delete=models.RESTRICT,null=True)
-
+    dategraded=models.DateField(db_column='dateGraded',null=True) 
 
 
 
@@ -109,6 +131,9 @@ class Assignment_withGrade(models.Model):
     numbergrade=models.DecimalField(max_digits=5, decimal_places=2)
     lettergrade=models.CharField(max_length=2)
     username=models.CharField(max_length=150)
+    dategraded=models.DateField(db_column='dateGraded',null=True) 
+    
+
 
 
 ######################################################################################################

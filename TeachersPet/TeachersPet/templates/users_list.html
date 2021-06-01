@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+{% extends "template_base.html" %}  <!--creates child of base template. Applies nav bar to this view-->
+{% load static %}
+
+{% block content %} <!--this block is where the page content is added-->
+
+<div class="container">
+
+
+	<h2 style="text-align:left;">Users</h2>
+
+	<table class="table table-light table-striped">
+		<thead>
+			<tr>
+				<th>User name </th>
+				<th>Email</th>
+				<th>Last name</th>
+				<th>First name</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% if all_users %}
+			{% for data in all_users %}
+			<tr>
+				<td>{{data.username}}</td>
+				<td>{{data.email}}</td>
+				<td>{{data.last_name}}</td>
+				<td>{{data.first_name}}</td>
+				<td><a href="#"><img src="/static/admin/img/icon-changelink.svg"></a></td>
+				<td><a href="#"><img src="/static/admin/img/icon-deletelink.svg"></a></td>
+			</tr>
+			{% endfor %}
+			{% endif %}
+		</tbody>
+	</table>
+</div>
+
+
+{% endblock content %}  <!--ends content block-->
