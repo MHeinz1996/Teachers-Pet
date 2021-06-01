@@ -18,7 +18,9 @@
             <legend class="border-bottom mb-4">Update user</legend>
             {{form|crispy}}
         </fieldset>
-
+        {% for group in groups %}
+        <li>{{ group }}</li>
+        {% endfor %}
         <div class"form-group">
             <button class="btn btn-outline-info" type="submit">Save</button>
         </div>
