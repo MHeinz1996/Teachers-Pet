@@ -3,14 +3,14 @@
 {% load static %}
 
 {% block content %} <!--this block is where the page content is added-->
-
 <div class="container">
-
+    
     {% for user_stats in user_stats %}
     <div class="article-metadata">
-    <h2 style="text-align:left; color:#14213D;">{{screen_type}}</h2>
+    <p> <img src= "{% static 'app/images/student_courses.png' %}" alt=""> </p>
     </div>
     <a class="mr-2">{{user_stats.last_name}}, {{user_stats.first_name}} </a>
+    <a style="float:right; font-size:16px;">{{ screen_type}}</a>
     <p>
     
     {% endfor %}
