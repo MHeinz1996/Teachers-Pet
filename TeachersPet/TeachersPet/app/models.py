@@ -133,9 +133,44 @@ class Assignment_withGrade(models.Model):
     username=models.CharField(max_length=150)
     dategraded=models.DateField(db_column='dateGraded',null=True) 
     
+class CurrentTeacherCS_withCounts(models.Model):
+    course_schedule_id=models.PositiveIntegerField()
+    course_id=models.PositiveIntegerField()
+    teacher_id=models.PositiveIntegerField()
+    term = models.CharField(max_length=50, unique=True)
+    termstart = models.DateField(db_column='termStart')  
+    termend = models.DateField(db_column='termEnd')  
+    coursename = models.CharField(db_column='coursename', unique=True, max_length=50)
+    coursecode = models.CharField(db_column='courseCode', max_length=15)  
+    first_name = models.CharField(db_column='Teacher first name',max_length=150)
+    last_name=models.CharField(db_column='Teacher last name',max_length=150)
+    roster_count =models.PositiveIntegerField()
 
+class CompletedTeacherCS_withCounts(models.Model):
+    course_schedule_id=models.PositiveIntegerField()
+    course_id=models.PositiveIntegerField()
+    teacher_id=models.PositiveIntegerField()
+    term = models.CharField(max_length=50, unique=True)
+    termstart = models.DateField(db_column='termStart')  
+    termend = models.DateField(db_column='termEnd')  
+    coursename = models.CharField(db_column='coursename', unique=True, max_length=50)
+    coursecode = models.CharField(db_column='courseCode', max_length=15)  
+    first_name = models.CharField(db_column='Teacher first name',max_length=150)
+    last_name=models.CharField(db_column='Teacher last name',max_length=150)
+    roster_count =models.PositiveIntegerField()
 
-
+class FutureTeacherCS_withCounts(models.Model):
+    course_schedule_id=models.PositiveIntegerField()
+    course_id=models.PositiveIntegerField()
+    teacher_id=models.PositiveIntegerField()
+    term = models.CharField(max_length=50, unique=True)
+    termstart = models.DateField(db_column='termStart')  
+    termend = models.DateField(db_column='termEnd')  
+    coursename = models.CharField(db_column='coursename', unique=True, max_length=50)
+    coursecode = models.CharField(db_column='courseCode', max_length=15)  
+    first_name = models.CharField(db_column='Teacher first name',max_length=150)
+    last_name=models.CharField(db_column='Teacher last name',max_length=150)
+    roster_count =models.PositiveIntegerField()
 ######################################################################################################
 
 

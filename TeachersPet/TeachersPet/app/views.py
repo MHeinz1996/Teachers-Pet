@@ -18,6 +18,7 @@ from .models import CourseSchedule
 from .models import LookupTerm
 from .models import LookupCourse
 from .models import Assignment_withGrade
+from .models import CurrentTeacherCS_withCounts
 from .models import StudentSubmission
 from .models import FileUpload
 from .forms import LookupTermForm
@@ -110,35 +111,45 @@ def student1_3(request):
 @login_required
 # listing of teacher's current classes
 def teacher1_1(request):
-    course_teacher=CourseSchedule.objects.filter(teacher=request.user,term__termend__gte=datetime.date.today(),term__termstart__lte=datetime.date.today())
     user_stats=User.objects.filter(username=request.user)
+    teacher=request.user.id
+    cursor=connection.cursor()
+    q = "Call CurrentTeacherCS_withCounts(" + str(teacher) + ")"
+    cursor.execute(q)
+    course_teacher=cursor.fetchall()
+    
     screen_type='Current'
     context = {
-        'course_teacher': course_teacher, 'user_stats':user_stats, 'screen_type':screen_type
-    }
+    'course_teacher': course_teacher, 'user_stats':user_stats, 'screen_type':screen_type,'teacher':teacher }
     return render(request, 'teacher.html', context)
+
 
 #listing of teacher's future classes
 @login_required
 def teacher1_2(request):
-
-    course_teacher=CourseSchedule.objects.filter(teacher=request.user,term__termstart__gt=datetime.date.today())
     user_stats=User.objects.filter(username=request.user)
-    screen_type='Upcoming'
+    teacher=request.user.id
+    cursor=connection.cursor()
+    q = "Call FutureTeacherCS_withCounts(" + str(teacher) + ")"
+    cursor.execute(q)
+    course_teacher=cursor.fetchall()
+    
+    screen_type='Future'
     context = {
-        'course_teacher': course_teacher, 'user_stats':user_stats, 'screen_type':screen_type
-    }
+    'course_teacher': course_teacher, 'user_stats':user_stats, 'screen_type':screen_type,'teacher':teacher }
     return render(request, 'teacher.html', context)
-
 #listing of teacher's completed classes
 @login_required
 def teacher1_3(request):
-    course_teacher=CourseSchedule.objects.filter(teacher=request.user,term__termend__lt=datetime.date.today())
     user_stats=User.objects.filter(username=request.user)
+    teacher=request.user.id
+    cursor=connection.cursor()
+    q = "Call CompletedTeacherCS_withCounts(" + str(teacher) + ")"
+    cursor.execute(q)
+    course_teacher=cursor.fetchall()
     screen_type='Completed'
     context = {
-        'course_teacher': course_teacher, 'user_stats':user_stats, 'screen_type':screen_type
-    }
+    'course_teacher': course_teacher, 'user_stats':user_stats, 'screen_type':screen_type,'teacher':teacher }
     return render(request, 'teacher.html', context)
 
 
