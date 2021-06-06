@@ -30,9 +30,10 @@
                 <p style="float:left; font-size:80%;">{{course_assignment.3}}</p>
                 <a style="float:right; font-size:16px;">
                     {% if request.user|has_group:"Teachers"%}
-                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#popup">Grade</button>
+                        <a style="float:right; font-size:16px;" href="{% url 'file_view' %}"<button type="button" class="btn btn-primary">View Submission</button>
+                        <!--<button type="button" class="btn btn-info" data-toggle="modal" data-target="#popup">Grade</button>-->
                     {% else %}
-                        <a style="float:right; font-size:16px;" href="#"<button type="button" class="btn btn-primary">Submit</button>
+                        <a style="float:right; font-size:16px;" href="{% url 'file_upload' pk=course_assignment.0 %}"<button type="button" class="btn btn-primary">Submit</button>
                     {% endif %}
                 </a> <!-- the link to add assignments will go here -->
                 </div>
