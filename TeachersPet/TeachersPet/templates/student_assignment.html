@@ -32,7 +32,7 @@
                     {% if request.user|has_group:"Teachers"%}
                         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#popup">Grade</button>
                     {% else %}
-                        <a style="float:right; font-size:16px;" href="{% url 'file_upload' pk=course_assignment.pk %}"<button type="button" class="btn btn-primary">Submit</button>
+                        <a style="float:right; font-size:16px;" href="#"<button type="button" class="btn btn-primary">Submit</button>
                     {% endif %}
                 </a> <!-- the link to add assignments will go here -->
                 </div>
@@ -41,6 +41,6 @@
         </article>
 
     {% endfor %}
-{% endif %}    <!--closes for loop block-->
+{% endif %}    <!--closes for loop block--> 
 
 {% endblock content %}  <!--ends content block-->
