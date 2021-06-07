@@ -170,7 +170,24 @@ class FutureTeacherCS_withCounts(models.Model):
     first_name = models.CharField(db_column='Teacher first name',max_length=150)
     last_name=models.CharField(db_column='Teacher last name',max_length=150)
     roster_count =models.PositiveIntegerField()
-######################################################################################################
+
+class ClassStudentGrade(models.Model):
+    course_student_id = models.PositiveIntegerField()
+    course_schedule_id=models.PositiveIntegerField()
+    student_id=models.PositiveIntegerField()
+    first_name = models.CharField(db_column='Student first name',max_length=150)
+    last_name=models.CharField(db_column='Student last name',max_length=150)
+    userid=models.PositiveIntegerField()
+    username=models.CharField(max_length=150)
+    coursegrade = models.DecimalField(max_digits=10, decimal_places=0, blank=True, null=True,verbose_name=u'Course grade')
+    pointsEarned = models.DecimalField(max_digits=10, decimal_places=0, blank=True, null=True,verbose_name=u'Points earned')
+    pointsPossible = models.DecimalField(max_digits=10, decimal_places=0, blank=True, null=True,verbose_name=u'Points possible')
+    term = models.CharField(max_length=50)
+    termstart = models.DateField(db_column='termStart')  
+    termend = models.DateField(db_column='termEnd')  
+    ####################################################################################################
+
+   
 
 
     

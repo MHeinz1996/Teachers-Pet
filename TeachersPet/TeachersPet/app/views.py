@@ -114,6 +114,7 @@ def student1_3(request):
 def teacher1_1(request):
     user_stats=User.objects.filter(username=request.user)
     teacher=request.user.id
+    
     cursor=connection.cursor()
     q = "Call CurrentTeacherCS_withCounts(" + str(teacher) + ")"
     cursor.execute(q)
@@ -157,7 +158,12 @@ def teacher1_3(request):
 # listing of students assigned to a class (linked to from course listing screens (admin and teacher)
 def course_roster(request,pk):
     course_schedule= get_object_or_404(CourseSchedule,pk=pk)
-    course_student=CourseStudent.objects.filter(course=pk)
+    #course_student=CourseStudent.objects.filter(course=pk)
+    cursor=connection.cursor()
+    q = "Call CourseStudentGrade(" + str(pk) + ")"
+    cursor.execute(q)
+    course_student=cursor.fetchall()
+
     context={'course_schedule': course_schedule, 'course_student':course_student,'pk':pk}
     return render(request, 'course_roster.html',context )
 

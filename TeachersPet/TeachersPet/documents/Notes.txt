@@ -1,0 +1,14 @@
+By default, the Django template loader looks for templates in a nested structure within each app. 
+The structure app/templates/accounts/home.html would be needed for a home.html template within the accounts app. 
+But a single templates directory within teacherspet is cleaner and scales better . 
+Let’s create a new templates directory and within it    a registration directory as that’s where Django will look for the log in template.
+
+
+Put templates into TeachersPet\templates
+
+Change settings.py
+
+'DIRS': [str(BASE_DIR.joinpath('templates'))],
+
+Change homepage.html - point to template in new folder
+

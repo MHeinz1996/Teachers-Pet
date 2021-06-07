@@ -2,11 +2,27 @@
 {% extends "template_base.html" %}  <!--creates child of base template. Applies nav bar to this view-->
 {% load static %}
 
+<!-- This template uses a SQL Query instead of a table. Field references must use
+    index instead of column name. 
+    0 = course_student_id 
+    1 = course_schedule_id
+    2 = student_id
+    3 = first_name
+    4 = last_name
+    5 = userid
+    6 = username
+    7 = grade
+    8 = points earned
+    9 = points possible
+    10 = term
+    11 = termstart
+    12 = termend
+    -->
 
 {% block content %} <!--this block is where the page content is added-->
 
     <div class="article-metadata">
-    <a href="{% url 'list_course_assignment' pk=course_schedule.id %}">
+    <a href="{% url 'list_course_assignment' pk=course_schedule.pk %}">
     <h2 style="text-align:left; color:#14213D; display:inline">{{course_schedule.course.coursename}}</h2>
     <small class="text-muted">{{ course_schedule.course.coursecode }}</small>
     </a>
@@ -21,18 +37,25 @@
           <div class="media-body">
             
             <div class="article-metadata">
-              <a href="{% url 'student_assignment' pk=course_student.course.id student=course_student.student %}">{{ course_student.student.last_name }}, {{ course_student.student.first_name }}</a>
+              <a href="{% url 'student_assignment' pk=course_student.1 student=2 %}">{{ course_student.4 }}, {{ course_student.3 }}</a>
               <a style="float:right; font-size:14px;">Grade</a>
             </div>
-                <span style="float:left; font-size:125%;">{{course_student.grade}}%</span>
-                <a style="float:right; font-size:32px;" href="{% url 'student_assignment' pk=course_student.course.id student=course_student.student %}"> 
+                <span style="float:left; font-size:125%;">
+                {% if course_student.7 is null %}
+                    Not graded
+                {% else %}
+                    {{course_student.7|floatformat:0}}%
+                {% endif %}
+                </span>
+                <a style="float:right; font-size:32px;" href="{% url 'student_assignment' pk=course_student.1 student=course_student.1 %}"> 
                 {% now "Y-m-d" as todaysdate %}
-                {% if course_student.course.term.termstart|date:"Y-m-d" > todaysdate %}
-                {% elif course_student.grade >= 90 %} A
-                {% elif 90 > course_student.grade and course_student.grade >= 80 %} B 
-                {% elif 80 > course_student.grade and course_student.grade >= 70 %} C 
-                {% elif 70 > course_student.grade and course_student.grade >= 60 %} D 
-                    {% else %} F 
+                {% if course_student.11|date:"Y-m-d" > todaysdate %}
+                {% elif course_student.7 >= 90 %} A
+                {% elif 90 > course_student.7 and course_student.7 >= 80 %} B 
+                {% elif 80 > course_student.7 and course_student.7 >= 70 %} C 
+                {% elif 70 > course_student.7 and course_student.7 >= 60 %} D 
+                {% elif 60 > course_student.7 and course_student.7 >= 0 %} F 
+                    {% else %} --
                     {% endif %}
                 </a>
           </div>
