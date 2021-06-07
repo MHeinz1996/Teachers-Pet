@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, redirect
+from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, redirect, Http404
 from django.http import HttpRequest, HttpResponse
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
@@ -10,6 +10,7 @@ from django.db import IntegrityError
 from django.db import connection
 from django.db.models import Q
 from django.views.generic.edit import DeleteView
+import os
 
 
 
@@ -28,8 +29,8 @@ from .forms import CourseScheduleForm
 from .forms import StudentSubmissionForm
 from .forms import UploadForm
 
-#Test file upload
-def file_upload(request,pk):
+#File upload
+def file_upload(request, pk):
     context ={'pk': pk}
     course_assignment= get_object_or_404(CourseAssignment,pk=pk)
     user_stats=User.objects.filter(username=request.user)
@@ -39,7 +40,7 @@ def file_upload(request,pk):
             form.instance.assignment=course_assignment
             form.instance.student=user_stats
             form.save()
-            return redirect('file_view')
+            return redirect('homepage')
     else:
         form = UploadForm()
     return render(request, 'file_upload.html', {
@@ -51,6 +52,16 @@ def file_view(request):
     return render(request, 'file_view.html', {
         'files': files
     })
+
+def download(request,path):
+	file_path=os.path.join(settings.MEDIA_ROOT,path)
+	if os.path.exists(file_path):
+		with open(file_path,'rb')as fh:
+			response=HttpResponse(fh.read(),content_type="")
+			response['Content-Disposition']='inline; filename=' + os.path.basename(file_path)
+			return response
+			
+		raise Http404
 
 def homepage(request):
     return render(request, 'homepage.html')

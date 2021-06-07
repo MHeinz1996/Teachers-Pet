@@ -7,6 +7,10 @@ from django.urls import path, include
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from app import forms, views
+from django.conf.urls import url
+from django.conf.urls.static import static
+from django.conf import settings
+from django.views.static import serve
 
 from users import views as users_views
 
@@ -15,8 +19,11 @@ urlpatterns = [
     #**********************************************************************************
     # test file upload
     #**********************************************************************************
-    path('file_upload/<int:pk>', views.file_upload, name='file_upload'),
-    path('file_view', views.file_view, name='file_view'),
+    path('file_upload/<int:pk>/', views.file_upload, name='file_upload'),
+    path('file_view/', views.file_view, name='file_view'),
+    url(r'^download/(?P<path>.*)$',serve,{'document_root':settings.MEDIA_ROOT}),
+
+
 
 
     #**********************************************************************************
@@ -98,3 +105,7 @@ urlpatterns = [
     path('course_roster/<int:pk>/', views.course_roster, name = 'course_roster'),   
     
 ]
+
+if settings.DEBUG:
+	urlpatterns+=static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
+	urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

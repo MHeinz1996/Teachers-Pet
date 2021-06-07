@@ -25,11 +25,12 @@
           
           <td>{{ files.description }}</td>
           <td>
-            <a href="{{ files.submission.url }}" class="btn btn-primary btn-sm" target="_blank">
-              View
+            <a href="{{ files.submission.url }}" class="btn btn-primary btn-sm" download="{{ files.submission.url }}">
+              Download
             </a>
           </td>
           <td>{{ files.uploaded_at }}</td>
+          <td>{{ files.id }}</td>
         </tr>
       {% endfor %}
     </tbody>
