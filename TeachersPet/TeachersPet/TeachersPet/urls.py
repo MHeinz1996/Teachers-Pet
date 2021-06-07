@@ -20,7 +20,7 @@ urlpatterns = [
     # test file upload
     #**********************************************************************************
     path('file_upload/<int:pk>/', views.file_upload, name='file_upload'),
-    path('file_view/<int:pk>/', views.file_view, name='file_view'),
+    path('file_view/', views.file_view, name='file_view'),
     url(r'^download/(?P<path>.*)$',serve,{'document_root':settings.MEDIA_ROOT}),
 
 
