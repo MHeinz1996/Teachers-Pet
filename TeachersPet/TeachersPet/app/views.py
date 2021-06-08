@@ -22,7 +22,7 @@ from .models import LookupCourse
 from .models import Assignment_withGrade
 from .models import CurrentTeacherCS_withCounts
 from .models import StudentSubmission
-from .models import FileUpload
+
 from .forms import LookupTermForm
 from .forms import CourseAssignmentForm
 from .forms import CourseScheduleForm
@@ -38,9 +38,19 @@ def file_upload(request, pk):
         form = UploadForm(request.POST, request.FILES)
         if form.is_valid():
             form.instance.assignment=course_assignment
-            form.instance.student=user_stats
-            form.save()
+            #form.instance.student=user_stats
+            #form.save()
+            form.instance.student = request.user
+            form.instance.dateuploaded =datetime.date.today()
+            form.instance.pointsearned=0
+            post=form.save(commit=False)
+            post.save()
+            
             return redirect('homepage')
+
+
+
+
     else:
         form = UploadForm()
     return render(request, 'file_upload.html', {
@@ -48,7 +58,7 @@ def file_upload(request, pk):
     })
 
 def file_view(request):
-    files = FileUpload.objects.all()
+    files = StudentSubmission.objects.all()
     return render(request, 'file_view.html', {
         'files': files
     })

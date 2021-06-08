@@ -5,12 +5,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-class FileUpload(models.Model):
-    description = models.CharField(max_length=255, blank=True)
-    submission = models.FileField(upload_to='submissions/')
-    uploaded_at = models.DateTimeField(auto_now_add=True)
 
-  
 
 class CourseAssignment(models.Model):
     id = models.BigAutoField(primary_key=True)
@@ -102,12 +97,12 @@ class LookupTerm(models.Model):
 
 class StudentSubmission(models.Model):
     id = models.BigAutoField(primary_key=True)
-    dateuploaded = models.DateField(db_column='dateUploaded',verbose_name=u'Upload date')  # Field name made lowercase.
+    dateuploaded = models.DateField(db_column='dateuploaded',verbose_name=u'Upload date')  # Field name made lowercase.
     submission = models.FileField(upload_to='documents/',verbose_name=u'Submission')
-    pointsearned = models.PositiveIntegerField(verbose_name=u'Points earned')
-    teachernotes = models.TextField(db_column='teacherNotes',verbose_name=u'Teacher notes')  # Field name made lowercase.
+    pointsearned = models.PositiveIntegerField(verbose_name=u'Points earned',null=True)
+    teachernotes = models.TextField(db_column='teachernotes',verbose_name=u'Teacher notes', null=True)  # Field name made lowercase.
     assignment = models.ForeignKey(CourseAssignment, models.RESTRICT,verbose_name=u'Assignment description')
-    student = models.ForeignKey(User,on_delete=models.RESTRICT,null=True,verbose_name=u'Student')
+    student = models.ForeignKey(User,on_delete=models.RESTRICT,verbose_name=u'Student')
     dategraded=models.DateField(db_column='dateGraded',null=True,verbose_name=u'Date graded') 
 
 
