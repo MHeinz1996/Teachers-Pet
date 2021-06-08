@@ -40,9 +40,9 @@
               <a href="{% url 'student_assignment' pk=course_student.1 student=course_student.2  role='teacher' %}">{{ course_student.4 }}, {{ course_student.3 }}</a>
               <a style="float:right; font-size:14px;">Grade</a>
             </div>
-                <span style="float:left; font-size:125%;">
+                <span style="float:left; font-size:100%;">
                 {% if course_student.7 is null %}
-                    Not graded
+                    N/A
                 {% else %}
                     {{course_student.7|floatformat:0}}%
                 {% endif %}
@@ -55,7 +55,7 @@
                 {% elif 80 > course_student.7 and course_student.7 >= 70 %} C 
                 {% elif 70 > course_student.7 and course_student.7 >= 60 %} D 
                 {% elif 60 > course_student.7 and course_student.7 >= 0 %} F 
-                    {% else %} --
+                    {% else %} N/A
                     {% endif %}
                 </a>
           </div>
