@@ -188,6 +188,18 @@ class ClassStudentGrade(models.Model):
     ####################################################################################################
 
    
-
+class StudentCourseListWithGrade(models.Model):
+    course_student_id = models.PositiveIntegerField()
+    course_schedule_id=models.PositiveIntegerField()
+    student_id=models.PositiveIntegerField()
+    teacher = models.CharField(db_column='Teacher',max_length=150)
+    coursegrade = models.DecimalField(max_digits=10, decimal_places=0, blank=True, null=True,verbose_name=u'Course grade')
+    pointsEarned = models.DecimalField(max_digits=10, decimal_places=0, blank=True, null=True,verbose_name=u'Points earned')
+    pointsPossible = models.DecimalField(max_digits=10, decimal_places=0, blank=True, null=True,verbose_name=u'Points possible')
+    term = models.CharField(max_length=50)
+    termstart = models.DateField(db_column='termStart')  
+    termend = models.DateField(db_column='termEnd')  
+    coursename = models.CharField(db_column='coursename', max_length=150, verbose_name=u'Course name')
+    screen=models.CharField(db_column='screen',max_length=10, verbose_name=u'Screen')
 
     

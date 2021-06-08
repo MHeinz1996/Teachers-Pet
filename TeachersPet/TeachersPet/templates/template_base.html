@@ -33,7 +33,7 @@
           <div class="collapse navbar-collapse" id="navbarToggle">
               <div class="navbar-nav mr-auto">
                   <a class="nav-item nav-link" href="{% url 'homepage' %}">Home</a>
-                  <a class="nav-item nav-link" href="{% url 'student1_1' %}">My Courses</a> <!--Test link. Will need to set up a check to see what type of account is logged in and link to the appropriate view.-->
+                  <a class="nav-item nav-link" href="{% url 'student' screen_type='Current' %}">My Courses</a> <!--Test link. Will need to set up a check to see what type of account is logged in and link to the appropriate view.-->
                   {% if request.user|has_group:"Teachers"%}
                     <a class="nav-item nav-link" href="{% url 'teacher1_1' %}">Teaching</a> <!--Test link. Will need to set up a check to see what type of account is logged in and link to the appropriate view.-->
                   {% endif %}

@@ -2,6 +2,22 @@
 {% extends "template_base.html" %}  <!--creates child of base template. Applies nav bar to this view-->
 {% load static %}
 
+<!-- This screen uses a connection to a SQL Query, StudentCourseListWithGrade. Field index instead of field name has to be used
+0 = course_student_id
+1 = course_schedule_id
+2 = student_id
+3 = teacher
+4 = coursegrade
+5 = pointsEarned
+6 = pointsPossible
+7 = term
+8 = termstart
+9 = termend
+10 = coursename
+11 = screen
+ -->
+
+
 {% block content %} <!--this block is where the page content is added-->
 <div class="container">
     
@@ -16,24 +32,26 @@
     {% endfor %}
 
             
-    {% for course_student in course_student %}  <!--for loops through dummy data in views.py and populates page-->
+    {% for course_student in course_student %}  <!--for loops through data in views.py and populates page-->
         <article class="media content-section">
           <div class="media-body">
             
             <div class="article-metadata">
-              <a href="{% url 'student_assignment' pk=course_student.course.id student=course_student.student %}" class="mr-2" >{{ course_student.course.course.coursename }}</a>   <!--replace dummy data with DB data-->
-              <small class="text-muted">{{ course_student.course.teacher.last_name }}, {{ course_student.course.teacher.first_name }}</small>    <!--replace link to teacher profile -->
-              <a style="float:right; font-size:14px;">{{course_student.course.term.term}}</a>
+
+              <a href="{% url 'student_assignment' pk=course_student.1 student=course_student.2 %}" class="mr-2" >{{ course_student.10 }}</a>   
+              <small class="text-muted">{{ course_student.3 }}</small>   
+              <a style="float:right; font-size:14px;">{{course_student.7}}</a>
             </div>
-                <span style="float:left; font-size:80%;">{{ course_student.course.term.termstart|date:"M d, Y"}} - {{ course_student.course.term.termend|date:"M d, Y"}}</span>
-                <a style="float:right; font-size:32px;" href="{% url 'student_assignment' pk=course_student.course.id student=course_student.student %}"> 
+                <span style="float:left; font-size:80%;">{{ course_student.8|date:"M d, Y"}} - {{ course_student.9|date:"M d, Y"}}</span>
+                <a style="float:right; font-size:32px;" href="{% url 'student_assignment' pk=course_student.1 student=course_student.2 %}"> 
                 {% now "Y-m-d" as todaysdate %}
-                {% if course_student.course.term.termstart|date:"Y-m-d" > todaysdate %}
-                {% elif course_student.grade >= 90 %} A
-                {% elif 90 > course_student.grade and course_student.grade >= 80 %} B 
-                {% elif 80 > course_student.grade and course_student.grade >= 70 %} C 
-                {% elif 70 > course_student.grade and course_student.grade >= 60 %} D 
-                    {% else %} F 
+                {% if course_student.8|date:"Y-m-d" > todaysdate %}
+                {% elif course_student.4 >= 90 %} A
+                {% elif 90 > course_student.4 and course_student.4 >= 80 %} B 
+                {% elif 80 > course_student.4 and course_student.4 >= 70 %} C 
+                {% elif 70 > course_student.4 and course_student.4 >= 60 %} D 
+                {% elif 60 > course_student.4 and course_student.4 >= 0 %} F 
+                    {% else %} --
                     {% endif %}
                 </a>
           </div>
@@ -41,16 +59,16 @@
 
         
     {% endfor %}    <!--closes for loop block-->
-    <a href="{% url 'student1_3' %}">
-        <!--href value will link to completed courses page when created-->
+    <a href="{% url 'student' screen_type='Completed' %}">
+        
         <button class="btn btn-outline-info">Completed</button>
     </a>
-    <a href="{% url 'student1_1' %}">
-        <!--href value will link to current courses page when created-->
+    <a href="{% url 'student' screen_type='Current' %}">
+        
         <button class="btn btn-outline-info">Current</button>
     </a>
-    <a href="{% url 'student1_2' %}">
-        <!--href value will link to current courses page when created-->
+    <a href="{% url 'student' screen_type='Future' %}">
+       
         <button class="btn btn-outline-info">Future</button>
     </a>  
 </div>

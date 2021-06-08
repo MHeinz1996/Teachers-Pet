@@ -71,9 +71,32 @@ def homepage(request):
 
 # listing of user's current classes
 @login_required
+def student(request,screen_type):
+    #get course_student table, filter on current user,  term end >= today, termstart <= today
+    student=request.user.id
+    cursor=connection.cursor()
+    q = "Call StudentCourseListWithGrade(" + str(student) + ",'" + screen_type + "')"
+    cursor.execute(q)
+    course_student=cursor.fetchall()
+    #get user table for current user
+    user_stats=User.objects.filter(username=request.user)
+    #parameters to pass to template: screen type is Current, Show grades= yes because this is a student's own list of courses
+    # Create context to pass to template
+    context = {
+        'course_student': course_student,  'user_stats':user_stats,'screen_type':screen_type
+    }
+    #Render template
+    return render(request, 'student.html', context)
+
+
+@login_required
 def student1_1(request):
     #get course_student table, filter on current user,  term end >= today, termstart <= today
-    course_student=CourseStudent.objects.filter(student=request.user,course__term__termend__gte=datetime.date.today(),course__term__termstart__lte=datetime.date.today())
+    student=request.user.id
+    cursor=connection.cursor()
+    q = "Call StudentCourseListWithGrade(" + str(student) + ",'Current')"
+    cursor.execute(q)
+    course_student=cursor.fetchall()
     #get user table for current user
     user_stats=User.objects.filter(username=request.user)
     #parameters to pass to template: screen type is Current, Show grades= yes because this is a student's own list of courses
@@ -169,7 +192,6 @@ def teacher1_3(request):
 # listing of students assigned to a class (linked to from course listing screens (admin and teacher)
 def course_roster(request,pk):
     course_schedule= get_object_or_404(CourseSchedule,pk=pk)
-    #course_student=CourseStudent.objects.filter(course=pk)
     cursor=connection.cursor()
     q = "Call CourseStudentGrade(" + str(pk) + ")"
     cursor.execute(q)

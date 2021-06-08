@@ -32,13 +32,9 @@ urlpatterns = [
     path('', views.homepage, name='homepage'),
     #**********************************************************************************
     # Student listings
-    #**********************************************************************************
-    # List of currently enrolled courses for user
-    path('student1_1', views.student1_1, name='student1_1'),
-    # List of future enrolled courses for user
-    path('student1_2', views.student1_2, name='student1_2'),
-    # List of completed courses for user
-    path('student1_3', views.student1_3, name='student1_3'),
+    #***************************************************** *****************************
+     # List of  enrolled courses for user - screen type parm is passed, Completed, Current, or Future
+    path('student/<str:screen_type>', views.student, name='student'),
 
     #**********************************************************************************
     # Teachers listings
