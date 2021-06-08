@@ -89,59 +89,7 @@ def student(request,screen_type):
     return render(request, 'student.html', context)
 
 
-@login_required
-def student1_1(request):
-    #get course_student table, filter on current user,  term end >= today, termstart <= today
-    student=request.user.id
-    cursor=connection.cursor()
-    q = "Call StudentCourseListWithGrade(" + str(student) + ",'Current')"
-    cursor.execute(q)
-    course_student=cursor.fetchall()
-    #get user table for current user
-    user_stats=User.objects.filter(username=request.user)
-    #parameters to pass to template: screen type is Current, Show grades= yes because this is a student's own list of courses
-    screen_type='Current'
-    show_grade=1
-    # Create context to pass to template
-    context = {
-        'course_student': course_student,  'user_stats':user_stats,'screen_type':screen_type, show_grade:show_grade
-    }
-    #Render template
-    return render(request, 'student.html', context)
 
-# listing of user's future classes
-@login_required
-def student1_2(request):
-    #get course_student table, filter on current user, term start > today
-    course_student=CourseStudent.objects.filter(student=request.user,course__term__termstart__gt=datetime.date.today())
-    #get user table for current user
-    user_stats=User.objects.filter(username=request.user)
-    #parameters to pass to template: screen type is Future, Show grades= no because courses haven't started yet
-    screen_type='Future'
-    show_grade=0
-    # Create context to pass to template
-    context = {
-        'course_student': course_student,  'user_stats':user_stats,'screen_type':screen_type,show_grade:show_grade
-    }
-    #Render template
-    return render(request, 'student.html', context)
-
-#listing of student's completed classes
-@login_required
-def student1_3(request):
-    #get course_student table, filter on current user, term end < today
-    course_student=CourseStudent.objects.filter(student=request.user,course__term__termend__lt=datetime.date.today())
-    #get user table for current user
-    user_stats=User.objects.filter(username=request.user)
-    #parameters to pass to template: screen type is Future, Show grades= yes because this is a student's own list of courses
-    screen_type='Completed'
-    show_grade=1
-    # Create context to pass to template
-    context = {
-        'course_student': course_student,  'user_stats':user_stats,'screen_type':screen_type,show_grade:show_grade
-    }
-   #Render template
-    return render(request, 'student.html', context)
 
 @login_required
 # listing of teacher's current classes
@@ -411,14 +359,14 @@ def update_term(request, pk):
 
 
 # List the assignments/submissions for a scheduled course and student
-def student_assignment(request,pk,student):
+def student_assignment(request,pk,student,role):
     course_schedule= get_object_or_404(CourseSchedule,pk=pk)
     cursor=connection.cursor()
     user_stats=User.objects.filter(username=student) 
     q = "Call Assignment_withGrade('" + str(student) + "'," + str(pk)+ ")"
     cursor.execute(q)
     course_assignment=cursor.fetchall()
-    context={'course_schedule': course_schedule, 'course_assignment':course_assignment,'user_stats':user_stats,'student':student, 'pk':pk}
+    context={'course_schedule': course_schedule, 'course_assignment':course_assignment,'user_stats':user_stats,'student':student, 'pk':pk,'role':role}
 
     return render(request, 'student_assignment.html',context )
 

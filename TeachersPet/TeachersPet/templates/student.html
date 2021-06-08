@@ -38,12 +38,12 @@
             
             <div class="article-metadata">
 
-              <a href="{% url 'student_assignment' pk=course_student.1 student=course_student.2 %}" class="mr-2" >{{ course_student.10 }}</a>   
+              <a href="{% url 'student_assignment' pk=course_student.1 student=course_student.2  role='student' %}" class="mr-2" >{{ course_student.10 }}</a>   
               <small class="text-muted">{{ course_student.3 }}</small>   
               <a style="float:right; font-size:14px;">{{course_student.7}}</a>
             </div>
                 <span style="float:left; font-size:80%;">{{ course_student.8|date:"M d, Y"}} - {{ course_student.9|date:"M d, Y"}}</span>
-                <a style="float:right; font-size:32px;" href="{% url 'student_assignment' pk=course_student.1 student=course_student.2 %}"> 
+                <a style="float:right; font-size:32px;" href="{% url 'student_assignment' pk=course_student.1 student=course_student.2 role='student'%}"> 
                 {% now "Y-m-d" as todaysdate %}
                 {% if course_student.8|date:"Y-m-d" > todaysdate %}
                 {% elif course_student.4 >= 90 %} A

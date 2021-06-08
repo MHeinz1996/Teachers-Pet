@@ -80,7 +80,7 @@ urlpatterns = [
     # Student assignments - show all assignments for a scheduled course/student. Show
     # grades when available
     #**********************************************************************************
-    path('student_assignment/<int:pk>/<str:student>', views.student_assignment, name='student_assignment'),
+    path('student_assignment/<int:pk>/<str:student>/<str:role>', views.student_assignment, name='student_assignment'),
 
 
     #**********************************************************************************

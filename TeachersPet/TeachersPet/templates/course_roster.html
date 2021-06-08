@@ -37,7 +37,7 @@
           <div class="media-body">
             
             <div class="article-metadata">
-              <a href="{% url 'student_assignment' pk=course_student.1 student=2 %}">{{ course_student.4 }}, {{ course_student.3 }}</a>
+              <a href="{% url 'student_assignment' pk=course_student.1 student=course_student.2  role='teacher' %}">{{ course_student.4 }}, {{ course_student.3 }}</a>
               <a style="float:right; font-size:14px;">Grade</a>
             </div>
                 <span style="float:left; font-size:125%;">
@@ -47,7 +47,7 @@
                     {{course_student.7|floatformat:0}}%
                 {% endif %}
                 </span>
-                <a style="float:right; font-size:32px;" href="{% url 'student_assignment' pk=course_student.1 student=course_student.1 %}"> 
+                <a style="float:right; font-size:32px;" href="{% url 'student_assignment' pk=course_student.1 student=course_student.1 role='teacher' %}"> 
                 {% now "Y-m-d" as todaysdate %}
                 {% if course_student.11|date:"Y-m-d" > todaysdate %}
                 {% elif course_student.7 >= 90 %} A
