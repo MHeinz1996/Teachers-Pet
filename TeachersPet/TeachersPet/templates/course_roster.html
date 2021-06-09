@@ -22,7 +22,7 @@
 {% block content %} <!--this block is where the page content is added-->
 <div class="container">
     <div class="article-metadata">
-    <p> <img src= "{% static 'app/images/student_banner.png' %}" alt=""> </p>
+    <p> <img src= "{% static 'app/images/roster_banner.png' %}" alt=""> </p>
     </div>
     <a href="{% url 'list_course_assignment' pk=course_schedule.pk %}">
     <h4 style="text-align:left; color:#14213D; display:inline">{{course_schedule.course.coursename}}</h4>

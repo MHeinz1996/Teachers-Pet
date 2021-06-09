@@ -3,14 +3,16 @@
 {% load static %}
 
 {% block content %} <!--this block is where the page content is added-->
-
+<div class="container">
 <div class="article-metadata">
-    <h2 style="text-align:left; color:#14213D; display:inline">{{course_schedule.course.coursename}}</h2>
-    <small class="text-muted">{{ course_schedule.course.coursecode }}</small>
-    <a style="float:right; font-size:14px; vertical-align:text-bottom">{{course_schedule.term.term}}</a>
+    
+
+    <p> <img src= "{% static 'app/images/assignment_banner.png' %}" alt=""> </p>
+    
     </div>
-    <a class="mr-2">{{course_schedule.teacher.last_name}}, {{course_schedule.teacher.first_name}} </a>
-    <a style="float:right; font-size:14px;">{{course_schedule.term.termstart}} - {{course_schedule.term.termend}}</a>
+    <h4 style="text-align:left; color:#14213D; display:inline">{{course_schedule.course.coursename}}</h4>
+    <small class="text-muted">{{ course_schedule.course.coursecode }}</small>
+    <a class="mr-2" style="float:right">{{course_schedule.teacher.last_name}}, {{course_schedule.teacher.first_name}} </a>
     <p>
 
 
@@ -45,5 +47,5 @@
     <button class="btn btn-outline-info">New Assignment</button>
  
 </a>
-
+</div>
 {% endblock content %}  <!--ends content block-->
