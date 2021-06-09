@@ -27,9 +27,20 @@ from .forms import LookupTermForm
 from .forms import CourseAssignmentForm
 from .forms import CourseScheduleForm
 from .forms import StudentSubmissionForm
+from .forms import StudentSubmissionGradeForm
 from .forms import UploadForm
 
-#File upload
+#**********************************************************************************
+# Home page
+#**********************************************************************************
+
+def homepage(request):
+    return render(request, 'homepage.html')
+
+#**********************************************************************************
+# Student Submissions
+#**********************************************************************************
+
 def file_upload(request, pk):
     context ={'pk': pk}
     course_assignment= get_object_or_404(CourseAssignment,pk=pk)
@@ -57,9 +68,8 @@ def file_upload(request, pk):
         'form': form
     })
 
-def file_view(request, pk):
-    context ={'pk': pk}
-    files = StudentSubmission.objects.filter(assignment__id=pk) # Trying to filter by class assignment, error in passing pk. Not sure if you're allowed to filter this way
+def file_view(request):
+    files = StudentSubmission.objects.all()
     return render(request, 'file_view.html', {
         'files': files
     })
@@ -74,12 +84,44 @@ def download(request,path):
 			
 		raise Http404
 
-def homepage(request):
-    return render(request, 'homepage.html')
+def create_submission_grade(request,pk,student):
+    
+    course_assignment= get_object_or_404(CourseAssignment,pk=pk)
+    student_user=User.objects.get(pk=student)
+    if request.method == 'POST':
+        form = StudentSubmissionGradeForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.instance.assignment=course_assignment          
+            form.instance.student = student_user
+            form.instance.dategraded =datetime.date.today()
+            post=form.save(commit=False)
+            post.save()
+            
+            return redirect('homepage')
+    else:
+        form = StudentSubmissionGradeForm()
+    context ={'pk': pk, 'student':student, 'student_user':student_user, 'form': form}
+    return render(request, 'create_submission_grade.html', context)
+
+# List the assignments/submissions for a scheduled course and student
+def student_assignment(request,pk,student,role):
+    course_schedule= get_object_or_404(CourseSchedule,pk=pk)
+    cursor=connection.cursor()
+    #user_stats=User.objects.filter(id=student) 
+    user_stats=User.objects.get(pk=student)
+    q = "Call Assignment_withGrade('" + str(student) + "'," + str(pk)+ ")"
+    cursor.execute(q)
+    course_assignment=cursor.fetchall()
+    context={'course_schedule': course_schedule, 'course_assignment':course_assignment,'user_stats':user_stats,'student':student, 'pk':pk,'role':role}
+
+    return render(request, 'student_assignment.html',context )
 
 #@login_required # Decorator that checks to see if a user is logged in before
 #allowing them to access these views
 
+#**********************************************************************************
+# Student courses
+#**********************************************************************************
 # listing of user's current classes
 @login_required
 def student(request,screen_type):
@@ -100,8 +142,9 @@ def student(request,screen_type):
     return render(request, 'student.html', context)
 
 
-
-
+#**********************************************************************************
+# Teacher courses
+#**********************************************************************************
 @login_required
 # listing of teacher's current classes
 def teacher1_1(request):
@@ -117,8 +160,6 @@ def teacher1_1(request):
     context = {
     'course_teacher': course_teacher, 'user_stats':user_stats, 'screen_type':screen_type,'teacher':teacher }
     return render(request, 'teacher.html', context)
-
-
 #listing of teacher's future classes
 @login_required
 def teacher1_2(request):
@@ -147,7 +188,9 @@ def teacher1_3(request):
     'course_teacher': course_teacher, 'user_stats':user_stats, 'screen_type':screen_type,'teacher':teacher }
     return render(request, 'teacher.html', context)
 
-
+#**********************************************************************************
+# Course roster
+#**********************************************************************************
 # listing of students assigned to a class (linked to from course listing screens (admin and teacher)
 def course_roster(request,pk):
     course_schedule= get_object_or_404(CourseSchedule,pk=pk)
@@ -159,6 +202,83 @@ def course_roster(request,pk):
     context={'course_schedule': course_schedule, 'course_student':course_student,'pk':pk}
     return render(request, 'course_roster.html',context )
 
+
+#**********************************************************************************
+# Course assignments
+#**********************************************************************************
+# create a new assignment for a scheduled course
+def create_assignment(request, parentkey):
+    # dictionary for initial data with 
+    # field names as keys
+    context ={'parentkey': parentkey}
+    course_schedule= get_object_or_404(CourseSchedule,pk=parentkey)
+    # add the dictionary during initialization
+    form = CourseAssignmentForm(request.POST or None)
+    if form.is_valid():
+        form.instance.course_schedule=course_schedule
+        form.save()
+        return redirect('list_course_assignment', pk=parentkey)
+    context['form']= form
+    context['model']="Assignment"
+    return render(request, "create_view.html", context)
+def list_course_assignment(request, pk):
+    course_schedule= get_object_or_404(CourseSchedule,pk=pk)
+    course_assignment=CourseAssignment.objects.filter(course_schedule=pk)
+
+    context={'course_schedule': course_schedule, 'course_assignment': course_assignment, 'pk':pk}
+          
+    return render(request, "list_course_assignment.html", context)
+def delete_assignment(request, pk, parentkey):
+    # dictionary for initial data with 
+    # field names as keys
+    context ={'pk':pk}
+  
+    # fetch the object related to passed id
+    obj = get_object_or_404(CourseAssignment, pk = pk)
+    context["data"] = obj
+    context["model"]="Course Assignment"
+    context["title1"]="Assignment"
+    context["title2"]="Date assigned"
+  
+    if request.method =="POST":
+        # delete object
+        try:
+            obj.delete()
+           
+        except Exception as e:
+            messages.error(request, "Deletion of this assignment is not allowed.")
+         
+        return redirect('list_course_assignment', pk=parentkey)
+        
+  
+    return render(request, "delete_view.html", context)
+def update_assignment(request, pk, parentkey):
+
+    # dictionary for initial data with 
+    # field names as keys
+    context ={'pk':pk,'parentkey':parentkey}
+  
+    # fetch the object related to passed id
+    obj = get_object_or_404(CourseAssignment, pk = pk)
+    
+    #fetch the header record for the passed ID
+
+    # pass the object as instance in form
+    form = CourseAssignmentForm(request.POST or None, instance = obj)
+  
+    # save the data from the form and
+    # redirect to list_view
+    if form.is_valid():
+        form.save()
+        return redirect('list_course_assignment', pk=parentkey)
+    # add form dictionary to context
+    context["form"] = form
+    context['model']="Assignment"   
+    return render(request, "update_view.html", context)
+
+#**********************************************************************************
+# Admin course schedules
+#**********************************************************************************
 # listing of all scheduled courses for the current term
 def admin1_1(request):
     all_courses=CourseSchedule.objects.filter(term__termend__gte=datetime.date.today(),term__termstart__lte=datetime.date.today())
@@ -173,7 +293,6 @@ def admin1_1(request):
         'all_courses': all_courses, 'screen_type':screen_type
     }
     return render(request, 'admin_courses.html', context)
-
 # listing of all future scheduled courses
 def admin1_2(request):
     all_courses=CourseSchedule.objects.filter(term__termstart__gt=datetime.date.today())
@@ -188,8 +307,6 @@ def admin1_2(request):
         'all_courses': all_courses, 'screen_type':screen_type
     }
     return render(request, 'admin_courses.html', context)
-
-
 # listing of all completed scheduled courses
 def admin1_3(request):
     all_courses=CourseSchedule.objects.filter(term__termend__lt=datetime.date.today())
@@ -205,6 +322,10 @@ def admin1_3(request):
     }
     return render(request, 'admin_courses.html', context)
 
+
+#**********************************************************************************
+# Course Schedule
+#**********************************************************************************
 # Create a new record in course schedule table 
 def create_course_schedule(request):
     # dictionary for initial data with 
@@ -219,8 +340,6 @@ def create_course_schedule(request):
     context['form']= form
     context['model']="CourseSchedule"
     return render(request, "create_view.html", context)
-
-
 # delete a record in course schedule table
 def delete_course_schedule(request, pk):
     # dictionary for initial data with 
@@ -244,7 +363,6 @@ def delete_course_schedule(request, pk):
         
   
     return render(request, "delete_view.html", context)
-
 # Update a record in the terms lookup table
 def update_course_schedule(request, pk):
 
@@ -269,7 +387,9 @@ def update_course_schedule(request, pk):
     context['model']="Course Schedule"   
     return render(request, "update_view.html", context)
 
-
+#**********************************************************************************
+# Lookup tables
+#**********************************************************************************
 # Create a new record in terms lookup table  
 def create_term(request):
     # dictionary for initial data with 
@@ -284,7 +404,6 @@ def create_term(request):
     context['form']= form
     context['model']="Term"
     return render(request, "create_view.html", context)
-
 # list all records in terms lookup table
 def list_term(request):
 
@@ -299,8 +418,6 @@ def list_term(request):
     context["title2"]="Date range"
           
     return render(request, "list_term.html", context)
-
-
 def delete_term(request, pk):
 
      # dictionary for initial data with 
@@ -326,11 +443,6 @@ def delete_term(request, pk):
         
   
     return render(request, "delete_view.html", context)
-
-
-
-
-
 #  View a record in the terms lookup table
 def detail_term(request, pk):
     # dictionary for initial data with 
@@ -343,7 +455,6 @@ def detail_term(request, pk):
     context["title1"]="Term name"
     context["title2"]="Date range"
     return render(request, "detail_view.html", context)
-
 # Update a record in the terms lookup table
 def update_term(request, pk):
 
@@ -367,93 +478,3 @@ def update_term(request, pk):
     context["form"] = form
     context['model']="Term"   
     return render(request, "update_view.html", context)
-
-
-# List the assignments/submissions for a scheduled course and student
-def student_assignment(request,pk,student,role):
-    course_schedule= get_object_or_404(CourseSchedule,pk=pk)
-    cursor=connection.cursor()
-    #user_stats=User.objects.filter(id=student) 
-    user_stats=User.objects.get(pk=student)
-    q = "Call Assignment_withGrade('" + str(student) + "'," + str(pk)+ ")"
-    cursor.execute(q)
-    course_assignment=cursor.fetchall()
-    context={'course_schedule': course_schedule, 'course_assignment':course_assignment,'user_stats':user_stats,'student':student, 'pk':pk,'role':role}
-
-    return render(request, 'student_assignment.html',context )
-
-# create a new assignment for a scheduled course
-def create_assignment(request, parentkey):
-    # dictionary for initial data with 
-    # field names as keys
-    context ={'parentkey': parentkey}
-    course_schedule= get_object_or_404(CourseSchedule,pk=parentkey)
-    # add the dictionary during initialization
-    form = CourseAssignmentForm(request.POST or None)
-    if form.is_valid():
-        form.instance.course_schedule=course_schedule
-        form.save()
-        return redirect('list_course_assignment', pk=parentkey)
-    context['form']= form
-    context['model']="Assignment"
-    return render(request, "create_view.html", context)
-
-def list_course_assignment(request, pk):
-    course_schedule= get_object_or_404(CourseSchedule,pk=pk)
-    course_assignment=CourseAssignment.objects.filter(course_schedule=pk)
-
-    context={'course_schedule': course_schedule, 'course_assignment': course_assignment, 'pk':pk}
-          
-    return render(request, "list_course_assignment.html", context)
-
-def delete_assignment(request, pk, parentkey):
-    # dictionary for initial data with 
-    # field names as keys
-    context ={'pk':pk}
-  
-    # fetch the object related to passed id
-    obj = get_object_or_404(CourseAssignment, pk = pk)
-    context["data"] = obj
-    context["model"]="Course Assignment"
-    context["title1"]="Assignment"
-    context["title2"]="Date assigned"
-  
-    if request.method =="POST":
-        # delete object
-        try:
-            obj.delete()
-           
-        except Exception as e:
-            messages.error(request, "Deletion of this assignment is not allowed.")
-         
-        return redirect('list_course_assignment', pk=parentkey)
-        
-  
-    return render(request, "delete_view.html", context)
-
-def update_assignment(request, pk, parentkey):
-
-    # dictionary for initial data with 
-    # field names as keys
-    context ={'pk':pk,'parentkey':parentkey}
-  
-    # fetch the object related to passed id
-    obj = get_object_or_404(CourseAssignment, pk = pk)
-    
-    #fetch the header record for the passed ID
-
-    # pass the object as instance in form
-    form = CourseAssignmentForm(request.POST or None, instance = obj)
-  
-    # save the data from the form and
-    # redirect to list_view
-    if form.is_valid():
-        form.save()
-        return redirect('list_course_assignment', pk=parentkey)
-
-  
-    # add form dictionary to context
-    context["form"] = form
-    context['model']="Assignment"   
-    return render(request, "update_view.html", context)
-

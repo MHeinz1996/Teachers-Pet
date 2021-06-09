@@ -77,16 +77,15 @@ urlpatterns = [
     path('detail_term/<int:pk>', views.detail_term, name='detail_term'),
 
     #**********************************************************************************
-    # Student assignments - show all assignments for a scheduled course/student. Show
+    # Student assignments/submissions - show all assignments for a scheduled course/student. Show
     # grades when available
     #**********************************************************************************
     path('student_assignment/<int:pk>/<str:student>/<str:role>', views.student_assignment, name='student_assignment'),
-
+    path('create_submission_grade/<int:pk>/<int:student>',views.create_submission_grade,name='create_submission_grade'),
 
     #**********************************************************************************
     #User maintenance screens
     #**********************************************************************************
-
     path('register/', users_views.register, name='register'),
     path('users_list/', users_views.user_list, name='user_list'),
     path('user_create/', users_views.user_create, name='user_create'),
