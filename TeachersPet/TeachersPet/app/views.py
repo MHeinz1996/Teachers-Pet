@@ -57,8 +57,9 @@ def file_upload(request, pk):
         'form': form
     })
 
-def file_view(request):
-    files = StudentSubmission.objects.all()
+def file_view(request, pk):
+    context ={'pk': pk}
+    files = StudentSubmission.objects.filter(assignment__id=pk) # Trying to filter by class assignment, error in passing pk. Not sure if you're allowed to filter this way
     return render(request, 'file_view.html', {
         'files': files
     })

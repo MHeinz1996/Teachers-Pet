@@ -13,7 +13,7 @@ from .models import CourseStudent, LookupTerm, CourseAssignment,CourseSchedule, 
 class UploadForm(forms.ModelForm):
     class Meta:
         model = StudentSubmission
-        fields = ('submission', )
+        fields = ('submission',)
 
 class BootstrapAuthenticationForm(AuthenticationForm):
     """Authentication form which uses boostrap CSS."""
