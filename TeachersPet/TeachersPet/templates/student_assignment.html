@@ -30,8 +30,10 @@
                 <p style="float:left; font-size:80%;">{{course_assignment.3}}</p>
                 <a style="float:right; font-size:16px;">
                     {% if role|is_teacher %}
-                    
+                        {% now "Y-m-d" as todaysdate %}
+                        {% if course_schedule.term.termend|date:"Y-m-d" > todaysdate %}
                         <a style="float:right;" href="{% url 'file_view' %}"><button class="btn btn-success" style="margin:2px">Grade</button></a>
+                        {% endif %}
                         <a style="float:right;" href="{% url 'file_view' %}"><button class="btn btn-outline-secondary" style="margin:2px">View Submission</button></a>
                     {% else %}
                         <a style="float:right;" href="{% url 'file_upload' pk=course_assignment.0 %}"<button class="btn btn-primary">Submit</button></a>
