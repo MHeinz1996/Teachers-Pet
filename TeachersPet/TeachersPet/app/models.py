@@ -97,8 +97,8 @@ class LookupTerm(models.Model):
 
 class StudentSubmission(models.Model):
     id = models.BigAutoField(primary_key=True)
-    dateuploaded = models.DateField(db_column='dateuploaded',verbose_name=u'Upload date')  # Field name made lowercase.
-    submission = models.FileField(upload_to='documents/',verbose_name=u'Submission',null=True)
+    dateuploaded = models.DateField(db_column='dateuploaded',verbose_name=u'Upload date', null=True)  # Field name made lowercase.
+    submission = models.FileField(upload_to='documents/',verbose_name=u'Submission',blank=True)
     pointsearned = models.PositiveIntegerField(verbose_name=u'Points earned',null=True)
     teachernotes = models.TextField(db_column='teachernotes',verbose_name=u'Teacher notes', null=True)  # Field name made lowercase.
     assignment = models.ForeignKey(CourseAssignment, models.RESTRICT,verbose_name=u'Assignment description')

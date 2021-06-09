@@ -52,9 +52,9 @@
                         {% if course_schedule.term.termend|date:"Y-m-d" > todaysdate %}
                             {% if course_assignment.8  %}
                             <!-- if no submission yet, show the submission create screen for grading, otherwise go to the submission update screen for grading-->
-                                <a style="float:right;" href="{% url 'create_submission_grade' pk=course_assignment.0 student=student %}"><button class="btn btn-success" style="margin:2px">Grade</button></a>
+                                <a style="float:right;" href="{% url 'create_submission_grade' pk=course_assignment.0 student=student role=role parentkey=course_assignment.5 %}"><button class="btn btn-success" style="margin:2px">Grade</button></a>
                             {% else %}
-                                <a style="float:right;" href="{% url 'create_submission_grade' pk=course_assignment.0 student=student %}"><button class="btn btn-success" style="margin:2px">Grade</button></a>
+                                <a style="float:right;" href="{% url 'create_submission_grade' pk=course_assignment.0 student=student role=role parentkey=course_assignment.5 %}"><button class="btn btn-success" style="margin:2px">Grade</button></a>
                             {% endif %}
                             <a style="float:right;" href="{% url 'file_view' pk=course_assignment.0 %}"><button class="btn btn-outline-secondary" style="margin:2px">View Submission</button></a>
                         {% endif %}

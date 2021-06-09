@@ -23,7 +23,7 @@ class StudentSubmissionForm(forms.ModelForm):
 class StudentSubmissionGradeForm(forms.ModelForm):
     class Meta:
         model = StudentSubmission
-        fields = ["submission","pointsearned","teachernotes"]
+        fields = ["pointsearned","teachernotes"]
 
 
 #**********************************************************************************

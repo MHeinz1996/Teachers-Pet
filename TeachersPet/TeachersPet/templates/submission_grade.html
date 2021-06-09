@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+{% extends "template_base.html" %}  <!--creates child of base template. Applies nav bar to this view-->
+{% load static %}
+{% load crispy_forms_tags %}
+{% load user_tags %}
+
+<div class="container">
+    <div class="article-metadata">
+        <p> <img src= "{% static 'app/images/assignment_banner.png' %}" alt=""> </p>
+    </div>
+    <h4 style="text-align:left; color:#14213D; display:inline">{{course_schedule.course.coursename}}</h4>
+    <small class="text-muted">{{ course_schedule.course.coursecode }}</small>
+   
+
+    {% block content %}
+
+    <div class="content-section">
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            <fieldset class="form-group">
+ 
+                <legend class="border-bottom mr-2" 
+                        <h4 style="text-align:left; color:#14213D; display:inline">{{course_assignment.course_schedule.course.coursename}}</h4>
+                        <small class="text-muted">{{ course_assignment.course_schedule.course.coursecode }}</small>
+                        <p class="mr-2" style="float:right">{{student_user.last_name}}, {{student_user.first_name}} </p>
+                        <p> Due : {{course_assignment.duedate | date:"SHORT_DATE_FORMAT"}}</p>
+                        <p style="float:right; font-size:14px;">{{course_assignment.pointsearned}}/{{course_assignment.pointspossible}}</p>
+                        
+
+
+
+                </legend>
+   
+                {{form|crispy}}
+            </fieldset>
+
+            <div class"form-group">
+                <button class="btn btn-outline-info" type="submit">Save grade</button>
+            </div>
+
+        </form>
+
+
+    </div>
+    {% endblock content %}
+
+</div>
+
+

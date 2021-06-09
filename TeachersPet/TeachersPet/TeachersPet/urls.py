@@ -81,7 +81,7 @@ urlpatterns = [
     # grades when available
     #**********************************************************************************
     path('student_assignment/<int:pk>/<str:student>/<str:role>', views.student_assignment, name='student_assignment'),
-    path('create_submission_grade/<int:pk>/<int:student>',views.create_submission_grade,name='create_submission_grade'),
+    path('create_submission_grade/<int:pk>/<int:student>/<str:role>/<int:parentkey>',views.create_submission_grade,name='create_submission_grade'),
 
     #**********************************************************************************
     #User maintenance screens

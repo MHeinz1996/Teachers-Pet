@@ -84,7 +84,7 @@ def download(request,path):
 			
 		raise Http404
 
-def create_submission_grade(request,pk,student):
+def create_submission_grade(request,pk,student,role,parentkey):
     
     course_assignment= get_object_or_404(CourseAssignment,pk=pk)
     student_user=User.objects.get(pk=student)
@@ -96,12 +96,30 @@ def create_submission_grade(request,pk,student):
             form.instance.dategraded =datetime.date.today()
             post=form.save(commit=False)
             post.save()
-            
-            return redirect('homepage')
+            return redirect('student_assignment', pk=parentkey, student=student, role=role)
     else:
         form = StudentSubmissionGradeForm()
-    context ={'pk': pk, 'student':student, 'student_user':student_user, 'form': form}
-    return render(request, 'create_submission_grade.html', context)
+    context ={'pk': pk, 'student':student, 'student_user':student_user, 'form': form,'role':role, 'action':'create','course_assignment':course_assignment}
+    return render(request, 'submission_grade.html', context)
+
+def update_submission_grade(request,pk,student,role,parentkey):
+    
+    course_assignment= get_object_or_404(CourseAssignment,pk=pk)
+    student_user=User.objects.get(pk=student)
+    if request.method == 'POST':
+        form = StudentSubmissionGradeForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.instance.assignment=course_assignment          
+            form.instance.student = student_user
+            form.instance.dategraded =datetime.date.today()
+            post=form.save(commit=False)
+            post.save()
+            return redirect('student_assignment', pk=parentkey, student=student, role=role)
+    else:
+        form = StudentSubmissionGradeForm()
+    context ={'pk': pk, 'student':student, 'student_user':student_user, 'form': form,'role':role, 'action':'update'}
+    return render(request, 'submission_grade.html', context)
+
 
 # List the assignments/submissions for a scheduled course and student
 def student_assignment(request,pk,student,role):
@@ -221,6 +239,8 @@ def create_assignment(request, parentkey):
     context['form']= form
     context['model']="Assignment"
     return render(request, "create_view.html", context)
+
+#list course assignments
 def list_course_assignment(request, pk):
     course_schedule= get_object_or_404(CourseSchedule,pk=pk)
     course_assignment=CourseAssignment.objects.filter(course_schedule=pk)
@@ -228,6 +248,8 @@ def list_course_assignment(request, pk):
     context={'course_schedule': course_schedule, 'course_assignment': course_assignment, 'pk':pk}
           
     return render(request, "list_course_assignment.html", context)
+
+#delete a course assignment
 def delete_assignment(request, pk, parentkey):
     # dictionary for initial data with 
     # field names as keys
