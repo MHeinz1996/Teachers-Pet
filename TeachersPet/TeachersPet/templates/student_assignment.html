@@ -13,8 +13,11 @@
     </div>
     <h4 style="text-align:left; color:#14213D; display:inline">{{course_schedule.course.coursename}}</h4>
     <small class="text-muted">{{ course_schedule.course.coursecode }}</small>
-    <a class="mr-2" style="float:right">{{user_stats.last_name}}, {{user_stats.first_name}} </a>
-    <p>
+    {% if user_stats %}
+        <a class="mr-2" style="float:right">{{user_stats.last_name}}, {{user_stats.first_name}} </a>
+    {% else %}
+        <a class="mr-2" style="float:right">{{student}} </a>
+    {% endif %}
 
 
 {% if course_assignment %}

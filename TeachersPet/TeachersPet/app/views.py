@@ -372,7 +372,8 @@ def update_term(request, pk):
 def student_assignment(request,pk,student,role):
     course_schedule= get_object_or_404(CourseSchedule,pk=pk)
     cursor=connection.cursor()
-    user_stats=User.objects.filter(username=student) 
+    #user_stats=User.objects.filter(id=student) 
+    user_stats=User.objects.get(pk=student)
     q = "Call Assignment_withGrade('" + str(student) + "'," + str(pk)+ ")"
     cursor.execute(q)
     course_assignment=cursor.fetchall()
