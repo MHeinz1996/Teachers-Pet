@@ -23,14 +23,15 @@
       {% for files in files %}
         <tr>
           
-          <td>{{ files.description }}</td>
+          <td>{{ files.submission }}</td>
           <td>
             <a href="{{ files.submission.url }}" class="btn btn-primary btn-sm" download="{{ files.submission.url }}">
               Download
             </a>
           </td>
-          <td>{{ files.uploaded_at }}</td>
+          <td>{{ files.dateuploaded }}</td>
           <td>{{ files.id }}</td>
+          <td>{{ files.assignment.id }}</td>
         </tr>
       {% endfor %}
     </tbody>
