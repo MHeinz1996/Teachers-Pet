@@ -8,12 +8,12 @@
 <!--Notes: Figure out how to have other pages pass user info for who's gradebook to display and for what class-->
 
 <div class="article-metadata">
-    <h2 style="text-align:left; color:#14213D; display:inline">{{course_schedule.course.coursename}}</h2>
-    <small class="text-muted">{{ course_schedule.course.coursecode }}</small>
-    <a style="float:right; font-size:14px; vertical-align:text-bottom">{{course_schedule.term.term}}</a>
+    <p> <img src= "{% static 'app/images/student_banner.png' %}" alt=""> </p>
+    
     </div>
-    <a class="mr-2">{{course_schedule.teacher.last_name}}, {{course_schedule.teacher.first_name}} </a>
-    <a style="float:right; font-size:14px;">{{course_schedule.term.termstart}} - {{course_schedule.term.termend}}</a>
+    <h4 style="text-align:left; color:#14213D; display:inline">{{course_schedule.course.coursename}}</h4>
+    <small class="text-muted">{{ course_schedule.course.coursecode }}</small>
+    <a class="mr-2" style="float:right">{{user_stats.last_name}}, {{user_stats.first_name}} </a>
     <p>
 
 
