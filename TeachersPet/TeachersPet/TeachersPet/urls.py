@@ -82,7 +82,7 @@ urlpatterns = [
     #**********************************************************************************
     path('student_assignment/<int:pk>/<str:student>/<str:role>', views.student_assignment, name='student_assignment'),
     path('create_submission_grade/<int:pk>/<int:student>/<str:role>/<int:parentkey>',views.create_submission_grade,name='create_submission_grade'),
-
+    path('update_submission_grade/<int:pk>/<int:student>/<str:role>/<int:parentkey>/<int:assignment>',views.update_submission_grade,name='update_submission_grade'),
     #**********************************************************************************
     #User maintenance screens
     #**********************************************************************************

@@ -100,26 +100,35 @@ def create_submission_grade(request,pk,student,role,parentkey):
             return redirect('student_assignment', pk=parentkey, student=student, role=role)
     else:
         form = StudentSubmissionGradeForm()
-    context ={'pk': pk, 'student':student, 'student_user':student_user, 'form': form,'role':role, 'action':'Grade Unsubmitted Assignment','course_assignment':course_assignment}
+    context ={'pk': pk, 'student':student, 'student_user':student_user, 'form': form,'role':role, 
+              'action':'Grade Unsubmitted Assignment','course_assignment':course_assignment}
     return render(request, 'submission_grade.html', context)
 
-def update_submission_grade(request,pk,student,role,parentkey):
-    
-    course_assignment= get_object_or_404(CourseAssignment,pk=pk)
+def update_submission_grade(request,pk,student,role,parentkey,assignment):
+    # dictionary for initial data with 
+    # field names as keys
+  
+    # fetch the object related to passed id
+    obj = get_object_or_404(StudentSubmission, pk = pk)
+    course_assignment=get_object_or_404(CourseAssignment,pk=assignment)
     student_user=User.objects.get(pk=student)
-    if request.method == 'POST':
-        form = StudentSubmissionGradeForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.instance.assignment=course_assignment          
-            form.instance.student = student_user
-            form.instance.dategraded =datetime.date.today()
-            post=form.save(commit=False)
-            post.save()
-            return redirect('student_assignment', pk=parentkey, student=student, role=role)
-    else:
-        form = StudentSubmissionGradeForm()
-    context ={'pk': pk, 'student':student, 'student_user':student_user, 'form': form,'role':role, 'action':'Grade Submitted Assignment'}
-    return render(request, 'submission_grade.html', context)
+    #fetch the course assignment record for the passed ID
+
+    # pass the object as instance in form
+    form = StudentSubmissionGradeForm(request.POST or None, instance = obj)
+  
+    # save the data from the form and
+    # redirect to list_view
+    if form.is_valid():
+        form.instance.dategraded=datetime.date.today()
+        form.save()
+        return redirect('student_assignment', pk=parentkey, student=student, role=role)
+    # add form dictionary to context
+    
+    context ={'pk': pk, 'student':student, 'student_user':student_user, 'form': form,'role':role, 
+              'action':'Grade Submitted Assignment','course_assignment':course_assignment}
+    return render(request, 'submission_grade.html', context)   
+
 
 
 # List the assignments/submissions for a scheduled course and student
@@ -280,7 +289,7 @@ def update_assignment(request, pk, parentkey):
     # dictionary for initial data with 
     # field names as keys
     context ={'pk':pk,'parentkey':parentkey}
-  
+
     # fetch the object related to passed id
     obj = get_object_or_404(CourseAssignment, pk = pk)
     
