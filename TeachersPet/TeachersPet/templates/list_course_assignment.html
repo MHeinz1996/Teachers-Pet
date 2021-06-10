@@ -42,7 +42,10 @@
     {% endfor %}
             {% endif %}    <!--closes for loop block-->
 
-
+<a href="{{request.META.HTTP_REFERER}}">
+        <!--href value will link to current courses page when created-->
+        <button class="btn btn-outline-info">Go Back</button>
+    </a>  
 <a href="{% url 'create_assignment' parentkey=course_schedule.id %}">
     <button class="btn btn-outline-info">New Assignment</button>
  
