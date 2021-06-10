@@ -99,7 +99,7 @@ def create_submission_grade(request,pk,student,role,parentkey):
             return redirect('student_assignment', pk=parentkey, student=student, role=role)
     else:
         form = StudentSubmissionGradeForm()
-    context ={'pk': pk, 'student':student, 'student_user':student_user, 'form': form,'role':role, 'action':'create','course_assignment':course_assignment}
+    context ={'pk': pk, 'student':student, 'student_user':student_user, 'form': form,'role':role, 'action':'Grade Unsubmitted Assignment','course_assignment':course_assignment}
     return render(request, 'submission_grade.html', context)
 
 def update_submission_grade(request,pk,student,role,parentkey):
@@ -117,7 +117,7 @@ def update_submission_grade(request,pk,student,role,parentkey):
             return redirect('student_assignment', pk=parentkey, student=student, role=role)
     else:
         form = StudentSubmissionGradeForm()
-    context ={'pk': pk, 'student':student, 'student_user':student_user, 'form': form,'role':role, 'action':'update'}
+    context ={'pk': pk, 'student':student, 'student_user':student_user, 'form': form,'role':role, 'action':'Grade Submitted Assignment'}
     return render(request, 'submission_grade.html', context)
 
 

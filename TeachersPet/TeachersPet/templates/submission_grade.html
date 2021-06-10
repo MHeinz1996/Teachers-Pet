@@ -27,7 +27,8 @@
             <fieldset class="form-group">
  
                 <legend class="border-bottom mr-2" 
-                        <h4 style="text-align:left; color:#14213D; display:inline">{{course_assignment.course_schedule.course.coursename}}</h4>
+                        <p style="text-align:left; color:#14213D; display:inline">{{action}}</p>
+                        <p style="text-align:left; color:#14213D; display:inline">{{course_assignment.course_schedule.course.coursename}}</p>
                         <small class="text-muted">{{ course_assignment.course_schedule.course.coursecode }}</small>
                         <p class="mr-2" style="float:right">{{student_user.last_name}}, {{student_user.first_name}} </p>
                         <p> Due : {{course_assignment.duedate | date:"SHORT_DATE_FORMAT"}}</p>
