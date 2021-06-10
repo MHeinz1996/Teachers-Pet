@@ -39,7 +39,6 @@ class CourseSchedule(models.Model):
     
 class CourseStudent(models.Model):
     id = models.BigAutoField(primary_key=True)
-    grade = models.DecimalField(max_digits=10, decimal_places=0, blank=True, null=True,verbose_name=u'Course grade')
     course = models.ForeignKey('CourseSchedule', models.RESTRICT,verbose_name=u'Course name')
     student = models.ForeignKey(User,on_delete=models.RESTRICT,null=True,verbose_name=u'Student')
 

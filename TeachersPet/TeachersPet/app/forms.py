@@ -47,7 +47,7 @@ class CourseStudentForm(forms.ModelForm):
 
     class Meta:
         model = CourseStudent
-        fields = ('student', 'course','grade')
+        fields = ('student', 'course')
 
 #**********************************************************************************
 # Course assignment
