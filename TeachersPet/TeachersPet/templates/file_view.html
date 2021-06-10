@@ -17,6 +17,7 @@
         <th>File</th>
         <th>View</th>
         <th>Upload Date</th>
+        <th>Student</th>
       </tr>
     </thead>
     <tbody>
@@ -30,8 +31,7 @@
             </a>
           </td>
           <td>{{ files.dateuploaded }}</td>
-          <td>{{ files.id }}</td>
-          <td>{{ files.assignment.id }}</td>
+          <td>{{ files.student.first_name }} {{ files.student.last_name }}</td>
         </tr>
       {% endfor %}
     </tbody>

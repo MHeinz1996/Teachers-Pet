@@ -68,10 +68,11 @@ def file_upload(request, pk):
         'form': form
     })
 
-def file_view(request):
-    files = StudentSubmission.objects.all()
+def file_view(request, pk):
+    context ={'pk': pk}
+    files = StudentSubmission.objects.filter(assignment=pk)
     return render(request, 'file_view.html', {
-        'files': files
+        'files': files, 'context':context
     })
 
 def download(request,path):
