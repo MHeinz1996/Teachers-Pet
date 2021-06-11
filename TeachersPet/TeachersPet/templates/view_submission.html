@@ -8,19 +8,25 @@
 <!--Notes: Figure out how to have other pages pass user info for who's gradebook to display and for what class-->
 <div class="container">
 
-    <h4 style="text-align:left; color:#14213D; display:inline">{{submission.assignment.course_schedule.course.coursename}}</h4>
-    <small class="text-muted">{{ submission.assignment.course_schedule.course.coursecode }}</small>
     
-    <a class="mr-2" style="float:right">{{submission.student.last_name}}, {{submission.student.first_name}} </a>
+
+    <div class="article-metadata">
+    <h4 style="text-align:left; color:#14213D; display:inline">{{submission.assignment.course_schedule.course.coursename}}</h4>  
+    <small class="text-muted">{{ submission.assignment.course_schedule.course.coursecode }}</small>
+    </div>
+    <a class="mr-2">{{submission.student.last_name}}, {{submission.student.first_name}} </a>
+    <a style="float:right; font-size:16px;">Due: {{ submission.assignment.duedate}}</a>
+    <p>
+
     <article class="media content-section">
         <div class="media-body">
             
             <div class="article-metadata">
-                <a>Due : {{submission.assignment.dateuploaded | date:"SHORT_DATE_FORMAT"}}</a>
+                <a class="mr-2">Description : {{submission.assignment }}</a>
             </div>
             <div class="media-body">
                 <p style="float:left; font-size:80%;">{{submission.submission}}</p>
-                <a href="{{ submission.submission.url }}" class="btn btn-primary btn-sm" download="{{ files.submission.url }}">
+                <a href="{{ submission.submission.url }}" class="btn btn-primary btn-sm" download="{{ files.submission.url }}" style="float:right">
                     Download
                 </a>
                     
