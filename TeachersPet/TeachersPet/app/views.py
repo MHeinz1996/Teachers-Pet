@@ -70,7 +70,7 @@ def file_upload(request, pk):
 
 def file_view(request, pk):
     context ={'pk': pk}
-    files = StudentSubmission.objects.filter(assignment=pk)
+    files = StudentSubmission.objects.filter(assignment=pk,dateuploaded__isnull=False)
     return render(request, 'file_view.html', {
         'files': files, 'context':context
     })
@@ -84,6 +84,17 @@ def download(request,path):
 			return response
 			
 		raise Http404
+
+def view_submission(request, pk):
+    # dictionary for initial data with 
+    # field names as keys
+    context ={}
+   
+    # add the dictionary during initialization
+    context["submission"] = StudentSubmission.objects.get(pk = pk)
+    
+    return render(request, "view_submission.html", context)
+
 
 def create_submission_grade(request,pk,student,role,parentkey):
     

@@ -15,6 +15,7 @@
 8=student_submission_id
 9=dateGraded
 10=username
+11=dateuploaded
  -->
 {% block content %} <!--this block is where the page content is added-->
 <!--Notes: Figure out how to have other pages pass user info for who's gradebook to display and for what class-->
@@ -58,7 +59,9 @@
                                 <a style="float:right;" href="{% url 'create_submission_grade' pk=course_assignment.0 student=student role=role parentkey=course_assignment.5 %}"><button class="btn btn-success" style="margin:2px">Grade</button></a>
                                 
                             {% endif %}
-                            <a style="float:right;" href="{% url 'file_view' pk=course_assignment.0 %}"><button class="btn btn-outline-secondary" style="margin:2px">View Submission</button></a>
+                            {% if course_assignment.11  %}
+                                <a style="float:right;" href="{% url 'view_submission' pk=course_assignment.8 %}"><button class="btn btn-outline-secondary" style="margin:2px">View Submission</button></a>
+                            {% endif %}
                         {% endif %}
                     {% else %}
                         {% now "Y-m-d" as todaysdate %}

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+{% extends "template_base.html" %}  <!--creates child of base template. Applies nav bar to this view-->
+{% load static %}
+{% load user_tags %}
+
+
+{% block content %} <!--this block is where the page content is added-->
+<!--Notes: Figure out how to have other pages pass user info for who's gradebook to display and for what class-->
+<div class="container">
+
+    <h4 style="text-align:left; color:#14213D; display:inline">{{submission.assignment.course_schedule.course.coursename}}</h4>
+    <small class="text-muted">{{ submission.assignment.course_schedule.course.coursecode }}</small>
+    
+    <a class="mr-2" style="float:right">{{submission.student.last_name}}, {{submission.student.first_name}} </a>
+    <article class="media content-section">
+        <div class="media-body">
+            
+            <div class="article-metadata">
+                <a>Due : {{submission.assignment.dateuploaded | date:"SHORT_DATE_FORMAT"}}</a>
+            </div>
+            <div class="media-body">
+                <p style="float:left; font-size:80%;">{{submission.submission}}</p>
+                <a href="{{ submission.submission.url }}" class="btn btn-primary btn-sm" download="{{ files.submission.url }}">
+                    Download
+                </a>
+                    
+            </div>
+        </div>       
+    </article>
+</div>
+{% endblock %}

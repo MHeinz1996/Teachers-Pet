@@ -15,6 +15,8 @@ class UploadForm(forms.ModelForm):
         model = StudentSubmission
         fields = ('submission', )
 
+
+
 class StudentSubmissionForm(forms.ModelForm):
     class Meta:
         model = StudentSubmission
