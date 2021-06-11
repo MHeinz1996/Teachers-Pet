@@ -9,6 +9,6 @@
     <button type="submit" class="btn btn-primary">Upload</button>
   </form>
 
-  <p><a href="{% url 'homepage' %}">
+  <p><a href="{{request.META.HTTP_REFERER}}">
   <button class="btn btn-outline-info">Back</button></a></p>
 {% endblock %}
