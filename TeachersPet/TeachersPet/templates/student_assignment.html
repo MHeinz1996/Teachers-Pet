@@ -61,6 +61,7 @@
                             <a style="float:right;" href="{% url 'file_view' pk=course_assignment.0 %}"><button class="btn btn-outline-secondary" style="margin:2px">View Submission</button></a>
                         {% endif %}
                     {% else %}
+                        {% now "Y-m-d" as todaysdate %}
                         {% if  course_schedule.term.termend|date:"Y-m-d" < todaysdate %}
 
                         <a style="float:right;" href="{% url 'file_upload' pk=course_assignment.0 %}"<button class="btn btn-primary">Submit</button></a>
