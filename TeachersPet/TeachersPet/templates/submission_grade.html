@@ -29,7 +29,9 @@
                         <small class="text-muted">{{ course_assignment.course_schedule.course.coursecode }}</small>
                         <p class="mr-2" style="float:right">{{student_user.last_name}}, {{student_user.first_name}} </p>
                         <p> Due : {{course_assignment.duedate | date:"SHORT_DATE_FORMAT"}}</p>
+                        <p> {{course_assignment.description}} </p>
                         <p style="float:right; font-size:14px;">Points possible: {{course_assignment.pointspossible}}</p>
+                     
  
                 </legend>
    
