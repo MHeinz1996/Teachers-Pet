@@ -3,12 +3,41 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+
+<div class="container">
+    <div class="article-metadata">
+    <p> <img src= "{% static 'app/images/upload.png' %}" alt=""> </p>
+    </div>
+    <a>
+    <!-- Here should be the course and course code 
+    <h4 style="text-align:left; color:#14213D; display:inline">{{course_schedule.course.coursename}}</h4>
+    <small class="text-muted">{{ course_schedule.course.coursecode }}</small>
+    -->
+    </a>
+    <!-- Here should be the due date
+    <a style="float:right; font-size:14px;">Due: {{duedate}}</a>
+     -->
+    <p>
+
+    <article class="media content-section">
+          <div class="media-body">
+          <!-- Here should be the assignment name
+          <h4 style="text-align:left; color:#14213D; display:inline">{{course_schedule.course.coursename}}</h4>
+           -->
+
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form|crispy }}
     <button type="submit" class="btn btn-primary">Upload</button>
   </form>
 
+          </div>
+        </article>
+
   <p><a href="{{request.META.HTTP_REFERER}}">
   <button class="btn btn-outline-info">Back</button></a></p>
+
+    </div>
+
+
 {% endblock %}
