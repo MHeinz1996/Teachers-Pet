@@ -106,13 +106,6 @@ class StudentSubmission(models.Model):
 
 
 
-class TeacherCertification(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    certification = models.CharField(max_length=255)
-    certdate = models.DateField(db_column='certDate')  # Field name made lowercase.
-    expirationdate = models.DateField(db_column='expirationDate')  # Field name made lowercase.
-    teacher = models.ForeignKey(User,on_delete=models.RESTRICT,null=True)
-
 class Assignment_withGrade(models.Model):
     assignment_id=models.PositiveIntegerField()
     assignmentdate=models.DateField(db_column='assignmentDate',verbose_name=u'Date assigned')
