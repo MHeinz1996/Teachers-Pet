@@ -42,9 +42,9 @@ def homepage(request):
 #**********************************************************************************
 
 def file_upload(request, pk):
-    context ={'pk': pk}
     course_assignment= get_object_or_404(CourseAssignment,pk=pk)
     user_stats=User.objects.filter(username=request.user)
+    context ={'pk': pk, 'user_stats':user_stats,'course_assignment':course_assignment}
     if request.method == 'POST':
         form = UploadForm(request.POST, request.FILES)
         if form.is_valid():
@@ -58,15 +58,14 @@ def file_upload(request, pk):
             post.save()
             
             return redirect('homepage')
-
-
-
-
     else:
         form = UploadForm()
-    return render(request, 'file_upload.html', {
-        'form': form
-    })
+    context ={'pk': pk, 'user_stats':user_stats,'course_assignment':course_assignment, 'form':form}
+    return render(request, 'file_upload.html',context )
+
+
+
+
 
 def file_view(request, pk):
     context ={'pk': pk}

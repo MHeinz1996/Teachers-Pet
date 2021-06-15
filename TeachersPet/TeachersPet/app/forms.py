@@ -13,14 +13,17 @@ from .models import CourseStudent, LookupTerm, CourseAssignment,CourseSchedule, 
 class UploadForm(forms.ModelForm):
     class Meta:
         model = StudentSubmission
-        fields = ('submission', )
+        fields = ['submission']
+        labels={'submission':''}
 
 
 
 class StudentSubmissionForm(forms.ModelForm):
     class Meta:
         model = StudentSubmission
+        
         fields = ["submission"]
+        
 
 class StudentSubmissionGradeForm(forms.ModelForm):
     class Meta:
