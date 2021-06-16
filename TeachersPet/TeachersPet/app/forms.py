@@ -5,16 +5,35 @@ Definition of forms.
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import ugettext_lazy as _
-from .models import CourseStudent, LookupTerm, CourseAssignment,CourseSchedule, StudentSubmission,FileUpload
+from .models import CourseStudent, LookupTerm, CourseAssignment,CourseSchedule, StudentSubmission
 
-
-
-#Temp form to test file upload
+#**********************************************************************************
+# Student Submissions Forms
+#**********************************************************************************
 class UploadForm(forms.ModelForm):
     class Meta:
-        model = FileUpload
-        fields = ('description', 'submission', )
+        model = StudentSubmission
+        fields = ['submission']
+        labels={'submission':''}
 
+
+
+class StudentSubmissionForm(forms.ModelForm):
+    class Meta:
+        model = StudentSubmission
+        
+        fields = ["submission"]
+        
+
+class StudentSubmissionGradeForm(forms.ModelForm):
+    class Meta:
+        model = StudentSubmission
+        fields = ["pointsearned","teachernotes"]
+
+
+#**********************************************************************************
+# user authentication
+#**********************************************************************************
 class BootstrapAuthenticationForm(AuthenticationForm):
     """Authentication form which uses boostrap CSS."""
     username = forms.CharField(max_length=254,
@@ -26,25 +45,26 @@ class BootstrapAuthenticationForm(AuthenticationForm):
                                    'class': 'form-control',
                                    'placeholder':'Password'}))
 
-
+#**********************************************************************************
+# Course Student form
+#**********************************************************************************
 class CourseStudentForm(forms.ModelForm):
 
     class Meta:
         model = CourseStudent
-        fields = ('student', 'course','grade')
+        fields = ('student', 'course')
 
-
-class LookupTermForm(forms.ModelForm):
-    class Meta:
-        model=LookupTerm
-        fields=["term","termstart","termend"]
-
+#**********************************************************************************
+# Course assignment
+#**********************************************************************************
 class CourseAssignmentForm(forms.ModelForm):
     class Meta:
         model=CourseAssignment
         fields=["description","assignmentdate","duedate", "pointspossible"]
 
-
+#**********************************************************************************
+# Course schedule
+#**********************************************************************************
 class CourseScheduleForm(forms.ModelForm):
 
     class Meta:
@@ -52,8 +72,12 @@ class CourseScheduleForm(forms.ModelForm):
         fields = ('course', 'teacher','term')
         
 
-
-class StudentSubmissionForm(forms.ModelForm):
+#**********************************************************************************
+# Lookup table forms
+#**********************************************************************************
+class LookupTermForm(forms.ModelForm):
     class Meta:
-        model = StudentSubmission
-        fields = ["submission"]
+        model=LookupTerm
+        fields=["term","termstart","termend"]
+
+

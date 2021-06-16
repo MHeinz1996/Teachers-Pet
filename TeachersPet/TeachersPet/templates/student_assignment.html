@@ -3,45 +3,85 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% load user_tags %}
-
+<!-- This screen uses a connection to a SQL Query, Assignment_withGrade. Field index instead of field name has to be used
+0=assignment_id
+1=assignmentDate
+2=dueDate
+3=description
+4=pointsPossible
+5=course_schedule_id
+6=pointsearned
+7=numbergrade
+8=student_submission_id
+9=dateGraded
+10=username
+11=dateuploaded
+ -->
 {% block content %} <!--this block is where the page content is added-->
 <!--Notes: Figure out how to have other pages pass user info for who's gradebook to display and for what class-->
-
+<div class="container">
 <div class="article-metadata">
-    <h2 style="text-align:left; color:#14213D; display:inline">{{course_schedule.course.coursename}}</h2>
-    <small class="text-muted">{{ course_schedule.course.coursecode }}</small>
-    <a style="float:right; font-size:14px; vertical-align:text-bottom">{{course_schedule.term.term}}</a>
+    <p> <img src= "{% static 'app/images/assignment_banner.png' %}" alt=""> </p>
+    
     </div>
-    <a class="mr-2">{{course_schedule.teacher.last_name}}, {{course_schedule.teacher.first_name}} </a>
-    <a style="float:right; font-size:14px;">{{course_schedule.term.termstart}} - {{course_schedule.term.termend}}</a>
+    <h4 style="text-align:left; color:#14213D; display:inline">{{course_schedule.course.coursename}}</h4>
+    <small class="text-muted">{{ course_schedule.course.coursecode }}</small>
+    {% if user_stats %}
+        <a class="mr-2" style="float:right">{{user_stats.last_name}}, {{user_stats.first_name}} </a>
+    {% else %}
+        <a class="mr-2" style="float:right">{{student}} </a>
+    {% endif %}
     <p>
 
 
 {% if course_assignment %}
     {% for course_assignment in course_assignment %} 
         <article class="media content-section">
-          <div class="media-body">
-            
-            <div class="article-metadata">
-              <a>Due : {{course_assignment.2 | date:"SHORT_DATE_FORMAT"}}</a>
-              <a style="float:right; font-size:14px;">{{course_assignment.6}}/{{course_assignment.4}}</a>
-            </div>
             <div class="media-body">
-                <p style="float:left; font-size:80%;">{{course_assignment.3}}</p>
-                <a style="float:right; font-size:16px;">
-                    {% if request.user|has_group:"Teachers"%}
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#popup">Delete</button>
-                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#popup">Edit</button>
-                    {% else %}
-                        <a style="float:right; font-size:16px;" href="{% url 'file_upload' pk=course_assignment.pk %}"<button type="button" class="btn btn-primary">Submit</button>
-                    {% endif %}
-                </a> <!-- the link to add assignments will go here -->
+            
+                <div class="article-metadata">
+                    <a>Due : {{course_assignment.2 | date:"SHORT_DATE_FORMAT"}}</a>
+                    <a style="float:right; font-size:14px;">{{course_assignment.6}}/{{course_assignment.4}}</a>
                 </div>
-        </div>
+                <div class="media-body">
+                    <p style="float:left; font-size:80%;">{{course_assignment.3}}</p>
+                    
+                    <!-- teachers should see the grade button-->
+                    {% if role|is_teacher %}
+                        {% now "Y-m-d" as todaysdate %}
+                        <!-- If term has not ended, show the grade button -->
+                        {% if course_schedule.term.termend|date:"Y-m-d" > todaysdate %}
+                            
+                            {% if course_assignment.8  %}
+                            <!-- if no submission yet, show the submission create screen for grading, otherwise go to the submission update screen for grading-->
+                                <a style="float:right;" href="{% url 'update_submission_grade' pk=course_assignment.8 student=student role=role parentkey=course_assignment.5 assignment=course_assignment.0 %}"><button class="btn btn-success" style="margin:2px">Grade</button></a>
+                                
+                            {% else %}
+                                <a style="float:right;" href="{% url 'create_submission_grade' pk=course_assignment.0 student=student role=role parentkey=course_assignment.5 %}"><button class="btn btn-success" style="margin:2px">Grade</button></a>
+                                
+                            {% endif %}
+                            {% if course_assignment.11  %}
+                                <a style="float:right;" href="{% url 'view_submission' pk=course_assignment.8 %}"><button class="btn btn-outline-secondary" style="margin:2px">View Submission</button></a>
+                            {% endif %}
+                        {% endif %}
+                    {% else %}
+                        {% now "Y-m-d" as todaysdate %}
+                        {% if  course_schedule.term.termstart|date:"Y-m-d" < todaysdate %}
+
+                        <a style="float:right;" href="{% url 'file_upload' pk=course_assignment.0 %}"<button class="btn btn-primary">Submit</button></a>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
           
         </article>
 
     {% endfor %}
-{% endif %}    <!--closes for loop block-->
-
+{% endif %}    <!--closes for loop block--> 
+<a href="{{request.META.HTTP_REFERER}}">
+        <!--href value will link to current courses page when created-->
+        <button class="btn btn-outline-info">Go Back</button>
+    </a>  
 {% endblock content %}  <!--ends content block-->
+
+</div>

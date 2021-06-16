@@ -10,7 +10,8 @@ from .models import CourseStudent
 from .models import LookupCourse
 from .models import LookupTerm
 from .models import StudentSubmission
-from .models import TeacherCertification
+
+
 
     
 admin.site.register(LookupDepartment)
@@ -20,4 +21,4 @@ admin.site.register(CourseStudent)
 admin.site.register(LookupCourse)
 admin.site.register(LookupTerm)
 admin.site.register(StudentSubmission)
-admin.site.register(TeacherCertification)
+

@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+{% extends "template_base.html" %}  <!--creates child of base template. Applies nav bar to this view-->
+{% load static %}
+{% load crispy_forms_tags %}
+{% load user_tags %}
+
+<div class="container">
+    
+    
+   
+
+    {% block content %}
+    <div class="article-metadata">
+        <h4 style="text-align:left; color:#14213D; display:inline">{{course_assignment.course_schedule.course.coursename}}</h4>
+        <small class="text-muted">{{ course_assignment.course_schedule.course.coursecode }}</small>
+        <small class="text-muted" style="float:right">Points Possible: </small>
+        
+    </div>
+        <!-- 
+        {% if user_stats %}
+            <a class="mr-2">{{user_stats.last_name}}, {{user_stats.first_name}} </a>
+            {% else %}
+            <a class="mr-2">{{student}} </a>
+        {% endif %}
+        -->
+        <a class="mr-2">{{student_user.last_name}}, {{student_user.first_name}} </a>
+        <a style="float:right; font-size:24px">{{course_assignment.pointspossible}}</a>
+        <!-- 
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        -->
+    <p>
+
+
+    
+
+    <article class="media content-section">
+    <div class="media-body">
+        
+        <form method="post">
+            {% csrf_token %}
+            <fieldset class="form-group">
+ 
+                <div class="border-bottom mr-2">
+                        <h5 style="color:#14213D;"> Due: {{course_assignment.duedate | date:"SHORT_DATE_FORMAT"}}</h5>
+                        <small class="text-muted">{{course_assignment.description}}</small>
+                     
+ 
+                </div>
+                <p></p>
+   
+                {{form|crispy}}
+            </fieldset>
+
+            <div class"form-group">
+                <button class="btn btn-outline-info" type="submit">Save grade</button>
+            </div>
+            </article>
+
+        </form>
+
+
+    </div>
+    {% endblock content %}
+
+</div>
+
+

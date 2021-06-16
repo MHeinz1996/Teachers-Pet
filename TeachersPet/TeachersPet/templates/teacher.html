@@ -8,26 +8,42 @@
 
     {% for user_stats in user_stats %}
     <div class="article-metadata">
-    <h2 style="text-align:left; color:#14213D;">{{screen_type}}</h2>
+    <p> <img src= "{% static 'app/images/teacher_banner.png' %}" alt=""> </p>
     </div>
     <a class="mr-2">{{user_stats.last_name}}, {{user_stats.first_name}} </a>
+    <a style="float:right; font-size:16px;">{{ screen_type}}</a>
     <p>
     
     {% endfor %}
-        
+    <!-- for sql queries you have to use index instead of field name:
+
+    
+    0 = course_schedule_id
+    1 = course_id
+    2 = term_id
+    3 = teacher_id
+    4 = term
+    5 = termstart  
+    6 = termend  
+    7 - coursename
+    8 = coursecode 
+    9 = first_name
+    10 = last_name
+    11 = roster_count
+    -->   
     {% if course_teacher %}       
     {% for course_teacher in course_teacher %}  <!--for loops through dummy data in views.py and populates page-->
         <article class="media content-section">
           <div class="media-body">
             
             <div class="article-metadata">
-              <a class="mr-2" href="{% url 'course_roster' pk=course_teacher.pk %}">{{ course_teacher.course.coursename }}  <!--replace dummy data with DB data-->
-              <!-- <small class="text-muted">{{ course_teacher.course.student.first_name }} students</small> I wanted to list the number of students here but couldnt figure out how to reference this -->
+              <a class="mr-2" href="{% url 'course_roster' pk=course_teacher.0 %}">{{ course_teacher.7 }}  
+              <small class="text-muted">{{ course_teacher.11 }} students</small> 
               </a> 
-              <a style="float:right; font-size:14px;">{{course_teacher.term.term}}</a>
+              <a style="float:right; font-size:14px;">{{course_teacher.4}}</a>
             </div>
-                <a style="float:left; font-size:80%;">{{ course_teacher.term.termstart|date:"M d, Y"}} - {{ course_teacher.term.termend|date:"M d, Y"}}</a>
-                <a style="float:right; font-size:16px;" href="{% url 'list_course_assignment' pk=course_teacher.pk %}">Assignments</a> <!-- the link to add assignments will go here -->
+                <a style="float:left; font-size:80%;">{{ course_teacher.5|date:"M d, Y"}} - {{ course_teacher.6|date:"M d, Y"}}</a>
+                <a style="float:right; font-size:16px;" href="{% url 'list_course_assignment' pk=course_teacher.0 %}">Assignments</a> <!-- the link to add assignments will go here -->
                 
           </div>
         </article>

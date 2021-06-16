@@ -17,19 +17,21 @@
         <th>File</th>
         <th>View</th>
         <th>Upload Date</th>
+        <th>Student</th>
       </tr>
     </thead>
     <tbody>
       {% for files in files %}
         <tr>
           
-          <td>{{ files.description }}</td>
+          <td>{{ files.submission }}</td>
           <td>
-            <a href="{{ files.submission.url }}" class="btn btn-primary btn-sm" target="_blank">
-              View
+            <a href="{{ files.submission.url }}" class="btn btn-primary btn-sm" download="{{ files.submission.url }}">
+              Download
             </a>
           </td>
-          <td>{{ files.uploaded_at }}</td>
+          <td>{{ files.dateuploaded }}</td>
+          <td>{{ files.student.first_name }} {{ files.student.last_name }}</td>
         </tr>
       {% endfor %}
     </tbody>

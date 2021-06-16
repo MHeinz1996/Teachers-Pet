@@ -7,6 +7,10 @@ from django.urls import path, include
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from app import forms, views
+from django.conf.urls import url
+from django.conf.urls.static import static
+from django.conf import settings
+from django.views.static import serve
 
 from users import views as users_views
 
@@ -15,8 +19,11 @@ urlpatterns = [
     #**********************************************************************************
     # test file upload
     #**********************************************************************************
-    path('file_upload/<int:pk>', views.file_upload, name='file_upload'),
-    path('file_view', views.file_view, name='file_view'),
+    path('file_upload/<int:pk>/', views.file_upload, name='file_upload'),
+    path('file_view/<int:pk>/', views.file_view, name='file_view'),
+    url(r'^download/(?P<path>.*)$',serve,{'document_root':settings.MEDIA_ROOT}),
+
+
 
 
     #**********************************************************************************
@@ -25,13 +32,9 @@ urlpatterns = [
     path('', views.homepage, name='homepage'),
     #**********************************************************************************
     # Student listings
-    #**********************************************************************************
-    # List of currently enrolled courses for user
-    path('student1_1', views.student1_1, name='student1_1'),
-    # List of future enrolled courses for user
-    path('student1_2', views.student1_2, name='student1_2'),
-    # List of completed courses for user
-    path('student1_3', views.student1_3, name='student1_3'),
+    #***************************************************** *****************************
+     # List of  enrolled courses for user - screen type parm is passed, Completed, Current, or Future
+    path('student/<str:screen_type>', views.student, name='student'),
 
     #**********************************************************************************
     # Teachers listings
@@ -74,16 +77,16 @@ urlpatterns = [
     path('detail_term/<int:pk>', views.detail_term, name='detail_term'),
 
     #**********************************************************************************
-    # Student assignments - show all assignments for a scheduled course/student. Show
+    # Student assignments/submissions - show all assignments for a scheduled course/student. Show
     # grades when available
     #**********************************************************************************
-    path('student_assignment/<int:pk>/<str:student>', views.student_assignment, name='student_assignment'),
-
-
+    path('student_assignment/<int:pk>/<str:student>/<str:role>', views.student_assignment, name='student_assignment'),
+    path('create_submission_grade/<int:pk>/<int:student>/<str:role>/<int:parentkey>',views.create_submission_grade,name='create_submission_grade'),
+    path('update_submission_grade/<int:pk>/<int:student>/<str:role>/<int:parentkey>/<int:assignment>',views.update_submission_grade,name='update_submission_grade'),
+    path('view_submission/<int:pk>',views.view_submission,name='view_submission'),
     #**********************************************************************************
     #User maintenance screens
     #**********************************************************************************
-
     path('register/', users_views.register, name='register'),
     path('users_list/', users_views.user_list, name='user_list'),
     path('user_create/', users_views.user_create, name='user_create'),
@@ -98,3 +101,7 @@ urlpatterns = [
     path('course_roster/<int:pk>/', views.course_roster, name = 'course_roster'),   
     
 ]
+
+if settings.DEBUG:
+	urlpatterns+=static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
+	urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

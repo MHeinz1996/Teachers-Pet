@@ -5,19 +5,14 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-class FileUpload(models.Model):
-    description = models.CharField(max_length=255, blank=True)
-    submission = models.FileField(upload_to='submissions/')
-    uploaded_at = models.DateTimeField(auto_now_add=True)
 
-  
 
 class CourseAssignment(models.Model):
     id = models.BigAutoField(primary_key=True)
-    assignmentdate = models.DateField(db_column='assignmentDate')  # Field name made lowercase.
-    duedate = models.DateField(db_column='dueDate')  # Field name made lowercase.
-    description = models.TextField()
-    pointspossible = models.PositiveIntegerField(db_column='pointsPossible')  # Field name made lowercase.
+    assignmentdate = models.DateField(db_column='assignmentDate',verbose_name=u'Assignment date')  # Field name made lowercase.
+    duedate = models.DateField(db_column='dueDate',verbose_name=u'Due date')  # Field name made lowercase.
+    description = models.TextField(verbose_name=u'Description')
+    pointspossible = models.PositiveIntegerField(db_column='pointsPossible',verbose_name=u'Points')  # Field name made lowercase.
     course_schedule = models.ForeignKey('CourseSchedule', models.DO_NOTHING)
     
     @property
@@ -34,9 +29,9 @@ class CourseAssignment(models.Model):
 
 class CourseSchedule(models.Model):
     id = models.BigAutoField(primary_key=True)
-    course = models.ForeignKey('LookupCourse', models.RESTRICT)
-    teacher = models.ForeignKey(User,on_delete=models.RESTRICT,null=True)
-    term = models.ForeignKey('LookupTerm', models.RESTRICT)
+    course = models.ForeignKey('LookupCourse', models.RESTRICT,verbose_name=u'Course name')
+    teacher = models.ForeignKey(User,on_delete=models.RESTRICT,null=True, verbose_name=u'Teacher')
+    term = models.ForeignKey('LookupTerm', models.RESTRICT,verbose_name=u'Term')
     
     def __str__(self):
         return self.term.term + ' ' + self.course.coursename
@@ -44,9 +39,8 @@ class CourseSchedule(models.Model):
     
 class CourseStudent(models.Model):
     id = models.BigAutoField(primary_key=True)
-    grade = models.DecimalField(max_digits=10, decimal_places=0, blank=True, null=True)
-    course = models.ForeignKey('CourseSchedule', models.RESTRICT)
-    student = models.ForeignKey(User,on_delete=models.RESTRICT,null=True)
+    course = models.ForeignKey('CourseSchedule', models.RESTRICT,verbose_name=u'Course name')
+    student = models.ForeignKey(User,on_delete=models.RESTRICT,null=True,verbose_name=u'Student')
 
     def __str__(self):
         return self.course.term.term + ' - ' + self.course.course.coursename + ' - ' + self.student.username
@@ -54,9 +48,9 @@ class CourseStudent(models.Model):
 
 class LookupCourse(models.Model):
     id = models.BigAutoField(primary_key=True)
-    coursename = models.CharField(db_column='coursename', unique=True, max_length=50)
-    coursecode = models.CharField(db_column='courseCode', max_length=15)  
-    department = models.ForeignKey('LookupDepartment', models.RESTRICT, db_column='department', blank=True, null=True)
+    coursename = models.CharField(db_column='coursename', unique=True, max_length=50,verbose_name=u'Course name')
+    coursecode = models.CharField(db_column='courseCode', max_length=15,verbose_name=u'Course code')  
+    department = models.ForeignKey('LookupDepartment', models.RESTRICT, db_column='department', blank=True, null=True,verbose_name=u'Department')
     
     @property
     def title1(self):
@@ -102,27 +96,19 @@ class LookupTerm(models.Model):
 
 class StudentSubmission(models.Model):
     id = models.BigAutoField(primary_key=True)
-    dateuploaded = models.DateField(db_column='dateUploaded')  # Field name made lowercase.
-    #submission = models.CharField(max_length=100)
-    submission = models.FileField(upload_to='submissions/')
-    pointsearned = models.PositiveIntegerField()
-    teachernotes = models.TextField(db_column='teacherNotes')  # Field name made lowercase.
-    assignment = models.ForeignKey(CourseAssignment, models.RESTRICT)
-    student = models.ForeignKey(User,on_delete=models.RESTRICT,null=True)
-    dategraded=models.DateField(db_column='dateGraded',null=True) 
+    dateuploaded = models.DateField(db_column='dateuploaded',verbose_name=u'Upload date', null=True)  # Field name made lowercase.
+    submission = models.FileField(upload_to='documents/',verbose_name=u'Submission',blank=True)
+    pointsearned = models.PositiveIntegerField(verbose_name=u'Points earned',null=True)
+    teachernotes = models.TextField(db_column='teachernotes',verbose_name=u'Teacher notes', null=True)  # Field name made lowercase.
+    assignment = models.ForeignKey(CourseAssignment, models.RESTRICT,verbose_name=u'Assignment description')
+    student = models.ForeignKey(User,on_delete=models.RESTRICT,verbose_name=u'Student')
+    dategraded=models.DateField(db_column='dateGraded',null=True,verbose_name=u'Date graded') 
 
 
-
-class TeacherCertification(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    certification = models.CharField(max_length=255)
-    certdate = models.DateField(db_column='certDate')  # Field name made lowercase.
-    expirationdate = models.DateField(db_column='expirationDate')  # Field name made lowercase.
-    teacher = models.ForeignKey(User,on_delete=models.RESTRICT,null=True)
 
 class Assignment_withGrade(models.Model):
     assignment_id=models.PositiveIntegerField()
-    assignmentdate=models.DateField(db_column='assignmentDate')
+    assignmentdate=models.DateField(db_column='assignmentDate',verbose_name=u'Date assigned')
     duedate = models.DateField(db_column='dueDate')  
     description = models.TextField()
     pointspossible = models.PositiveIntegerField(db_column='pointsPossible')
@@ -133,10 +119,74 @@ class Assignment_withGrade(models.Model):
     username=models.CharField(max_length=150)
     dategraded=models.DateField(db_column='dateGraded',null=True) 
     
+class CurrentTeacherCS_withCounts(models.Model):
+    course_schedule_id=models.PositiveIntegerField()
+    course_id=models.PositiveIntegerField()
+    teacher_id=models.PositiveIntegerField()
+    term = models.CharField(max_length=50, unique=True)
+    termstart = models.DateField(db_column='termStart')  
+    termend = models.DateField(db_column='termEnd')  
+    coursename = models.CharField(db_column='coursename', unique=True, max_length=50)
+    coursecode = models.CharField(db_column='courseCode', max_length=15)  
+    first_name = models.CharField(db_column='Teacher first name',max_length=150)
+    last_name=models.CharField(db_column='Teacher last name',max_length=150)
+    roster_count =models.PositiveIntegerField()
 
+class CompletedTeacherCS_withCounts(models.Model):
+    course_schedule_id=models.PositiveIntegerField()
+    course_id=models.PositiveIntegerField()
+    teacher_id=models.PositiveIntegerField()
+    term = models.CharField(max_length=50, unique=True)
+    termstart = models.DateField(db_column='termStart')  
+    termend = models.DateField(db_column='termEnd')  
+    coursename = models.CharField(db_column='coursename', unique=True, max_length=50)
+    coursecode = models.CharField(db_column='courseCode', max_length=15)  
+    first_name = models.CharField(db_column='Teacher first name',max_length=150)
+    last_name=models.CharField(db_column='Teacher last name',max_length=150)
+    roster_count =models.PositiveIntegerField()
 
+class FutureTeacherCS_withCounts(models.Model):
+    course_schedule_id=models.PositiveIntegerField()
+    course_id=models.PositiveIntegerField()
+    teacher_id=models.PositiveIntegerField()
+    term = models.CharField(max_length=50, unique=True)
+    termstart = models.DateField(db_column='termStart')  
+    termend = models.DateField(db_column='termEnd')  
+    coursename = models.CharField(db_column='coursename', unique=True, max_length=50)
+    coursecode = models.CharField(db_column='courseCode', max_length=15)  
+    first_name = models.CharField(db_column='Teacher first name',max_length=150)
+    last_name=models.CharField(db_column='Teacher last name',max_length=150)
+    roster_count =models.PositiveIntegerField()
 
-######################################################################################################
+class ClassStudentGrade(models.Model):
+    course_student_id = models.PositiveIntegerField()
+    course_schedule_id=models.PositiveIntegerField()
+    student_id=models.PositiveIntegerField()
+    first_name = models.CharField(db_column='Student first name',max_length=150)
+    last_name=models.CharField(db_column='Student last name',max_length=150)
+    userid=models.PositiveIntegerField()
+    username=models.CharField(max_length=150)
+    coursegrade = models.DecimalField(max_digits=10, decimal_places=0, blank=True, null=True,verbose_name=u'Course grade')
+    pointsEarned = models.DecimalField(max_digits=10, decimal_places=0, blank=True, null=True,verbose_name=u'Points earned')
+    pointsPossible = models.DecimalField(max_digits=10, decimal_places=0, blank=True, null=True,verbose_name=u'Points possible')
+    term = models.CharField(max_length=50)
+    termstart = models.DateField(db_column='termStart')  
+    termend = models.DateField(db_column='termEnd')  
+    ####################################################################################################
 
+   
+class StudentCourseListWithGrade(models.Model):
+    course_student_id = models.PositiveIntegerField()
+    course_schedule_id=models.PositiveIntegerField()
+    student_id=models.PositiveIntegerField()
+    teacher = models.CharField(db_column='Teacher',max_length=150)
+    coursegrade = models.DecimalField(max_digits=10, decimal_places=0, blank=True, null=True,verbose_name=u'Course grade')
+    pointsEarned = models.DecimalField(max_digits=10, decimal_places=0, blank=True, null=True,verbose_name=u'Points earned')
+    pointsPossible = models.DecimalField(max_digits=10, decimal_places=0, blank=True, null=True,verbose_name=u'Points possible')
+    term = models.CharField(max_length=50)
+    termstart = models.DateField(db_column='termStart')  
+    termend = models.DateField(db_column='termEnd')  
+    coursename = models.CharField(db_column='coursename', max_length=150, verbose_name=u'Course name')
+    screen=models.CharField(db_column='screen',max_length=10, verbose_name=u'Screen')
 
     
