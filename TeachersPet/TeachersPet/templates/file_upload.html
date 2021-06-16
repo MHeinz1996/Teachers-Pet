@@ -21,8 +21,10 @@
 
     <article class="media content-section">
           <div class="media-body">
+          <div class="article-metadata">
 
-          <h4 style="text-align:left; color:#14213D; display:inline">{{course_assignment.description}}</h4>
+          <h6 style="text-align:left; color:#14213D;">{{course_assignment.description}}</h6>
+          </div>
             <P> 
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
